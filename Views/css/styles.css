@@ -1,0 +1,124 @@
+@import 'student-dashboard.css';
+
+.index {
+  background-color: red;
+}
+
+.login {
+  width: 100vw;
+  height: 100vh;
+  background-color: #164954;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-box {
+  width: 60vw;
+  height: 50vh;
+  display: grid;
+  grid-template-columns: 4fr 6fr;
+  grid-gap: 0px;
+}
+
+.login-left-card {
+  grid-column: 1;
+  grid-row: 1;
+  background-color: #fff687;
+  height: 100%;
+  width: 100%;
+
+}
+
+.login-left-card img{
+  height:100%;
+  width: 100%;
+  flex: 0;
+  /* -webkit-filter: drop-shadow(5px 5px 5px #222);
+  filter: drop-shadow(5px 5px 5px #222); */
+}
+
+.login-right-card {
+  grid-column: 2;
+  grid-row: 1;
+  height:100%;
+  width: 100%;
+  background-color: white;
+  border-bottom-right-radius: 40px;
+}
+
+.login-right-card p {
+  font-size: 2rem;
+  margin: 3% auto 0 5%;
+  color: #151919;
+}
+
+.login-right-card input {
+  background-color: transparent;
+    border: 0px solid;
+    height: 25px;
+    width: 70%;
+    color: #151919;
+    margin: 10% 0 0 5%;
+    font-size: 1.5rem;
+}
+
+.login-right-card hr {
+  margin: 0% auto 0 5%;
+  width: 75%;
+}
+
+.login-right-card button {
+  font-family: 'Ubuntu', sans-serif;
+  width: 100px;
+  height: 40px;
+  line-height: 1;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  border: 3px solid #151919;
+  background: #fff;
+  color: #151919;
+  border-radius: 40px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all .35s;
+  margin: 10% auto 0 5%;
+  float: left;
+}
+
+.login-right-card button:hover{
+  background: #151919;
+  color: #fff;
+}
+
+.login-right-card button span{
+  opacity: 1;
+  visibility: visible;
+  transition: all .35s;
+}
+
+
+.login-right-card a {
+  display: inline-block;
+  margin: 11% auto 0 5%;
+}
+
+.shadow {
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+.message {
+  color:red !important;
+  font-size: small !important;
+  margin-left: 25% !important;
+}
+
+
+.footer {
+    width: 100vw;
+    height: 10vh;
+    background-color: lightblue;
+}
