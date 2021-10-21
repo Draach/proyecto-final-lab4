@@ -12,12 +12,12 @@ if ($_SESSION["loggedUser"]['role'] != "student") {
                 </a>
             </div>
             <div class='option-card border border-dark'>
-                <a class="nav-link" href="<?php echo FRONT_ROOT ?>Company/List">
+                <a class="nav-link" href="<?php echo FRONT_ROOT ?>Company/ShowListView">
                     Consultar Listado de Empresas
                 </a>
             </div>
             <div class='option-card border border-dark'>
-                <a href='#'>
+                <a href="<?php echo FRONT_ROOT ?>JobPosition/ShowListView">
                     Consultar Listado de Propuestas
                 </a>
             </div>

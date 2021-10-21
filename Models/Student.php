@@ -1,16 +1,19 @@
-<?php namespace Models;
+<?php
 
-    class Student extends User {
+namespace Models;
+
+class Student extends User
+{
         private $studentId;
         private $careerId;
-        private $fileNumber;        
+        private $fileNumber;
 
         public function getStudentId()
         {
                 return $this->studentId;
         }
 
-   
+
         public function setStudentId($studentId)
         {
                 $this->studentId = $studentId;
@@ -29,7 +32,7 @@
                 $this->careerId = $careerId;
 
                 return $this;
-        }        
+        }
 
         public function getFileNumber()
         {
@@ -44,7 +47,7 @@
                 return $this;
         }
 
-  
+
         public function getGender()
         {
                 return $this->gender;
@@ -86,7 +89,7 @@
                 return $this;
         }
 
-   
+
         public function getPhoneNumber()
         {
                 return $this->phoneNumber;
@@ -100,7 +103,7 @@
                 return $this;
         }
 
- 
+
         public function getActive()
         {
                 return $this->active;
@@ -113,5 +116,5 @@
 
                 return $this;
         }
-    }
+}
 ?>

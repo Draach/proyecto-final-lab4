@@ -13,13 +13,14 @@ class AdminController{
     public function Add($firstName, $lastName, $dni, $gender, $birthDate, $email, $password, $phoneNumber) {
         $admin = new Admin();                  
 
+        $encryptedPassword = password_hash($password, PASSWORD_BCRYPT);
         $admin->setFirstName(strtolower($firstName));
         $admin->setLastName(strtolower($lastName));
         $admin->setDni($dni);
         $admin->setGender($gender);
         $admin->setBirthDate($birthDate);
         $admin->setEmail(strtolower($email));
-        $admin->setPassword(password_hash($password, PASSWORD_DEFAULT));
+        $admin->setPassword($encryptedPassword);
         $admin->setPhoneNumber($phoneNumber); 
         $admin->setActive(true);
         

@@ -17,7 +17,7 @@ class CompanyController{
         require_once(VIEWS_PATH."company-add.php");        
     }
 
-    public function List(){
+    public function ShowListView(){
         /**
          * Recupera la lista de empresas desde la base de datos.
          */

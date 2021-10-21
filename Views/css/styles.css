@@ -15,15 +15,6 @@
   align-items: center;
 }
 
-.main-login-box{
-  width: 60vw;
-  height: 50vh;  
-  background-color: white;
-}
-.main-login-box h1 {
-  text-align:center;
-}
-
 
 .login-box {
   width: 60vw;

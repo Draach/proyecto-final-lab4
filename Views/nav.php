@@ -14,11 +14,14 @@
         <a class="nav-link" href="<?php echo FRONT_ROOT ?>Company/ShowAddView">Agregar Empresa</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo FRONT_ROOT ?>Company/List">Listar Empresas</a>
+        <a class="nav-link" href="<?php echo FRONT_ROOT ?>Company/ShowListView">Listar Empresas</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="<?php echo FRONT_ROOT ?>Company/Remove">Eliminar Empresa</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="<?php echo FRONT_ROOT ?>JobPosition/ShowListView">Listar Propuestas</a>
+      </li>      
       <li class="nav-item">
         <a class="nav-link" href="<?php echo FRONT_ROOT ?>Admin/ShowAddView">Agregar ADMIN</a>
       </li>

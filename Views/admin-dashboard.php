@@ -5,7 +5,7 @@
  } else {
     require_once(VIEWS_PATH."nav.php");
 ?>
-asdffasfdsa 
+admin-dashboard works
 <?php
  }
  ?>
