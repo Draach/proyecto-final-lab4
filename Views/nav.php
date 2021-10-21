@@ -8,7 +8,7 @@
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="<?php echo FRONT_ROOT ?>">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="<?php echo FRONT_ROOT ?>Admin/ShowDashboard">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="<?php echo FRONT_ROOT ?>Company/ShowAddView">Agregar Empresa</a>
@@ -22,14 +22,8 @@
       <li class="nav-item">
         <a class="nav-link" href="<?php echo FRONT_ROOT ?>Admin/ShowAddView">Agregar ADMIN</a>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown link
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="<?php echo FRONT_ROOT ?>Company/ShowAddView">Agregar Empresa</a>
-          <a class="dropdown-item" href="<?php echo FRONT_ROOT ?>Company/List">Listar Empresas</a>
-        </div>
+      <li class="nav-item">
+        <a class="nav-link" href="<?php echo FRONT_ROOT ?>Auth/Logout">Salir</a>
       </li>
     </ul>
   </div>

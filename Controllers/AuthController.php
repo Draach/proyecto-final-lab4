@@ -12,32 +12,39 @@ class AuthController{
         $this->adminDAO = new AdminDAO();
     }
 
-    public function Login($email, $password){
+    public function StudentLogin($email){
         $result = null;        
         
-        $result = $this->studentDAO->Login($email);        
-        if($result) {
-            return $this->ShowStudentDashboard();
-        }                         
+        $result = $this->studentDAO->Login($email);      
         
-        $result = $this->adminDAO->Login($email, $password);        
+        if($result) {         
+            session_start();
+            $_SESSION['loggedUser'] = $result;
+            $_SESSION['loggedUser']['role'] = "student";
+            require_once(VIEWS_PATH."student-dashboard.php");
+        }  else {
+            $message = "<p class='message'>Usuario no encontrado. Por favor, intenta nuevamente.</p>";
+            require_once(VIEWS_PATH."student-login.php");
+        }        
+    
+    }
+
+    public function AdminLogin($email, $password){
+        $result = null;
+        $result = $this->adminDAO->Login($email, $password);                
         if($result) {
-            return $this->ShowAdminDashboard();
-        }
-
-        $message = "<p class='message'>Hubo un error en tu combinación de correo y contraseña. Por favor, intenta nuevamente.</p>";
-        $this->Index($message);   
+            session_start();
+            $_SESSION['loggedUser'] = $result;
+            $_SESSION['loggedUser']['role'] = "admin";
+            require_once(VIEWS_PATH."admin-dashboard.php");
+        } else {
+            $message = "<p class='message'>Hubo un error en tu combinación de correo y contraseña. Por favor, intenta nuevamente.</p>";
+            require_once(VIEWS_PATH."admin-login.php");
+        }   
     }
 
-    public function ShowStudentDashboard(){   
-        require_once(VIEWS_PATH."student-dashboard.php");
-    }
-
-    public function ShowAdminDashboard(){
-        require_once(VIEWS_PATH."admin-dashboard.php");
-    }
-
-    public function Index($message) {
+    public function Logout() {
+        session_destroy();
         require_once(VIEWS_PATH."index.php");
     }
 }

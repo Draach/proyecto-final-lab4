@@ -1,3 +1,10 @@
+<?php 
+
+ if($_SESSION["loggedUser"]['role'] != "admin"){
+     require_once(VIEWS_PATH."index.php");
+ } else {
+     require_once(VIEWS_PATH."nav.php");
+?>
 <main class="py-5">
     <section id="listado" class="mb-5">
         <div class="container">
@@ -29,7 +36,7 @@
                                 <option value="male">Hombre</option>
                                 <option value="female">Mujer</option>
                                 <option value="non-binary">No Binarie</option>
-                                <option value="no-say">Prefiero no decirlo</option>
+                                <option value="no-say" selected="selected">Prefiero no decirlo</option>
                                 <option value="none">Ninguna de las anteriores</option>                            
                             </select>                            
                         </div>
@@ -49,7 +56,7 @@
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label for="">Password</label>
-                            <input type="password" name="password" value="" class="form-control" placeholder="Admins Only.">
+                            <input type="password" name="password" value="" class="form-control">
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -59,8 +66,12 @@
                         </div>
                     </div>                    
                 </div>
-                <button type="submit" class="btn btn-dark ml-auto d-block">Agregar</button>
+                <a class="btn btn-secondary" href="<?php echo FRONT_ROOT ?>Admin/ShowDashboard">Regresar</a>
+                <button type="submit" class="btn btn-dark">Agregar</button>
             </form>
         </div>
     </section>
 </main>
+<?php
+ }
+ ?>

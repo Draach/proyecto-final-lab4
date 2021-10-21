@@ -14,12 +14,21 @@ class AdminDAO implements IAdminDAO
 
     public function Login($email, $password)
     {
+        $loweredEmail = strtolower($email);
         $found = null;
         $adminsList = $this->GetAll();        
         foreach ($adminsList as $admin) {            
-           
-            if ($email == $admin->getEmail() && $password == $admin->getPassword()) {
-                $found = $admin;                            
+            
+            if ($loweredEmail == $admin->getEmail() && password_verify($password, $admin->getPassword())) {
+                $found['adminId'] = $admin->getAdminId();                            
+                $found['firstName'] = $admin->getFirstName();
+                $found['lastName'] = $admin->getLastName();
+                $found['dni'] = $admin->getDni();
+                $found['gender'] = $admin->getGender();
+                $found['birthDate'] = $admin->getBirthDate();
+                $found['email'] = $admin->getEmail();
+                $found['phoneNumber'] = $admin->getPhoneNumber();
+                $found['active'] = $admin->getActive();
                 break;
             }
         }        

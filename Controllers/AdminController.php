@@ -13,16 +13,16 @@ class AdminController{
     public function Add($firstName, $lastName, $dni, $gender, $birthDate, $email, $password, $phoneNumber) {
         $admin = new Admin();                  
 
-        $admin->setFirstName($firstName);
-        $admin->setLastName($lastName);
+        $admin->setFirstName(strtolower($firstName));
+        $admin->setLastName(strtolower($lastName));
         $admin->setDni($dni);
         $admin->setGender($gender);
         $admin->setBirthDate($birthDate);
-        $admin->setEmail($email);
+        $admin->setEmail(strtolower($email));
         $admin->setPassword(password_hash($password, PASSWORD_DEFAULT));
         $admin->setPhoneNumber($phoneNumber); 
         $admin->setActive(true);
-        echo var_dump($admin);
+        
         /**
          * Agrega un admin a la base de datos.
          */
