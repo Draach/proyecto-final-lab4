@@ -3,12 +3,7 @@
     class Student extends User {
         private $studentId;
         private $careerId;
-        private $fileNumber;
-        private $gender;
-        private $birthDate;
-        private $email;
-        private $phoneNumber;
-        private $active;
+        private $fileNumber;        
 
         public function getStudentId()
         {

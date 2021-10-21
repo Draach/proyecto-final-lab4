@@ -4,6 +4,7 @@
             <h2 class="mb-4">Listado de Empresas</h2>
             <table class="table bg-light-alpha">
                 <thead>
+                    <th>ID</th>
                     <th>Nombre</th>
                     <th>Email</th>
                     <th>Teléfono</th>
@@ -15,17 +16,20 @@
                 <tbody>
                     <?php
                     foreach ($companiesList as $company) {
+                        if ($company->getStatus() == true) {
                     ?>
-                        <tr>
-                            <td><?php echo $company->getName() ?></td>
-                            <td><?php echo $company->getEmail() ?></td>
-                            <td><?php echo $company->getPhone() ?></td>
-                            <td><?php echo $company->getAddress() ?></td>
-                            <td><?php echo $company->getCuit() ?></td>
-                            <td><?php echo $company->getWebsite() ?></td>
-                            <td><?php echo $company->getFounded() ?></td>
-                        </tr>
+                            <tr>
+                                <td><?php echo $company->getCompanyId() ?></td>
+                                <td><?php echo $company->getName() ?></td>
+                                <td><?php echo $company->getEmail() ?></td>
+                                <td><?php echo $company->getPhone() ?></td>
+                                <td><?php echo $company->getAddress() ?></td>
+                                <td><?php echo $company->getCuit() ?></td>
+                                <td><?php echo $company->getWebsite() ?></td>
+                                <td><?php echo $company->getFounded() ?></td>
+                            </tr>
                     <?php
+                        }
                     }
                     ?>
                     </tr>

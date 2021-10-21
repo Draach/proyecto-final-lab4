@@ -1,9 +1,9 @@
-<?php namespace DAO;
+<?php
 
-    use Models\Student as Student;
+namespace DAO;
 
-    interface IStudentDao{
-        function GetAll();        
-    }
-
-?>
+interface IStudentDAO
+{
+    function Login($email);
+    function GetAll();
+}

@@ -1,11 +1,11 @@
 <?php namespace DAO;
 
     use \Exception as Exception;
-    use DAO\ICompanyDao as ICompanyDao;
+    use DAO\ICompanyDAO as ICompanyDAO;
     use Models\Company as Company;
     use DAO\Connection as Connection;
 
-    class CompanyDAO implements ICompanyDao {
+    class CompanyDAO implements ICompanyDAO {
         private $connection;
         private $tableName = "companies";
 
@@ -65,6 +65,25 @@
             }
             catch(Exception $ex)
             {
+                throw $ex;
+            }
+        }
+
+        public function Delete($number) {
+            try
+            {
+                
+                $query = "UPDATE ".$this->tableName." SET `status` = false WHERE `companyId` = :number";
+                
+                $parameters["number"] = $number;             
+
+                $this->connection = Connection::GetInstance();
+
+                return $this->connection->ExecuteNonQuery($query, $parameters);
+            }
+            catch(Exception $ex)
+            {             
+                
                 throw $ex;
             }
         }

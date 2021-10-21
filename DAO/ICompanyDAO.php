@@ -2,9 +2,9 @@
 
     use Models\Company as Company;
 
-    interface ICompanyDao{
+    interface ICompanyDAO{
         function add(Company $company);
         function GetAll();
+        function Delete($name);
     }
-
 ?>

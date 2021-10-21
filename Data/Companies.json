@@ -1,0 +1,35 @@
+[
+    {
+        "companyId": 0,
+        "name": "Accenture",
+        "email": "jmissart@gmail.com",
+        "phone": "5974846",
+        "address": "asdgdgs",
+        "cuit": "21421525245",
+        "website": "www.accenture.com",
+        "founded": "2021-10-08",
+        "status": true
+    },
+    {
+        "companyId": 1,
+        "name": "Globant",
+        "email": "jmissart@gmail.com",
+        "phone": "5974846",
+        "address": "Av Siempre Viva 1234",
+        "cuit": "21421",
+        "website": "www.accenture.com",
+        "founded": "2021-10-07",
+        "status": false
+    },
+    {
+        "companyId": 2,
+        "name": "Infosis",
+        "email": "jmissart@gmail.com",
+        "phone": "5974846",
+        "address": "Av Siempre Viva 1234",
+        "cuit": "21421",
+        "website": "www.accenture.com",
+        "founded": "2021-10-15",
+        "status": false
+    }
+]
