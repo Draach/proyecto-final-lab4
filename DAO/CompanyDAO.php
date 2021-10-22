@@ -1,100 +1,171 @@
-<?php namespace DAO;
+<?php
 
-    use \Exception as Exception;
-    use DAO\ICompanyDAO as ICompanyDAO;
-    use Models\Company as Company;
-    use DAO\Connection as Connection;
+namespace DAO;
 
-    class CompanyDAO implements ICompanyDAO {
-        private $connection;
-        private $tableName = "companies";
+use \Exception as Exception;
+use DAO\ICompanyDAO as ICompanyDAO;
+use Models\Company as Company;
+use DAO\Connection as Connection;
 
-        public function Add(Company $company){
-            try
-            {
-                
-                $query = "INSERT INTO ".$this->tableName." (name, email, phone, address, cuit, website, founded, status) VALUES (:name, :email, :phone, :address, :cuit, :website, :founded, :status);";
-                
-                $parameters["name"] = $company->getName();
-                $parameters["email"] = $company->getEmail();
-                $parameters["phone"] = $company->getPhone();
-                $parameters["address"] = $company->getAddress();
-                $parameters["cuit"] = $company->getCuit();
-                $parameters["website"] = $company->getWebsite();
-                $parameters["founded"] = $company->getFounded();
-                $parameters["status"] = $company->getStatus();
+class CompanyDAO implements ICompanyDAO
+{
+    private $connection;
+    private $tableName = "companies";
 
-                $this->connection = Connection::GetInstance();
+    public function Add(Company $company)
+    {
+        try {
 
-                $this->connection->ExecuteNonQuery($query, $parameters);
-            }
-            catch(Exception $ex)
-            {             
-                
-                throw $ex;
-            }
-        }
+            $query = "INSERT INTO " . $this->tableName . " (name, email, phone, address, cuit, website, founded, status) VALUES (:name, :email, :phone, :address, :cuit, :website, :founded, :status);";
 
-        public function GetAll(){
-            try
-            {
-                $companiesList = array();
+            $parameters["name"] = $company->getName();
+            $parameters["email"] = $company->getEmail();
+            $parameters["phone"] = $company->getPhone();
+            $parameters["address"] = $company->getAddress();
+            $parameters["cuit"] = $company->getCuit();
+            $parameters["website"] = $company->getWebsite();
+            $parameters["founded"] = $company->getFounded();
+            $parameters["status"] = $company->getStatus();
 
-                $query = "SELECT * FROM ".$this->tableName;
+            $this->connection = Connection::GetInstance();
 
-                $this->connection = Connection::GetInstance();
+            $this->connection->ExecuteNonQuery($query, $parameters);
+        } catch (Exception $ex) {
 
-                $resultSet = $this->connection->Execute($query);
-                
-                foreach ($resultSet as $row)
-                {              
-                    $company = new Company();
-                    $company->setCompanyId($row["companyId"]);
-                    $company->setName($row["name"]);
-                    $company->setEmail($row["email"]);
-                    $company->setPhone($row["phone"]);
-                    $company->setAddress($row["address"]);
-                    $company->setCuit($row["cuit"]);
-                    $company->setWebsite($row["website"]);
-                    $company->setFounded($row["founded"]);
-                    $company->setStatus($row["status"]);                  
-
-                    array_push($companiesList, $company);
-                }
-                return $companiesList;
-            }
-            catch(Exception $ex)
-            {
-                throw $ex;
-            }
-        }
-
-        public function Delete($number) {
-            try
-            {
-                
-                $query = "UPDATE ".$this->tableName." SET `status` = false WHERE `companyId` = :number";
-                
-                $parameters["number"] = $number;             
-
-                $this->connection = Connection::GetInstance();
-
-                return $this->connection->ExecuteNonQuery($query, $parameters);
-            }
-            catch(Exception $ex)
-            {             
-                
-                throw $ex;
-            }
-        }
-        // TODO
-        public function GetById($number) {
-
-        }
-
-        public function ModifyName($number, $name) {
-        
+            throw $ex;
         }
     }
 
-?>
+    public function GetAll()
+    {
+        try {
+            $companiesList = array();
+
+            $query = "SELECT * FROM " . $this->tableName;
+
+            $this->connection = Connection::GetInstance();
+
+            $resultSet = $this->connection->Execute($query);
+
+            foreach ($resultSet as $row) {
+                $company = new Company();
+                $company->setCompanyId($row["companyId"]);
+                $company->setName($row["name"]);
+                $company->setEmail($row["email"]);
+                $company->setPhone($row["phone"]);
+                $company->setAddress($row["address"]);
+                $company->setCuit($row["cuit"]);
+                $company->setWebsite($row["website"]);
+                $company->setFounded($row["founded"]);
+                $company->setStatus($row["status"]);
+
+                array_push($companiesList, $company);
+            }
+            return $companiesList;
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
+    public function Delete($number)
+    {
+        try {
+
+            $query = "UPDATE " . $this->tableName . " SET `status` = false WHERE `companyId` = :number";
+
+            $parameters["number"] = $number;
+
+            $this->connection = Connection::GetInstance();
+
+            return $this->connection->ExecuteNonQuery($query, $parameters);
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    // TODO
+    public function GetById($number)
+    {
+        try {
+            $companiesList = array();
+
+            $query = "SELECT * FROM " . $this->tableName . " WHERE `companyId` = :number";
+
+            $parameters["number"] = $number;
+
+            $this->connection = Connection::GetInstance();
+
+            $resultSet = $this->connection->Execute($query, $parameters);
+            foreach ($resultSet as $row) {
+                $company = new Company();
+                $company->setCompanyId($row["companyId"]);
+                $company->setName($row["name"]);
+                $company->setEmail($row["email"]);
+                $company->setPhone($row["phone"]);
+                $company->setAddress($row["address"]);
+                $company->setCuit($row["cuit"]);
+                $company->setWebsite($row["website"]);
+                $company->setFounded($row["founded"]);
+                $company->setStatus($row["status"]);
+
+                array_push($companiesList, $company);
+            }
+            return $companiesList[0];
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
+    public function ModifyName($number, $name)
+    {
+        try {
+            $query = "UPDATE " . $this->tableName . " SET `name` = :name WHERE `companyId` = :number";
+
+            $parameters["name"] = $name;
+            $parameters["number"] = $number;
+
+            $this->connection = Connection::GetInstance();
+
+            return $this->connection->ExecuteNonQuery($query, $parameters);
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
+    function GetByName($name)
+    {
+        try {
+            $companiesList = array();
+
+            $query = "SELECT * FROM " . $this->tableName . " WHERE `name` LIKE '%:name%'";
+            echo var_dump($query);
+
+            $parameters["name"] = $name;
+            $this->connection = Connection::GetInstance();
+            $resultSet = $this->connection->Execute($query, $parameters);
+            echo var_dump($resultSet);
+            foreach ($resultSet as $row) {
+                $company = new Company();
+                $company->setCompanyId($row["companyId"]);
+                $company->setName($row["name"]);
+                $company->setEmail($row["email"]);
+                $company->setPhone($row["phone"]);
+                $company->setAddress($row["address"]);
+                $company->setCuit($row["cuit"]);
+                $company->setWebsite($row["website"]);
+                $company->setFounded($row["founded"]);
+                $company->setStatus($row["status"]);
+
+                array_push($companiesList, $company);
+            }
+            return $companiesList[0];
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+}
+
+// TODO Delete this if php 8 and replace with native str_contains in GetByName method.
+function str_contains(string $haystack, string $needle): bool
+{
+    return '' === $needle || false !== strpos($haystack, $needle);
+}

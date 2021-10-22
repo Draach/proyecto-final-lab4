@@ -1,12 +1,15 @@
-<?php namespace DAO;
+<?php
 
-    use Models\Company as Company;
+namespace DAO;
 
-    interface ICompanyDAO{
-        function add(Company $company);
-        function GetAll();
-        function GetById($number);
-        function ModifyName($number, $name);
-        function Delete($number);
-    }
-?>
+use Models\Company as Company;
+
+interface ICompanyDAO
+{
+    function add(Company $company);
+    function GetAll();
+    function GetById($number);
+    function GetByName($name);
+    function ModifyName($number, $name);
+    function Delete($number);
+}

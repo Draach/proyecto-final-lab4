@@ -1,4 +1,3 @@
-
 <main class="py-5">
     <section id="listado" class="mb-5">
         <div class="container">
@@ -22,7 +21,7 @@
                             <label for="">DNI</label>
                             <input type="text" name="dni" value="" class="form-control">
                         </div>
-                    </div>                                        
+                    </div>
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label for="">Gender</label>
@@ -31,8 +30,8 @@
                                 <option value="female">Mujer</option>
                                 <option value="non-binary">No Binarie</option>
                                 <option value="no-say" selected="selected">Prefiero no decirlo</option>
-                                <option value="none">Ninguna de las anteriores</option>                            
-                            </select>                            
+                                <option value="none">Ninguna de las anteriores</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -58,7 +57,7 @@
                             <label for="">Teléfono</label>
                             <input type="text" name="phoneNumber" value="" class="form-control">
                         </div>
-                    </div>                    
+                    </div>
                 </div>
                 <a class="btn btn-secondary" href="<?php echo FRONT_ROOT ?>Admin/ShowDashboard">Regresar</a>
                 <button type="submit" class="btn btn-dark">Agregar</button>

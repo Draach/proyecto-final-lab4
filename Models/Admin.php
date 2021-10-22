@@ -1,11 +1,15 @@
-<?php namespace Models;
+<?php
 
-class Admin extends User {
+namespace Models;
+
+class Admin extends User
+{
 
     private $adminId;
     private $password;
 
-    public function __construct() {    
+    public function __construct()
+    {
     }
 
     public function getAdminId()
@@ -32,4 +36,3 @@ class Admin extends User {
         return $this;
     }
 }
-?>

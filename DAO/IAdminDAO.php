@@ -1,12 +1,13 @@
-<?php namespace DAO;
+<?php
 
-    use Models\Admin as Admin;
+namespace DAO;
 
-    interface IAdminDAO{
-        function Add(Admin $admin);
-        function Login($email, $password);
-        function GetAll();    
-        function Delete($number);
-    }
+use Models\Admin as Admin;
 
-?>
+interface IAdminDAO
+{
+    function Add(Admin $admin);
+    function Login($email, $password);
+    function GetAll();
+    function Delete($number);
+}

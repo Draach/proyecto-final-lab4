@@ -4,7 +4,7 @@ use Utils\CustomSessionHandler as CustomSessionhandler;
 
 $sessionHandler = new CustomSessionhandler();
 if ($sessionHandler->isAdmin()) {
-  require_once(VIEWS_PATH."nav.php");
+  require_once(VIEWS_PATH . "nav.php");
   require_once(VIEWS_PATH . "admin-dashboard.php");
 } else if ($sessionHandler->isStudent()) {
   require_once(VIEWS_PATH . "student-dashboard.php");
@@ -25,7 +25,7 @@ if ($sessionHandler->isAdmin()) {
           <button type='submit'>Login</button>
           <div id="formFooter">
             <a class="underlineHover" href="#">Olvidé mi contraseña.</a>
-          </div>          
+          </div>
           <?php
           if (isset($message)) {
             echo $message;

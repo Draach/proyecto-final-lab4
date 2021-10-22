@@ -1,22 +1,24 @@
-<?php namespace Controllers;
+<?php
 
-    use DAO\CareerDAO as CareerDAO;
+namespace Controllers;
 
-class CareerController{
+use DAO\CareerDAO as CareerDAO;
+
+class CareerController
+{
     private $careerDAO;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->careerDAO = new CareerDAO();
     }
 
-    public function ShowListView(){
+    public function ShowListView()
+    {
         /**
          * Recupera la lista de propuestas laborales desde la API.
          */
         $careersList = $this->careerDAO->GetAll();
-        require_once(VIEWS_PATH."career-list.php");
+        require_once(VIEWS_PATH . "career-list.php");
     }
-
 }
-
-?>

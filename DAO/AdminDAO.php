@@ -14,14 +14,14 @@ class AdminDAO implements IAdminDAO
 
     public function Login($email, $password)
     {
-        
+
         $loweredEmail = strtolower($email);
         $found = null;
-        $adminsList = $this->GetAll();   
+        $adminsList = $this->GetAll();
 
-        foreach ($adminsList as $admin) {            
+        foreach ($adminsList as $admin) {
             if ($loweredEmail == $admin->getEmail() && password_verify($password, $admin->getPassword())) {
-                $found['adminId'] = $admin->getAdminId();                            
+                $found['adminId'] = $admin->getAdminId();
                 $found['firstName'] = $admin->getFirstName();
                 $found['lastName'] = $admin->getLastName();
                 $found['dni'] = $admin->getDni();
@@ -32,7 +32,7 @@ class AdminDAO implements IAdminDAO
                 $found['active'] = $admin->getActive();
                 break;
             }
-        }        
+        }
         return $found;
     }
 
@@ -55,22 +55,22 @@ class AdminDAO implements IAdminDAO
 
             $this->connection->ExecuteNonQuery($query, $parameters);
         } catch (Exception $ex) {
-            
+
             throw $ex;
         }
     }
 
     public function GetAll()
     {
-        try {            
+        try {
             $adminsList = array();
 
-            $query = "SELECT * FROM ".$this->tableName;
+            $query = "SELECT * FROM " . $this->tableName;
 
             $this->connection = Connection::GetInstance();
 
             $resultSet = $this->connection->Execute($query);
-            
+
             foreach ($resultSet as $row) {
                 $admin = new Admin();
                 $admin->setAdminId($row["adminId"]);
@@ -88,25 +88,23 @@ class AdminDAO implements IAdminDAO
             }
             return $adminsList;
         } catch (Exception $ex) {
-            
+
             throw $ex;
         }
     }
 
-    public function Delete($number) {
-        try
-        {            
-            $query = "UPDATE ".$this->tableName." SET `active` = false WHERE `adminId` = :number";
-            
-            $parameters["number"] = $number;             
+    public function Delete($number)
+    {
+        try {
+            $query = "UPDATE " . $this->tableName . " SET `active` = false WHERE `adminId` = :number";
+
+            $parameters["number"] = $number;
 
             $this->connection = Connection::GetInstance();
 
             return $this->connection->ExecuteNonQuery($query, $parameters);
-        }
-        catch(Exception $ex)
-        {             
-            
+        } catch (Exception $ex) {
+
             throw $ex;
         }
     }

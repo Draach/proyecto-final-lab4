@@ -31,4 +31,3 @@ class JobPositionDAO implements IJobPositionDAO
         }
     }
 }
-?>

@@ -112,13 +112,14 @@ class JsonCompanyDAO implements ICompanyDAO
         return $response;
     }
 
-    public function GetById($number) {
+    public function GetById($number)
+    {
         $response = null;
 
         $this->retrieveData();
-        foreach($this->companiesList as $company) {
-            if($company->getCompanyId() == $number) {
-                if($company->getStatus() == true) {
+        foreach ($this->companiesList as $company) {
+            if ($company->getCompanyId() == $number) {
+                if ($company->getStatus() == true) {
                     $response = $company;
                     break;
                 }
@@ -127,14 +128,15 @@ class JsonCompanyDAO implements ICompanyDAO
         return $response;
     }
 
-    public function ModifyName($number, $name) {
+    public function ModifyName($number, $name)
+    {
         $response = 0;
 
         $this->retrieveData();
 
-        foreach($this->companiesList as $company) {
-            if($company->getCompanyId() == $number) {
-                if($company->getStatus() == true) {
+        foreach ($this->companiesList as $company) {
+            if ($company->getCompanyId() == $number) {
+                if ($company->getStatus() == true) {
                     $company->setName($name);
                     $response = 1;
                     break;
@@ -145,5 +147,28 @@ class JsonCompanyDAO implements ICompanyDAO
         $this->saveData();
 
         return $response;
+    }
+
+    public function GetByName($name)
+    {
+        $foundCompanies = array();
+        $loweredReceivedName = strtolower($name);
+
+        $this->retrieveData();
+        foreach ($this->companiesList as $company) {
+            $loweredCompanyName = "";
+            $loweredCompanyName = strtolower($company->getName());
+
+            if ($this->str_contains($loweredCompanyName, $loweredReceivedName) == true) {
+                array_push($foundCompanies, $company);
+            }
+        }
+        return $foundCompanies;
+    }
+
+    // TODO Delete this if php 8 and replace with native str_contains in GetByName method.
+    function str_contains(string $haystack, string $needle): bool
+    {
+        return '' === $needle || false !== strpos($haystack, $needle);
     }
 }

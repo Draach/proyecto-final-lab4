@@ -35,13 +35,12 @@ class AdminController
         /**
          * Agrega un admin a la base de datos.
          */
-        $this->adminDAO->Add($admin);
-;
+        $this->adminDAO->Add($admin);;
         if ($this->sessionHandler->isAdmin()) {
-            require_once(VIEWS_PATH."nav.php");
+            require_once(VIEWS_PATH . "nav.php");
             $this->ShowAddView();
         } else {
-            require_once(VIEWS_PATH."index.php");
+            require_once(VIEWS_PATH . "index.php");
         }
     }
 
@@ -53,41 +52,40 @@ class AdminController
         $adminsList = $this->adminDAO->GetAll();
 
         if ($this->sessionHandler->isAdmin()) {
-            require_once(VIEWS_PATH."nav.php");
+            require_once(VIEWS_PATH . "nav.php");
             require_once(VIEWS_PATH . "admin-list.php");
         } else {
-            require_once(VIEWS_PATH."index.php");
+            require_once(VIEWS_PATH . "index.php");
         }
     }
 
     public function ShowAddView()
     {
         if ($this->sessionHandler->isAdmin()) {
-            require_once(VIEWS_PATH."nav.php");
+            require_once(VIEWS_PATH . "nav.php");
             require_once(VIEWS_PATH . "admin-add.php");
         } else {
-            require_once(VIEWS_PATH."index.php");
+            require_once(VIEWS_PATH . "index.php");
         }
-        
     }
 
     public function ShowDashboard()
     {
-        if($this->sessionHandler->isAdmin()){
-            require_once(VIEWS_PATH."nav.php");
-        require_once(VIEWS_PATH . "admin-dashboard.php");
-    } else {
-        require_once(VIEWS_PATH."index.php");
-    }
+        if ($this->sessionHandler->isAdmin()) {
+            require_once(VIEWS_PATH . "nav.php");
+            require_once(VIEWS_PATH . "admin-dashboard.php");
+        } else {
+            require_once(VIEWS_PATH . "index.php");
+        }
     }
 
     public function Remove()
     {
         if ($this->sessionHandler->isAdmin()) {
-            require_once(VIEWS_PATH."nav.php");
+            require_once(VIEWS_PATH . "nav.php");
             require_once(VIEWS_PATH . "admin-remove.php");
         } else {
-            require_once(VIEWS_PATH."index.php");
+            require_once(VIEWS_PATH . "index.php");
         }
     }
 
@@ -113,7 +111,7 @@ class AdminController
         if ($this->sessionHandler->isAdmin()) {
             $this->Remove();
         } else {
-            require_once(VIEWS_PATH."index.php");
-        }        
+            require_once(VIEWS_PATH . "index.php");
+        }
     }
 }

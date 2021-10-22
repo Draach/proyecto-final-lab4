@@ -31,4 +31,3 @@ class CareerDAO implements ICareerDAO
         }
     }
 }
-?>

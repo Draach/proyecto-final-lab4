@@ -117,4 +117,3 @@ class Student extends User
                 return $this;
         }
 }
-?>

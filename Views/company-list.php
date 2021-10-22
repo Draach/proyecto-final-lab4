@@ -1,12 +1,12 @@
 <main class="py-5">
     <section id="listado" class="mb-5">
         <div class="container">
-            <form class="form-row">
+            <form action="<?php echo FRONT_ROOT ?>Company/GetByName" method="post" class="form-row">
                 <div class="col-8">
                     <h2>Listado de Empresas</h2>
                 </div>
                 <div class="col">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <input class="form-control mr-sm-2" type="search" name="name" placeholder="Search" aria-label="Search">
                 </div>
                 <div class="col">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>

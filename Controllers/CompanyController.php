@@ -22,8 +22,8 @@ class CompanyController
 
     public function ShowAddView()
     {
-        if ($this->sessionHandler->isAdmin()) {            
-            require_once(VIEWS_PATH . "nav.php");            
+        if ($this->sessionHandler->isAdmin()) {
+            require_once(VIEWS_PATH . "nav.php");
             require_once(VIEWS_PATH . "company-add.php");
         } else {
             require_once(VIEWS_PATH . "index.php");
@@ -33,15 +33,9 @@ class CompanyController
     public function ShowListView()
     {
 
-        /**
-         * Recupera la lista de empresas desde la base de datos.
-         */
         //$companiesList = $this->companyDAO->GetAll();
-
-        /**
-         * Recupera la lista de empresas desde el archivo JSON.
-         */
         $companiesList = $this->jsonCompanyDAO->GetAll();
+
         if ($this->sessionHandler->isAdmin() || $this->sessionHandler->isStudent()) {
             if ($this->sessionHandler->isAdmin()) {
                 require_once(VIEWS_PATH . "nav.php");
@@ -63,14 +57,7 @@ class CompanyController
         $company->setWebsite($website);
         $company->setFounded($founded);
 
-        /**
-         * Agrega una empresa a la base de datos.
-         */
         //$this->companyDAO->Add($company);   
-
-        /**
-         *  Agrega una empresa al archivo JSON.
-         */
         $this->jsonCompanyDAO->Add($company);
 
         $this->ShowAddView();
@@ -78,26 +65,19 @@ class CompanyController
 
     public function Remove()
     {
-        if ($this->sessionHandler->isAdmin()) {            
-            require_once(VIEWS_PATH . "nav.php");            
+        if ($this->sessionHandler->isAdmin()) {
+            require_once(VIEWS_PATH . "nav.php");
             require_once(VIEWS_PATH . "company-remove.php");
         } else {
             require_once(VIEWS_PATH . "index.php");
-        }        
+        }
     }
 
     public function RemoveCompany($number)
     {
         $message = "";
 
-        /**
-         * Remueve logicamente una empresa de la base de datos (Status = false).
-         */
         //$response = $this->companyDAO->Delete($number) ;
-
-        /**
-         * Remueve logicamente una empresa del archivo JSON (Status = false).
-         */
         $response = $this->jsonCompanyDAO->Delete($number);
 
 
@@ -111,18 +91,11 @@ class CompanyController
         $this->Remove();
     }
 
-    public function ShowDetails($companyId) {
-
-        /**
-         * Recupera la lista de empresas desde la base de datos.
-         */
-        //$companiesList = $this->companyDAO->GetById();
-
-        /**
-         * Recupera la lista de empresas desde el archivo JSON.
-         */
-        $company = $this->jsonCompanyDAO->GetById($companyId);
+    public function ShowDetails($companyId)
+    {
         if ($this->sessionHandler->isAdmin() || $this->sessionHandler->isStudent()) {
+            //$company = $this->companyDAO->GetById($companyId);        
+            $company = $this->jsonCompanyDAO->GetById($companyId);
             if ($this->sessionHandler->isAdmin()) {
                 require_once(VIEWS_PATH . "nav.php");
             }
@@ -142,9 +115,25 @@ class CompanyController
         }
     }
 
-    public function Modify($id, $companyName) {
+    public function Modify($id, $companyName)
+    {
+        //$response = $this->companyDAO->ModifyName($id, $companyName);
         $response = $this->jsonCompanyDAO->ModifyName($id, $companyName);
-        require_once(VIEWS_PATH."nav.php");
-        require_once(VIEWS_PATH."company-modify.php");
+        require_once(VIEWS_PATH . "nav.php");
+        require_once(VIEWS_PATH . "company-modify.php");
+    }
+
+    public function GetByName($name)
+    {
+        if ($this->sessionHandler->isAdmin() || $this->sessionHandler->isStudent()) {
+            //$companiesList = $this->companyDAO->GetByName($name);
+            $companiesList = $this->jsonCompanyDAO->GetByName($name);
+            if ($this->sessionHandler->isAdmin()) {
+                require_once(VIEWS_PATH . "nav.php");
+            }
+            require_once(VIEWS_PATH . "company-list.php");
+        } else {
+            require_once(VIEWS_PATH . "index.php");
+        }
     }
 }

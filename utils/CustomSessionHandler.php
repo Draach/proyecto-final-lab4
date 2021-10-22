@@ -1,37 +1,42 @@
-<?php namespace Utils;
+<?php
+
+namespace Utils;
 
 
-class CustomSessionHandler {
+class CustomSessionHandler
+{
 
-    public function createAdminUser($user) {
+    public function createAdminUser($user)
+    {
         $_SESSION['loggedUser'] = $user;
         $_SESSION['loggedUser']['role'] = "admin";
     }
 
-    public function createStudentUser($user) {
+    public function createStudentUser($user)
+    {
         $_SESSION['loggedUser'] = $user;
         $_SESSION['loggedUser']['role'] = "student";
     }
 
-    public function isAdmin() {
+    public function isAdmin()
+    {
         $response = false;
-        if(isset($_SESSION["loggedUser"])){
-            if($_SESSION["loggedUser"]["role"] == "admin") {
+        if (isset($_SESSION["loggedUser"])) {
+            if ($_SESSION["loggedUser"]["role"] == "admin") {
                 $response = true;
             }
         }
         return $response;
     }
 
-    public function isStudent(){
+    public function isStudent()
+    {
         $response = false;
-        if(isset($_SESSION["loggedUser"])){
-            if($_SESSION["loggedUser"]["role"] == "student") {
+        if (isset($_SESSION["loggedUser"])) {
+            if ($_SESSION["loggedUser"]["role"] == "student") {
                 $response = true;
             }
         }
         return $response;
     }
 }
-
-?>

@@ -1,6 +1,9 @@
-<?php namespace Models;
+<?php
 
-class JobPosition {
+namespace Models;
+
+class JobPosition
+{
     private $jobPositionId;
     private $careerId;
     private $description;
@@ -41,4 +44,3 @@ class JobPosition {
         return $this;
     }
 }
-?>

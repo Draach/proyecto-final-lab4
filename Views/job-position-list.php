@@ -10,21 +10,21 @@
                     </thead>
                     <tbody>
                         <?php
-                        foreach ($jobPositionsList as $jobPosition) {                                                        
+                        foreach ($jobPositionsList as $jobPosition) {
                         ?>
-                                <tr>
-                                    <td><?php echo $jobPosition['jobPositionId'] ?></td>
-                                    <td><?php 
-                                    foreach($careersList as $career) {
-                                        if($jobPosition['careerId'] == $career['careerId']){
+                            <tr>
+                                <td><?php echo $jobPosition['jobPositionId'] ?></td>
+                                <td><?php
+                                    foreach ($careersList as $career) {
+                                        if ($jobPosition['careerId'] == $career['careerId']) {
                                             echo $career['description'];
                                             break;
                                         }
                                     }
                                     ?></td>
-                                    <td><?php echo $jobPosition['description'] ?></td>
-                                </tr>
-                        <?php                            
+                                <td><?php echo $jobPosition['description'] ?></td>
+                            </tr>
+                        <?php
                         }
                         ?>
                     </tbody>
