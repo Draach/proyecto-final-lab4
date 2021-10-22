@@ -5,7 +5,7 @@ namespace DAO;
 use Models\Career as Career;
 use \Exception as Exception;
 
-class CareerDAO
+class CareerDAO implements ICareerDAO
 {
     public function GetAll()
     {

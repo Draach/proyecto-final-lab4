@@ -1,9 +1,4 @@
-<?php
 
-if ($_SESSION["loggedUser"]['role'] != "student") {
-    require_once(VIEWS_PATH . "index.php");
-} else {
-?>
     <main class="py-5">
         <section id="listado" class="mb-5">
             <div class="container">
@@ -37,6 +32,3 @@ if ($_SESSION["loggedUser"]['role'] != "student") {
             </div>
         </section>
     </main>
-<?php
-}
-?>

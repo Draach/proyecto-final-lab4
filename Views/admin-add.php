@@ -1,10 +1,4 @@
-<?php 
 
- if($_SESSION["loggedUser"]['role'] != "admin"){
-     require_once(VIEWS_PATH."index.php");
- } else {
-     require_once(VIEWS_PATH."nav.php");
-?>
 <main class="py-5">
     <section id="listado" class="mb-5">
         <div class="container">
@@ -72,6 +66,3 @@
         </div>
     </section>
 </main>
-<?php
- }
- ?>

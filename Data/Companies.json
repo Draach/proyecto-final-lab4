@@ -1,35 +1,101 @@
 [
     {
-        "companyId": 0,
+        "companyId": 1,
         "name": "Accenture",
         "email": "jmissart@gmail.com",
         "phone": "5974846",
-        "address": "asdgdgs",
+        "address": "Av Siempre Viva 1234",
         "cuit": "21421525245",
         "website": "www.accenture.com",
         "founded": "2021-10-08",
         "status": true
     },
     {
-        "companyId": 1,
+        "companyId": 2,
         "name": "Globant",
         "email": "jmissart@gmail.com",
         "phone": "5974846",
         "address": "Av Siempre Viva 1234",
-        "cuit": "21421",
-        "website": "www.accenture.com",
-        "founded": "2021-10-07",
+        "cuit": "2142134",
+        "website": "globant.com",
+        "founded": "2021-10-13",
         "status": false
     },
     {
-        "companyId": 2,
+        "companyId": 3,
+        "name": "jaje",
+        "email": "jmissart@gmail.com",
+        "phone": "5974846",
+        "address": "Av Siempre Viva 1234",
+        "cuit": "414123",
+        "website": "www.accenture.com",
+        "founded": "2021-10-21",
+        "status": true
+    },
+    {
+        "companyId": 4,
+        "name": "Accenture",
+        "email": "jmissart@gmail.com",
+        "phone": "+54 (223) 528-3129",
+        "address": "Av Siempre Viva 1234",
+        "cuit": "21421",
+        "website": "www.accenture.com",
+        "founded": "2021-10-15",
+        "status": true
+    },
+    {
+        "companyId": 5,
+        "name": "Julio Missart",
+        "email": "jmissart@gmail.com",
+        "phone": "5974846",
+        "address": "Av Siempre Viva 1234",
+        "cuit": "2142154",
+        "website": "www.accenture.com",
+        "founded": "2021-10-20",
+        "status": true
+    },
+    {
+        "companyId": 6,
+        "name": "Accenture",
+        "email": "jmissart@gmail.com",
+        "phone": "142345",
+        "address": "Av Siempre Viva 1234",
+        "cuit": "21421525245",
+        "website": "www.accenture.com",
+        "founded": "2021-10-14",
+        "status": true
+    },
+    {
+        "companyId": 7,
+        "name": "Globant",
+        "email": "ddouthwaite0@goo.gl",
+        "phone": "5974846",
+        "address": "Av Siempre Viva 1234",
+        "cuit": "21421",
+        "website": "www.accenture.com",
+        "founded": "2021-10-21",
+        "status": true
+    },
+    {
+        "companyId": 8,
         "name": "Infosis",
         "email": "jmissart@gmail.com",
         "phone": "5974846",
         "address": "Av Siempre Viva 1234",
         "cuit": "21421",
         "website": "www.accenture.com",
-        "founded": "2021-10-15",
-        "status": false
+        "founded": "2021-10-11",
+        "status": true
+    },
+    {
+        "companyId": 9,
+        "name": "Accenture",
+        "email": "ddouthwaite0@goo.gl",
+        "phone": "+54 (223) 528-3129",
+        "address": "Av Siempre Viva 1234",
+        "cuit": "21421",
+        "website": "www.accenture.com",
+        "founded": "2021-10-19",
+        "status": true
     }
 ]

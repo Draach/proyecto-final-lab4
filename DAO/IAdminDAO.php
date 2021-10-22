@@ -6,6 +6,7 @@
         function Add(Admin $admin);
         function Login($email, $password);
         function GetAll();    
+        function Delete($number);
     }
 
 ?>

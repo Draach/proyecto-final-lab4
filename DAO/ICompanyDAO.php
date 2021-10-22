@@ -5,6 +5,8 @@
     interface ICompanyDAO{
         function add(Company $company);
         function GetAll();
-        function Delete($name);
+        function GetById($number);
+        function ModifyName($number, $name);
+        function Delete($number);
     }
 ?>

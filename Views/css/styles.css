@@ -1,4 +1,5 @@
 @import 'student-dashboard.css';
+@import 'company-details.css';
 
 .index {
   background-color: red;
@@ -136,3 +137,54 @@
   padding-top: 0;
   padding-bottom: 0; 
 }
+
+/* Simple CSS3 Fade-in Animation */
+.underlineHover:after {
+  display: block;
+  left: 0;
+  bottom: -10px;
+  width: 0;
+  height: 2px;
+  background-color: #56baed;
+  content: "";
+  transition: width 0.2s;
+}
+
+.underlineHover:hover {
+  color: #0d0d0d;
+}
+
+.underlineHover:hover:after{
+  width: 100%;
+}
+
+.table-container {
+  height: 65vh;
+  overflow: auto;
+}
+
+.go-back {
+  margin-left: 80%;
+}
+
+.utn-dashboard {
+  max-height: 300px;
+  margin: 10% auto;
+}
+
+.utn-dashboard-vert {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .utn-dashboard {
+    display: none;
+  }
+
+  .utn-dashboard-vert {   
+    width: 80vw;
+    margin: 20vh 10vw;
+    display: unset;
+  }
+}
+

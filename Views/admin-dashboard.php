@@ -1,11 +1,4 @@
-<?php 
-
- if($_SESSION["loggedUser"]['role'] != "admin"){
-     require_once(VIEWS_PATH."index.php");
- } else {
-    require_once(VIEWS_PATH."nav.php");
-?>
-admin-dashboard works
-<?php
- }
- ?>
+<main class="admin-dashboard">
+    <img class="utn-dashboard" src='<?php echo FRONT_ROOT ?>Views/img/utnmdp.png' />
+    <img class="utn-dashboard-vert" src='<?php echo FRONT_ROOT ?>Views/img/utnmdp-vert.png'>
+</main>

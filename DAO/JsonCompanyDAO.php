@@ -44,7 +44,7 @@ class JsonCompanyDAO implements ICompanyDAO
 
     private function GetLastID()
     {
-        $id = 0;
+        $id = 1;
         if (file_exists($this->fileName)) {
             $contenido = file_get_contents($this->fileName);
 
@@ -52,7 +52,6 @@ class JsonCompanyDAO implements ICompanyDAO
 
             foreach ($arrayDecodificado as $valores) {
                 if ($valores["companyId"] >= $id) {
-                    echo "llego al if";
                     $id = $valores["companyId"] + 1;
                 }
             }
@@ -99,16 +98,51 @@ class JsonCompanyDAO implements ICompanyDAO
         $response = 0;
 
         $this->retrieveData();
-        foreach ($this->companiesList as $value) {
-            if ($value->getCompanyId() == $number) {
-                if ($value->getStatus() == true) {
-                    $value->setStatus(false);
+        foreach ($this->companiesList as $company) {
+            if ($company->getCompanyId() == $number) {
+                if ($company->getStatus() == true) {
+                    $company->setStatus(false);
                     $response = 1;
                     break;
                 }
             }
         }
         $this->SaveData();
+
+        return $response;
+    }
+
+    public function GetById($number) {
+        $response = null;
+
+        $this->retrieveData();
+        foreach($this->companiesList as $company) {
+            if($company->getCompanyId() == $number) {
+                if($company->getStatus() == true) {
+                    $response = $company;
+                    break;
+                }
+            }
+        }
+        return $response;
+    }
+
+    public function ModifyName($number, $name) {
+        $response = 0;
+
+        $this->retrieveData();
+
+        foreach($this->companiesList as $company) {
+            if($company->getCompanyId() == $number) {
+                if($company->getStatus() == true) {
+                    $company->setName($name);
+                    $response = 1;
+                    break;
+                }
+            }
+        }
+
+        $this->saveData();
 
         return $response;
     }

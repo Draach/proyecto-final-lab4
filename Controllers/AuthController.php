@@ -4,41 +4,51 @@ namespace Controllers;
 
 use DAO\StudentDAO as StudentDAO;
 use DAO\AdminDAO as AdminDAO;
+use Utils\CustomSessionHandler as CustomSessionHandler;
 
 class AuthController
 {
+    private $message;
     private $studentDAO;
     private $adminDAO;
+    private $sessionHandler;
 
     public function __construct()
     {
         $this->studentDAO = new StudentDAO();
         $this->adminDAO = new AdminDAO();
+        $this->sessionHandler = new CustomSessionHandler();
+        $this->message = '';
     }
 
     public function Login($email, $password)
     {
-        $result = null;
+        $user = null;
 
-        $result = $this->studentDAO->Login($email);
+        $user = $this->studentDAO->Login($email);
 
-        if ($result) {
-
-            $_SESSION['loggedUser'] = $result;
-            $_SESSION['loggedUser']['role'] = "student";
-            return require_once(VIEWS_PATH . "student-dashboard.php");
+        if ($user) {
+            $this->message = "<p class='message'>Este usuario se encuentra desactivado.</p>";
+            if ($user['active'] == true) {
+                $this->sessionHandler->createStudentUser($user);
+                return require_once(VIEWS_PATH . "student-dashboard.php");
+            }
         }
 
 
-        $result = $this->adminDAO->Login($email, $password);
-        if ($result) {
-
-            $_SESSION['loggedUser'] = $result;
-            $_SESSION['loggedUser']['role'] = "admin";
-            return require_once(VIEWS_PATH . "admin-dashboard.php");
+        $user = $this->adminDAO->Login($email, $password);
+        if ($user) {
+            $this->message = "<p class='message'>Este usuario se encuentra desactivado.</p>";
+            if ($user['active'] == true) {
+                $this->sessionHandler->createAdminUser($user);
+                require_once(VIEWS_PATH . "nav.php");
+                return require_once(VIEWS_PATH . "admin-dashboard.php");
+            }
         }
-
-        $message = "<p class='message'>La combinación de usuario/contraseña es incorrecta. Por favor, intenta nuevamente.</p>";
+        if ($this->message == '') {
+            $this->message = "<p class='message'>Usuario o contraseña incorrectos. Por favor, intenta nuevamente.</p>";
+        }
+        $message = $this->message;
         require_once(VIEWS_PATH . "index.php");
     }
 

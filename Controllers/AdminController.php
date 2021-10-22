@@ -1,17 +1,25 @@
-<?php namespace Controllers;
+<?php
 
-    use DAO\AdminDAO as AdminDAO;
-    use Models\Admin as Admin;
+namespace Controllers;
 
-class AdminController{
+use DAO\AdminDAO as AdminDAO;
+use Models\Admin as Admin;
+use Utils\CustomSessionHandler as CustomSessionHandler;
+
+class AdminController
+{
     private $adminDAO;
+    private $sessionHandler;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->adminDAO = new AdminDAO();
+        $this->sessionHandler = new CustomSessionHandler();
     }
-    
-    public function Add($firstName, $lastName, $dni, $gender, $birthDate, $email, $password, $phoneNumber) {
-        $admin = new Admin();                  
+
+    public function Add($firstName, $lastName, $dni, $gender, $birthDate, $email, $password, $phoneNumber)
+    {
+        $admin = new Admin();
 
         $encryptedPassword = password_hash($password, PASSWORD_BCRYPT);
         $admin->setFirstName(strtolower($firstName));
@@ -21,75 +29,91 @@ class AdminController{
         $admin->setBirthDate($birthDate);
         $admin->setEmail(strtolower($email));
         $admin->setPassword($encryptedPassword);
-        $admin->setPhoneNumber($phoneNumber); 
+        $admin->setPhoneNumber($phoneNumber);
         $admin->setActive(true);
-        
+
         /**
          * Agrega un admin a la base de datos.
          */
-        $this->adminDAO->Add($admin);   
-        
-        /**
-         *  Agrega un admin al archivo JSON.
-         */
-        //$this->jsonAdminDAO->Add($admin);
-
-        $this->ShowAddView();
+        $this->adminDAO->Add($admin);
+;
+        if ($this->sessionHandler->isAdmin()) {
+            require_once(VIEWS_PATH."nav.php");
+            $this->ShowAddView();
+        } else {
+            require_once(VIEWS_PATH."index.php");
+        }
     }
 
-    public function List(){
+    public function List()
+    {
         /**
          * Recupera la lista de admins desde la base de datos.
          */
         $adminsList = $this->adminDAO->GetAll();
 
-        /**
-         * Recupera la lista de admins desde el archivo JSON.
-         */
-        //$companiesList = $this->jsonAdminDAO->GetAll();
-
-        require_once(VIEWS_PATH."admin-list.php");
+        if ($this->sessionHandler->isAdmin()) {
+            require_once(VIEWS_PATH."nav.php");
+            require_once(VIEWS_PATH . "admin-list.php");
+        } else {
+            require_once(VIEWS_PATH."index.php");
+        }
     }
 
-    public function ShowAddView(){
-        require_once(VIEWS_PATH."admin-add.php");        
+    public function ShowAddView()
+    {
+        if ($this->sessionHandler->isAdmin()) {
+            require_once(VIEWS_PATH."nav.php");
+            require_once(VIEWS_PATH . "admin-add.php");
+        } else {
+            require_once(VIEWS_PATH."index.php");
+        }
+        
     }
 
-    public function ShowDashboard(){   
-        require_once(VIEWS_PATH."admin-dashboard.php");
+    public function ShowDashboard()
+    {
+        if($this->sessionHandler->isAdmin()){
+            require_once(VIEWS_PATH."nav.php");
+        require_once(VIEWS_PATH . "admin-dashboard.php");
+    } else {
+        require_once(VIEWS_PATH."index.php");
+    }
     }
 
-    public function Remove() {
-        require_once(VIEWS_PATH."company-remove.php");
+    public function Remove()
+    {
+        if ($this->sessionHandler->isAdmin()) {
+            require_once(VIEWS_PATH."nav.php");
+            require_once(VIEWS_PATH . "admin-remove.php");
+        } else {
+            require_once(VIEWS_PATH."index.php");
+        }
     }
 
-    public function RemoveCompany($number) {
+    public function RemoveAdmin($number)
+    {
         $message = "";
-        /**
-         * Remueve logicamente un admin del archivo JSON (Status = false).
-         */
-        /*
-        $response = $this->jsonAdminDAO->Delete($number);                
-        */
-
 
         /**
          * Remueve logicamente un admin de la base de datos (Status = false).
          */
-        $response = $this->adminDAO->Delete($number) ;
+        $response = $this->adminDAO->Delete($number);
 
 
 
 
-        if($response == 1) {
-            $message = "El admin con ID ".$number." ha sido eliminada exitosamente.";
+        if ($response == 1) {
+            $message = "El admin con ID " . $number . " ha sido eliminada exitosamente.";
         } else {
-            $message = "El admin con ID ".$number." no ha sido encontrada. Intente nuevamente.";
-        }        
+            $message = "El admin con ID " . $number . " no ha sido encontrada. Intente nuevamente.";
+        }
 
         echo "<script type='text/javascript'>alert('$message');</script>";
-        $this->Remove();
+        if ($this->sessionHandler->isAdmin()) {
+            $this->Remove();
+        } else {
+            require_once(VIEWS_PATH."index.php");
+        }        
     }
 }
-
-?>

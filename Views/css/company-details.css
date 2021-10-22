@@ -1,0 +1,61 @@
+
+.details {
+    width: 100vw;
+    height: 100vh;
+    background-color: #164954;
+    display: flex;
+    flex-direction: column;    
+    justify-content: center;
+    align-items: center;
+  }
+  
+  
+  .details-card {
+    width: 60vw;
+    height: 50vh;
+    display: grid;
+    grid-template-rows: 1fr 2fr;    
+    grid-gap: 0px;
+  }
+  
+  .details-header-card {
+    grid-row: 1;
+    background-color: white;
+    height: 100%;
+    width: 100%;    
+  }
+
+  .details-header-card h1{
+    font-size: 4rem;
+    margin: 2% auto;
+    text-align: center;
+  }
+
+  .details-header-card button {
+    float:right;
+    margin: 10px 10px 0 0;
+    transition-duration: 0.4s;
+    border-radius: 8px;
+    border: 2px solid red;
+    background-color: white; 
+  }
+
+  .details-header-card button:hover {
+    background-color: red; 
+  }
+
+
+  
+  .details-content-card {
+    grid-row: 2;
+    height:100%;
+    width: 100%;
+    background-color: white;
+    display: grid;
+    grid-template-columns: 1fr 2fr;    
+    grid-gap: 0px;    
+  }
+
+  .content-left {
+    margin: auto;
+  }

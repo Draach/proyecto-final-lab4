@@ -1,10 +1,13 @@
 <?php
-if(isset($_SESSION["loggedUser"])){
-  if ($_SESSION["loggedUser"]['role'] == "admin") {
-    require_once(VIEWS_PATH . "admin-dashboard.php");
-  } else if ($_SESSION["loggedUser"]["role"] == "student") {
-    require_once(VIEWS_PATH . "student-dashboard.php");
-  } 
+
+use Utils\CustomSessionHandler as CustomSessionhandler;
+
+$sessionHandler = new CustomSessionhandler();
+if ($sessionHandler->isAdmin()) {
+  require_once(VIEWS_PATH."nav.php");
+  require_once(VIEWS_PATH . "admin-dashboard.php");
+} else if ($sessionHandler->isStudent()) {
+  require_once(VIEWS_PATH . "student-dashboard.php");
 } else {
 ?>
   <div class='login'>
@@ -20,9 +23,11 @@ if(isset($_SESSION["loggedUser"])){
           <input type='password' name='password' value='' placeholder="Admin password here..." class="form-control" formControlName="password">
           <hr>
           <button type='submit'>Login</button>
-          <a href='#'>Olvidé mi contraseña.</a>
+          <div id="formFooter">
+            <a class="underlineHover" href="#">Olvidé mi contraseña.</a>
+          </div>          
           <?php
-          if ($message != "") {
+          if (isset($message)) {
             echo $message;
           }
           ?>

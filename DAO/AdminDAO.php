@@ -96,7 +96,7 @@ class AdminDAO implements IAdminDAO
     public function Delete($number) {
         try
         {            
-            $query = "UPDATE ".$this->tableName." SET `status` = false WHERE `adminId` = :number";
+            $query = "UPDATE ".$this->tableName." SET `active` = false WHERE `adminId` = :number";
             
             $parameters["number"] = $number;             
 

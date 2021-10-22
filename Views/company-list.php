@@ -1,26 +1,30 @@
-<?php
-
-if ($_SESSION["loggedUser"]['role'] != "admin" && $_SESSION["loggedUser"]["role"] != "student") {
-    require_once(VIEWS_PATH . "index.php");
-} else {
-    if ($_SESSION["loggedUser"]["role"] == "admin") {
-        require_once(VIEWS_PATH . "nav.php");
-    }
-?>
-    <main class="py-5">
-        <section id="listado" class="mb-5">
-            <div class="container">
-                <h2 class="mb-4">Listado de Empresas</h2>
+<main class="py-5">
+    <section id="listado" class="mb-5">
+        <div class="container">
+            <form class="form-row">
+                <div class="col-8">
+                    <h2>Listado de Empresas</h2>
+                </div>
+                <div class="col">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                </div>
+                <div class="col">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </div>
+            </form>
+            <div class="table-container overflow-auto">
                 <table class="table bg-light-alpha">
-                    <thead>
-                        <th>ID</th>
+                    <thead class='thead-dark'>
+                        <?php if ($_SESSION["loggedUser"]["role"] == "admin") {
+                        ?>
+                            <th>ID</th>
+                        <?php
+                        }
+                        ?>
                         <th>Nombre</th>
                         <th>Email</th>
                         <th>Teléfono</th>
-                        <th>Dirección</th>
-                        <th>Cuit</th>
-                        <th>Sitio Web</th>
-                        <th>Fundación</th>
+                        <th></th>
                     </thead>
                     <tbody>
                         <?php
@@ -28,14 +32,16 @@ if ($_SESSION["loggedUser"]['role'] != "admin" && $_SESSION["loggedUser"]["role"
                             if ($company->getStatus() == true) {
                         ?>
                                 <tr>
-                                    <td><?php echo $company->getCompanyId() ?></td>
+                                    <?php if ($_SESSION["loggedUser"]["role"] == "admin") {
+                                    ?>
+                                        <td><?php echo $company->getCompanyId() ?></td>
+                                    <?php
+                                    }
+                                    ?>
                                     <td><?php echo $company->getName() ?></td>
                                     <td><?php echo $company->getEmail() ?></td>
                                     <td><?php echo $company->getPhone() ?></td>
-                                    <td><?php echo $company->getAddress() ?></td>
-                                    <td><?php echo $company->getCuit() ?></td>
-                                    <td><?php echo $company->getWebsite() ?></td>
-                                    <td><?php echo $company->getFounded() ?></td>
+                                    <td><a href="<?php echo FRONT_ROOT ?>Company/ShowDetails/<?php echo $company->getCompanyId(); ?>" class="btn btn-primary">Ver Detalles</a></td>
                                 </tr>
                         <?php
                             }
@@ -43,20 +49,17 @@ if ($_SESSION["loggedUser"]['role'] != "admin" && $_SESSION["loggedUser"]["role"
                         ?>
                     </tbody>
                 </table>
-                <?php
-                if ($_SESSION['loggedUser']['role'] == "student") {
-                ?>
-                    <a class="btn btn-secondary" href="<?php echo FRONT_ROOT ?>Student/ShowDashboard">Regresar</a>
-                <?php
-                } else if ($_SESSION['loggedUser']['role'] == "admin") {
-                ?>
-                    <a class="btn btn-secondary" href="<?php echo FRONT_ROOT ?>Admin/ShowDashboard">Regresar</a>
-                <?php
-                }
-                ?>
             </div>
-        </section>
-    </main>
-<?php
-}
-?>
+    </section>
+    <?php
+    if ($_SESSION['loggedUser']['role'] == "student") {
+    ?>
+        <a class="btn btn-secondary go-back" href="<?php echo FRONT_ROOT ?>Student/ShowDashboard">Regresar</a>
+    <?php
+    } else if ($_SESSION['loggedUser']['role'] == "admin") {
+    ?>
+        <a class="btn btn-secondary go-back" href="<?php echo FRONT_ROOT ?>Admin/ShowDashboard">Regresar</a>
+    <?php
+    }
+    ?>
+</main>

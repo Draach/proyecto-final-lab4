@@ -5,7 +5,7 @@ namespace DAO;
 use Models\JobPosition as JobPosition;
 use \Exception as Exception;
 
-class JobPositionDAO
+class JobPositionDAO implements IJobPositionDAO
 {
     public function GetAll()
     {

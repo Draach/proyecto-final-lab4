@@ -87,6 +87,14 @@
                 throw $ex;
             }
         }
+        // TODO
+        public function GetById($number) {
+
+        }
+
+        public function ModifyName($number, $name) {
+        
+        }
     }
 
 ?>
