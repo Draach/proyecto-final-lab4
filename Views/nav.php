@@ -17,9 +17,6 @@
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="<?php echo FRONT_ROOT ?>Company/ShowAddView">Agregar Empresa</a>
           <a class="dropdown-item" href="<?php echo FRONT_ROOT ?>Company/ShowListView">Listar Empresas</a>
-          <a class="dropdown-item" href="<?php echo FRONT_ROOT ?>Company/ShowModifyView">Modificar Empresa</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="<?php echo FRONT_ROOT ?>Company/Remove">Eliminar Empresa</a>
         </div>
       </li>
       <li class="nav-item dropdown">
