@@ -115,13 +115,27 @@ class CompanyDAO implements ICompanyDAO
         }
     }
 
-    public function ModifyName($number, $name)
+    public function Modify($id, $name, $email, $phone, $address, $cuit, $website, $founded)
     {
         try {
-            $query = "UPDATE " . $this->tableName . " SET `name` = :name WHERE `companyId` = :number";
+            $query = "UPDATE " . $this->tableName . " SET `name` = :name, `email` = :email, `phone` = :phone, `address` = :address, `cuit` = :cuit, `website` = :website, `founded` = :founded WHERE `companyId` = :id";
 
+            $response = $this->cuitVerify($id, $cuit);
+
+            if ($response == 1) {
+                throw new Exception('El cuit ingresado ya existe.');
+            }
+
+
+            $parameters["id"] = $id;
             $parameters["name"] = $name;
-            $parameters["number"] = $number;
+            $parameters["email"] = $email;
+            $parameters["phone"] = $phone;
+            $parameters["address"] = $address;
+            $parameters["cuit"] = $cuit;
+            $parameters["website"] = $website;
+            $parameters["founded"] = $founded;
+
 
             $this->connection = Connection::GetInstance();
 
@@ -137,12 +151,11 @@ class CompanyDAO implements ICompanyDAO
             $companiesList = array();
 
             $query = "SELECT * FROM " . $this->tableName . " WHERE `name` LIKE '%:name%'";
-            echo var_dump($query);
 
             $parameters["name"] = $name;
             $this->connection = Connection::GetInstance();
             $resultSet = $this->connection->Execute($query, $parameters);
-            echo var_dump($resultSet);
+
             foreach ($resultSet as $row) {
                 $company = new Company();
                 $company->setCompanyId($row["companyId"]);
@@ -160,6 +173,28 @@ class CompanyDAO implements ICompanyDAO
             return $companiesList[0];
         } catch (Exception $ex) {
             throw $ex;
+        }
+    }
+
+    function cuitVerify($id, $cuit)
+    {
+        try {
+            $response = 0;
+            $query = "SELECT `companies`.`companyId`, `companies`.`cuit` FROM " . $this->tableName . " WHERE `cuit` = :cuit";
+            $parameters["cuit"] = $cuit;
+
+            $this->connection = Connection::GetInstance();
+
+            $resultSet = $this->connection->Execute($query, $parameters);
+
+            if ($resultSet != null) {
+                if ($resultSet[0]['companyId'] != $id && $resultSet[0]['cuit'] == $cuit) {
+                    $response = 1;
+                }
+            }
+
+            return $response;;
+        } catch (Exception $ex) {
         }
     }
 }

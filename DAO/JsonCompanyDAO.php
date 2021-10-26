@@ -128,7 +128,7 @@ class JsonCompanyDAO implements ICompanyDAO
         return $response;
     }
 
-    public function ModifyName($number, $name)
+    public function Modify($number, $name, $email, $phone, $address, $cuit, $website, $founded)
     {
         $response = 0;
 
@@ -138,6 +138,12 @@ class JsonCompanyDAO implements ICompanyDAO
             if ($company->getCompanyId() == $number) {
                 if ($company->getStatus() == true) {
                     $company->setName($name);
+                    $company->setEmail($email);
+                    $company->setPhone($phone);
+                    $company->setAddress($address);
+                    $company->setCuit($cuit);
+                    $company->setWebsite($website);
+                    $company->setFounded($founded);
                     $response = 1;
                     break;
                 }
