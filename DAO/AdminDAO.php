@@ -39,6 +39,13 @@ class AdminDAO implements IAdminDAO
     public function Add(Admin $admin)
     {
         try {
+
+            $response = $this->dniVerify(null, $admin->getDni());
+
+            if ($response == 1) {
+                throw new Exception('El DNI ingresado ya existe.');
+            }
+
             $query = "INSERT INTO " . $this->tableName . " (firstName, lastName, dni, gender, birthDate, email, password, phoneNumber, active) VALUES (:firstName, :lastName, :dni, :gender, :birthDate, :email, :password, :phoneNumber, :active);";
 
             $parameters["firstName"] = $admin->getFirstName();
@@ -106,6 +113,29 @@ class AdminDAO implements IAdminDAO
         } catch (Exception $ex) {
 
             throw $ex;
+        }
+    }
+
+    function dniVerify($id = null, $dni)
+    {
+        try {            
+            $response = 0;
+            $query = "SELECT `admins`.`adminId`, `admins`.`dni` FROM " . $this->tableName . " WHERE `dni` = :dni";
+
+            $parameters["dni"] = $dni;
+
+            $this->connection = Connection::GetInstance();
+
+            $resultSet = $this->connection->Execute($query, $parameters);
+
+            if ($resultSet != null) {
+                if ($resultSet[0]['adminId'] != $id && $resultSet[0]['dni'] == $dni) {
+                    $response = 1;
+                }
+            }
+
+            return $response;;
+        } catch (Exception $ex) {
         }
     }
 }

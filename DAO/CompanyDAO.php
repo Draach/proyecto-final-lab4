@@ -16,6 +16,12 @@ class CompanyDAO implements ICompanyDAO
     {
         try {
 
+            $response = $this->cuitVerify(null, $company->getCuit());
+
+            if ($response == 1) {
+                throw new Exception('El cuit ingresado ya existe.');
+            }
+            
             $query = "INSERT INTO " . $this->tableName . " (name, email, phone, address, cuit, website, founded, status) VALUES (:name, :email, :phone, :address, :cuit, :website, :founded, :status);";
 
             $parameters["name"] = $company->getName();
@@ -126,7 +132,6 @@ class CompanyDAO implements ICompanyDAO
                 throw new Exception('El cuit ingresado ya existe.');
             }
 
-
             $parameters["id"] = $id;
             $parameters["name"] = $name;
             $parameters["email"] = $email;
@@ -176,7 +181,7 @@ class CompanyDAO implements ICompanyDAO
         }
     }
 
-    function cuitVerify($id, $cuit)
+    function cuitVerify($id = null, $cuit)
     {
         try {
             $response = 0;

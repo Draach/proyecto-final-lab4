@@ -58,7 +58,8 @@ class CompanyController
         try {
             $this->companyDAO->Add($company);
         } catch (Exception $ex) {
-            echo "<script type='text/javascript'>alert('Ha ocurrido un error.');</script>";
+            $errMessage = $ex->getMessage();
+            echo "<script type='text/javascript'>alert('Error: $errMessage');</script>";
         }
 
         $this->ShowAddView();
@@ -123,7 +124,7 @@ class CompanyController
             $this->ShowModifyView($id);
         } catch (Exception $ex) {
             $errMessage = $ex->getMessage();
-            echo "<script type='text/javascript'>alert('$errMessage');</script>";
+            echo "<script type='text/javascript'>alert('Error: $errMessage');</script>";
             $this->ShowModifyView($id);
         }        
     }

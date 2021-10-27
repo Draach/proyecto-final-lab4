@@ -5,6 +5,7 @@ namespace Controllers;
 use DAO\AdminDAO as AdminDAO;
 use Models\Admin as Admin;
 use Utils\CustomSessionHandler as CustomSessionHandler;
+use Exception as Exception;
 
 class AdminController
 {
@@ -32,16 +33,16 @@ class AdminController
         $admin->setPhoneNumber($phoneNumber);
         $admin->setActive(true);
 
-        /**
-         * Agrega un admin a la base de datos.
-         */
-        $this->adminDAO->Add($admin);;
-        if ($this->sessionHandler->isAdmin()) {
-            require_once(VIEWS_PATH . "nav.php");
+        try {
+            $this->adminDAO->Add($admin);
+        } catch (Exception $ex) {
+            $errMessage = $ex->getMessage();
+            echo "<script type='text/javascript'>alert('Error: $errMessage');</script>";
+        } finally {
             $this->ShowAddView();
-        } else {
-            require_once(VIEWS_PATH . "index.php");
         }
+
+        
     }
 
     public function List()
