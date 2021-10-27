@@ -24,7 +24,7 @@
                         <th>Nombre</th>
                         <th>Email</th>
                         <th>Teléfono</th>
-                        <th></th>
+                        <th>Acciones</th>
                     </thead>
                     <tbody>
                         <?php
@@ -41,7 +41,16 @@
                                     <td><?php echo $company->getName() ?></td>
                                     <td><?php echo $company->getEmail() ?></td>
                                     <td><?php echo $company->getPhone() ?></td>
-                                    <td><a href="<?php echo FRONT_ROOT ?>Company/ShowDetails/<?php echo $company->getCompanyId(); ?>" class="btn btn-primary">Ver Detalles</a></td>
+                                    <td>
+                                        <a href="<?php echo FRONT_ROOT ?>Company/ShowDetails/<?php echo $company->getCompanyId(); ?>" class="btn btn-primary">Detalles</a>
+                                        <?php if ($_SESSION["loggedUser"]["role"] == "admin") {
+                                        ?>
+                                            <a href="<?php echo FRONT_ROOT ?>Company/ShowModifyView/<?php echo $company->getCompanyId(); ?>" class="btn btn-primary">Modificar</a>
+                                            <a href="<?php echo FRONT_ROOT ?>Company/RemoveCompany/<?php echo $company->getCompanyId(); ?>" class="btn btn-primary">Eliminar</a>
+                                    </td>
+                                <?php
+                                        }
+                                ?>
                                 </tr>
                         <?php
                             }

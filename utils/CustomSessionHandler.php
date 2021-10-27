@@ -6,6 +6,15 @@ namespace Utils;
 class CustomSessionHandler
 {
 
+    public function userIsSet(){
+        $result = false;
+        if(isset($_SESSION["loggedUser"])) {
+            $result = true;
+        }
+
+        return $result;
+    }
+
     public function createAdminUser($user)
     {
         $_SESSION['loggedUser'] = $user;

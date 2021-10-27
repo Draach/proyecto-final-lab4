@@ -18,9 +18,9 @@ if ($sessionHandler->isAdmin()) {
       <div class='login-right-card shadow'>
         <form action="<?php echo FRONT_ROOT ?>Auth/Login" method="post">
           <p>Login</p>
-          <input type='text' class="form-control" name='email' placeholder="Your email here..." formControlName="email">
+          <input type='text' class="form-control" name='email' placeholder="Email here..." formControlName="email">
           <hr>
-          <input type='password' name='password' value='' placeholder="Admin password here..." class="form-control" formControlName="password">
+          <input type='password' name='password' value='' placeholder="Password here..." class="form-control" formControlName="password">
           <hr>
           <button type='submit'>Login</button>
           <div id="formFooter">

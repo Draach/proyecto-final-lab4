@@ -6,17 +6,16 @@ use DAO\CompanyDAO as CompanyDAO;
 use DAO\JsonCompanyDAO as JsonCompanyDAO;
 use Models\Company as Company;
 use Utils\CustomSessionHandler as CustomSessionHandler;
+use Exception as Exception;
 
 class CompanyController
 {
     private $companyDAO;
-    private $jsonCompanyDAO;
     private $sessionHandler;
 
     public function __construct()
     {
         $this->companyDAO = new CompanyDAO();
-        $this->jsonCompanyDAO = new JsonCompanyDAO();
         $this->sessionHandler = new CustomSessionHandler();
     }
 
@@ -33,8 +32,7 @@ class CompanyController
     public function ShowListView()
     {
 
-        //$companiesList = $this->companyDAO->GetAll();
-        $companiesList = $this->jsonCompanyDAO->GetAll();
+        $companiesList = $this->companyDAO->GetAll();
 
         if ($this->sessionHandler->isAdmin() || $this->sessionHandler->isStudent()) {
             if ($this->sessionHandler->isAdmin()) {
@@ -57,8 +55,11 @@ class CompanyController
         $company->setWebsite($website);
         $company->setFounded($founded);
 
-        //$this->companyDAO->Add($company);   
-        $this->jsonCompanyDAO->Add($company);
+        try {
+            $this->companyDAO->Add($company);
+        } catch (Exception $ex) {
+            echo "<script type='text/javascript'>alert('Ha ocurrido un error.');</script>";
+        }
 
         $this->ShowAddView();
     }
@@ -76,9 +77,8 @@ class CompanyController
     public function RemoveCompany($number)
     {
         $message = "";
-
-        //$response = $this->companyDAO->Delete($number) ;
-        $response = $this->jsonCompanyDAO->Delete($number);
+        
+        $response = $this->companyDAO->Delete($number); 
 
 
         if ($response == 1) {
@@ -88,14 +88,13 @@ class CompanyController
         }
 
         echo "<script type='text/javascript'>alert('$message');</script>";
-        $this->Remove();
+        $this->ShowListView();
     }
 
     public function ShowDetails($companyId)
     {
         if ($this->sessionHandler->isAdmin() || $this->sessionHandler->isStudent()) {
-            //$company = $this->companyDAO->GetById($companyId);        
-            $company = $this->jsonCompanyDAO->GetById($companyId);
+            $company = $this->companyDAO->GetById($companyId);
             if ($this->sessionHandler->isAdmin()) {
                 require_once(VIEWS_PATH . "nav.php");
             }
@@ -105,9 +104,10 @@ class CompanyController
         }
     }
 
-    public function ShowModifyView()
+    public function ShowModifyView($companyId)
     {
         if ($this->sessionHandler->isAdmin()) {
+            $company = $this->companyDAO->GetById($companyId);
             require_once(VIEWS_PATH . "nav.php");
             require_once(VIEWS_PATH . "company-modify.php");
         } else {
@@ -115,19 +115,23 @@ class CompanyController
         }
     }
 
-    public function Modify($id, $companyName)
-    {
-        //$response = $this->companyDAO->ModifyName($id, $companyName);
-        $response = $this->jsonCompanyDAO->ModifyName($id, $companyName);
-        require_once(VIEWS_PATH . "nav.php");
-        require_once(VIEWS_PATH . "company-modify.php");
+    public function Modify($id, $companyName, $email, $phone, $address, $cuit, $website, $founded)
+    {        
+        try {
+            $response = $this->companyDAO->Modify($id, $companyName, $email, $phone, $address, $cuit, $website, $founded);
+            echo "<script type='text/javascript'>alert('Se ha modificado exitosamente.');</script>";
+            $this->ShowModifyView($id);
+        } catch (Exception $ex) {
+            $errMessage = $ex->getMessage();
+            echo "<script type='text/javascript'>alert('$errMessage');</script>";
+            $this->ShowModifyView($id);
+        }        
     }
 
     public function GetByName($name)
     {
         if ($this->sessionHandler->isAdmin() || $this->sessionHandler->isStudent()) {
-            //$companiesList = $this->companyDAO->GetByName($name);
-            $companiesList = $this->jsonCompanyDAO->GetByName($name);
+            $companiesList = $this->companyDAO->GetByName($name);
             if ($this->sessionHandler->isAdmin()) {
                 require_once(VIEWS_PATH . "nav.php");
             }
