@@ -75,7 +75,7 @@ class Connection
 
         foreach ($parameters as $parameterName => $value) {
             $i++;
-
+            
             if ($queryType == QueryType::Query)
                 $this->pdoStatement->bindParam(":" . $parameterName, $parameters[$parameterName]);
             else

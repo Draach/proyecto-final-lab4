@@ -1,3 +1,8 @@
+<?php
+use Utils\CustomSessionHandler as CustomSessionhandler;
+
+$sessionHandler = new CustomSessionhandler();
+?>
 <main class="py-5">
     <section id="listado" class="mb-5">
         <div class="container">
@@ -40,11 +45,11 @@
                 </tbody>
             </table>
             <?php
-            if ($_SESSION['loggedUser']['role'] == "student") {
+            if ($sessionHandler->isStudent()) {
             ?>
                 <a class="btn btn-secondary" href="<?php echo FRONT_ROOT ?>Student/ShowDashboard">Regresar</a>
             <?php
-            } else if ($_SESSION['loggedUser']['role'] == "admin") {
+            } else if ($sessionHandler->isAdmin()) {
             ?>
                 <a class="btn btn-secondary" href="<?php echo FRONT_ROOT ?>Admin/ShowDashboard">Regresar</a>
             <?php

@@ -15,14 +15,14 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><?php echo $_SESSION['loggedUser']['firstName'] ?></td>
-                        <td><?php echo $_SESSION['loggedUser']['lastName'] ?></td>
-                        <td><?php echo $_SESSION['loggedUser']['dni'] ?></td>
-                        <td><?php echo $_SESSION['loggedUser']['fileNumber'] ?></td>
-                        <td><?php echo $_SESSION['loggedUser']['gender'] ?></td>
-                        <td><?php echo $_SESSION['loggedUser']['birthDate'] ?></td>
-                        <td><?php echo $_SESSION['loggedUser']['email'] ?></td>
-                        <td><?php echo $_SESSION['loggedUser']['phoneNumber'] ?></td>
+                        <td><?php echo $_SESSION['loggedUser']->getFirstName() ?></td>
+                        <td><?php echo $_SESSION['loggedUser']->getLastName() ?></td>
+                        <td><?php echo $_SESSION['loggedUser']->getDni(); ?></td>
+                        <td><?php echo $_SESSION['loggedUser']->getFileNumber(); ?></td>
+                        <td><?php echo $_SESSION['loggedUser']->getGender(); ?></td>
+                        <td><?php echo $_SESSION['loggedUser']->getBirthDate(); ?></td>
+                        <td><?php echo $_SESSION['loggedUser']->getEmail(); ?></td>
+                        <td><?php echo $_SESSION['loggedUser']->getPhoneNumber(); ?></td>
                     </tr>
                     </tr>
                 </tbody>

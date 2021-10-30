@@ -1,7 +1,12 @@
+<?php
+use Utils\CustomSessionHandler as CustomSessionhandler;
+
+$sessionHandler = new CustomSessionhandler();
+?>
 <div class='details'>
   <div class='details-card shadow'>
     <div class='details-header-card'>
-      <?php if ($_SESSION["loggedUser"]["role"] == "admin") {
+      <?php if ($sessionHandler->isAdmin()) {
       ?>
         <form>
           <button type="button">Delete</button>

@@ -1,5 +1,4 @@
 <?php
-
 use Utils\CustomSessionHandler as CustomSessionhandler;
 
 $sessionHandler = new CustomSessionhandler();
@@ -18,13 +17,14 @@ if ($sessionHandler->isAdmin()) {
       <div class='login-right-card shadow'>
         <form action="<?php echo FRONT_ROOT ?>Auth/Login" method="post">
           <p>Login</p>
-          <input type='text' class="form-control" name='email' placeholder="Email here..." formControlName="email">
+          <input type='text' class="form-control" name='email' placeholder="Correo electrónico" formControlName="email" required>
           <hr>
-          <input type='password' name='password' value='' placeholder="Password here..." class="form-control" formControlName="password">
+          <input type='password' name='password' value='' placeholder="Contraseña" class="form-control" formControlName="password" required>
           <hr>
           <button type='submit'>Login</button>
           <div id="formFooter">
-            <a class="underlineHover" href="#">Olvidé mi contraseña.</a>
+            <a class="underlineHover" href="<?php echo FRONT_ROOT ?>Auth/ShowRegisterView">Sign In</a>
+            <a class="underlineHover" href="#">Olvidé mi contraseña</a>
           </div>
           <?php
           if (isset($message)) {

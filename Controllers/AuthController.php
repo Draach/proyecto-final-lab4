@@ -5,6 +5,7 @@ namespace Controllers;
 use DAO\StudentDAO as StudentDAO;
 use DAO\AdminDAO as AdminDAO;
 use Utils\CustomSessionHandler as CustomSessionHandler;
+use \Exception as Exception;
 
 class AuthController
 {
@@ -24,32 +25,53 @@ class AuthController
     public function Login($email, $password)
     {
         $user = null;
-
-        $user = $this->studentDAO->Login($email);
-
-        if ($user) {
-            $this->message = "<p class='message'>Este usuario se encuentra desactivado.</p>";
-            if ($user['active'] == true) {
+        try {
+            try {
+                $user = $this->studentDAO->Login($email, $password);
                 $this->sessionHandler->createStudentUser($user);
                 return require_once(VIEWS_PATH . "student-dashboard.php");
+            } catch (Exception $ex) {
+                $this->message = $ex->getMessage();
             }
-        }
-
-
-        $user = $this->adminDAO->Login($email, $password);
-        if ($user) {
-            $this->message = "<p class='message'>Este usuario se encuentra desactivado.</p>";
-            if ($user['active'] == true) {
+            try {
+                $user = $this->adminDAO->Login($email, $password);
                 $this->sessionHandler->createAdminUser($user);
                 require_once(VIEWS_PATH . "nav.php");
                 return require_once(VIEWS_PATH . "admin-dashboard.php");
+            } catch (Exception $ex) {
+                $this->message = $ex->getMessage();
+            } finally {
+                $message = "<p class='message'>$this->message</p>";
+                require_once(VIEWS_PATH . "index.php");
             }
+        } catch (Exception $ex) {
+            require_once(VIEWS_PATH . "index.php");
         }
-        if ($this->message == '') {
-            $this->message = "<p class='message'>Usuario o contraseña incorrectos. Por favor, intenta nuevamente.</p>";
+    }
+
+    public function ShowRegisterView()
+    {
+        if ($this->sessionHandler->userIsSet() == false) {
+            require_once(VIEWS_PATH . "register.php");
+        } else {
+            require_once(VIEWS_PATH . "index.php");
         }
-        $message = $this->message;
-        require_once(VIEWS_PATH . "index.php");
+    }
+
+    public function Register($dni, $email, $password, $passwordConfirm)
+    {
+
+        try {
+            $registeredStudent = $this->studentDAO->Register($dni, $email, $password, $passwordConfirm);
+            if ($registeredStudent) {
+                $this->sessionHandler->createStudentUser($registeredStudent);
+                require_once(VIEWS_PATH . "student-dashboard.php");
+            }
+        } catch (Exception $ex) {
+            $this->message = $ex->getMessage();
+            $message = "<p class='message'>$this->message</p>";
+            require_once(VIEWS_PATH . "register.php");
+        }
     }
 
     public function Logout()

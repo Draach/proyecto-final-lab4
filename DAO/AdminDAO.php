@@ -14,26 +14,35 @@ class AdminDAO implements IAdminDAO
 
     public function Login($email, $password)
     {
+        try {
+            $loweredEmail = strtolower($email);
+            $found = null;
+            $adminsList = $this->GetAll();
 
-        $loweredEmail = strtolower($email);
-        $found = null;
-        $adminsList = $this->GetAll();
-
-        foreach ($adminsList as $admin) {
-            if ($loweredEmail == $admin->getEmail() && password_verify($password, $admin->getPassword())) {
-                $found['adminId'] = $admin->getAdminId();
-                $found['firstName'] = $admin->getFirstName();
-                $found['lastName'] = $admin->getLastName();
-                $found['dni'] = $admin->getDni();
-                $found['gender'] = $admin->getGender();
-                $found['birthDate'] = $admin->getBirthDate();
-                $found['email'] = $admin->getEmail();
-                $found['phoneNumber'] = $admin->getPhoneNumber();
-                $found['active'] = $admin->getActive();
-                break;
+            foreach ($adminsList as $admin) {
+                if ($loweredEmail == $admin->getEmail() && password_verify($password, $admin->getPassword())) {
+                    $found = new Admin();
+                    $found->setAdminId($admin->getAdminId());
+                    $found->setFirstName($admin->getFirstName());
+                    $found->setLastName($admin->getLastName());
+                    $found->setDni($admin->getDni());
+                    $found->setGender($admin->getGender());
+                    $found->setBirthDate($admin->getBirthDate());
+                    $found->setEmail($admin->getEmail());
+                    $found->setPhoneNumber($admin->getPhoneNumber());
+                    $found->setActive($admin->getActive());
+                    break;
+                }
             }
+            
+            if($found == null) {
+                throw new Exception("Usuario y/o contraseña incorrectos.");
+            }
+
+            return $found;
+        } catch (Exception $ex) {
+            throw $ex;
         }
-        return $found;
     }
 
     public function Add(Admin $admin)
@@ -118,7 +127,7 @@ class AdminDAO implements IAdminDAO
 
     function dniVerify($id = null, $dni)
     {
-        try {            
+        try {
             $response = 0;
             $query = "SELECT `admins`.`adminId`, `admins`.`dni` FROM " . $this->tableName . " WHERE `dni` = :dni";
 

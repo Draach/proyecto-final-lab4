@@ -7,6 +7,7 @@ class Student extends User
         private $studentId;
         private $careerId;
         private $fileNumber;
+        
 
         public function getStudentId()
         {

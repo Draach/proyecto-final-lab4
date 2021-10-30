@@ -11,7 +11,7 @@
             </a>
         </div>
         <div class='option-card border border-dark'>
-            <a href="<?php echo FRONT_ROOT ?>JobPosition/ShowListView">
+            <a href="<?php echo FRONT_ROOT ?>JobOffer/ShowListView">
                 Consultar Listado de Propuestas
             </a>
         </div>

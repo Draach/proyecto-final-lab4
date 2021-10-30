@@ -17,21 +17,21 @@ class CustomSessionHandler
 
     public function createAdminUser($user)
     {
-        $_SESSION['loggedUser'] = $user;
-        $_SESSION['loggedUser']['role'] = "admin";
+        $user->setRole('admin');
+        $_SESSION['loggedUser'] = $user;       
     }
 
     public function createStudentUser($user)
     {
-        $_SESSION['loggedUser'] = $user;
-        $_SESSION['loggedUser']['role'] = "student";
+        $user->setRole('student');
+        $_SESSION['loggedUser'] = $user;        
     }
 
     public function isAdmin()
     {
         $response = false;
         if (isset($_SESSION["loggedUser"])) {
-            if ($_SESSION["loggedUser"]["role"] == "admin") {
+            if ($_SESSION["loggedUser"]->getRole() == "admin") {
                 $response = true;
             }
         }
@@ -42,7 +42,7 @@ class CustomSessionHandler
     {
         $response = false;
         if (isset($_SESSION["loggedUser"])) {
-            if ($_SESSION["loggedUser"]["role"] == "student") {
+            if ($_SESSION["loggedUser"]->getRole() == "student") {
                 $response = true;
             }
         }

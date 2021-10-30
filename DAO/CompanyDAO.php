@@ -153,15 +153,19 @@ class CompanyDAO implements ICompanyDAO
         }
     }
 
+    // TODO No funciona
     function GetByName($name)
     {
         try {
             $companiesList = array();
+            $loweredReceivedName = strtolower($name);
+            $query = "SELECT * FROM " . $this->tableName . " WHERE 'name' LIKE '%:name%'";
 
-            $query = "SELECT * FROM " . $this->tableName . " WHERE `name` LIKE '%:name%'";
 
-            $parameters["name"] = $name;
+            $parameters["name"] = $loweredReceivedName;
+            
             $this->connection = Connection::GetInstance();
+
             $resultSet = $this->connection->Execute($query, $parameters);
 
             foreach ($resultSet as $row) {
@@ -177,8 +181,9 @@ class CompanyDAO implements ICompanyDAO
                 $company->setStatus($row["status"]);
 
                 array_push($companiesList, $company);
-            }
-            return $companiesList[0];
+            }               
+
+            return $companiesList;
         } catch (Exception $ex) {
             throw $ex;
         }
@@ -203,6 +208,7 @@ class CompanyDAO implements ICompanyDAO
 
             return $response;;
         } catch (Exception $ex) {
+            // TODO
         }
     }
 }

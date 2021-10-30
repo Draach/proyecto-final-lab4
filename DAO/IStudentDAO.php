@@ -4,6 +4,6 @@ namespace DAO;
 
 interface IStudentDAO
 {
-    function Login($email);
+    function Login($email, $password);
     function GetAll();
 }

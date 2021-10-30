@@ -10,8 +10,10 @@ class User
     private $gender;
     private $birthDate;
     private $email;
+    private $password;
     private $phoneNumber;
     private $active;
+    private $role;
 
     public function getFirstName()
     {
@@ -114,6 +116,30 @@ class User
     public function setActive($active)
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    public function setRole($role)
+    {
+        $this->role = $role;
 
         return $this;
     }
