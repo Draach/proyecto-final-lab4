@@ -11,6 +11,7 @@ class JobOfferDAO implements IJobOfferDAO
 {
     private $connection;
     private $tableName = "job_offers";
+    private $postulationTableName = "job_postulations";
 
     function Add(JobOffer $jobOffer)
     {
@@ -136,6 +137,51 @@ class JobOfferDAO implements IJobOfferDAO
 
             return $this->connection->ExecuteNonQuery($query, $parameters);
         } catch(Exception $ex){
+            throw $ex;
+        }
+    }
+
+    function addPostulation($jobOfferId, $studentId, $comment, $cvarchive){
+
+        try{
+            
+            $query = "INSERT INTO " . $this->postulationTableName . " (jobOfferId, studentId, comment, cvarchive) VALUES (:jobOfferId, :studentId, :comment, :cvarchive);";
+
+            $parameters["jobOfferId"] = $jobOfferId;
+            $parameters["studentId"] = $studentId;
+            $parameters["comment"] = $comment;
+            $parameters["cvarchive"] = $cvarchive;
+
+            $this->connection = Connection::GetInstance();
+
+            $this->connection->ExecuteNonQuery($query, $parameters);
+
+        }catch (Exception $ex){
+            throw $ex;
+        }
+    }
+
+    function isPostulated($studentId){
+
+        $response = false;
+
+        try{
+            
+            $query = "SELECT * FROM " . $this->postulationTableName . " WHERE `studentId` = :studentId";
+            $parameters["studentId"] = $studentId;
+
+            $this->connection = Connection::GetInstance();            
+
+            $resultSet = $this->connection->Execute($query, $parameters);
+
+            //Si hay postulacion se cambia a true
+            if($resultSet != null){
+                $response = true;
+            }
+
+            return $response;
+
+        }catch (Exception $ex){
             throw $ex;
         }
     }
