@@ -10,6 +10,6 @@ interface IJobOfferDAO
     function GetAll();
     function GetById($id);
     function GetByName($name);
-    function Modify();
+    function Modify($jobOfferId, $title ,$createdAt ,$expirationDate ,$salary);
     function Delete($id);
 }

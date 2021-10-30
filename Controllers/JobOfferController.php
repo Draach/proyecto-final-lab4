@@ -75,4 +75,36 @@ class JobOfferController
 
         $this->ShowAddView();
     }
+
+    public function Delete($id) {
+        if($this->sessionHandler->isAdmin()){
+            $this->jobOfferDAO->delete($id);
+            $this->ShowListView();    
+        } else{
+            require_once(VIEWS_PATH . "index.php");
+        }
+    }
+
+    public function showModifyView($jobOfferId){
+        if ($this->sessionHandler->isAdmin()) {
+            $jobOffer = $this->jobOfferDAO->GetById($jobOfferId);
+            require_once(VIEWS_PATH . "nav.php");
+            require_once(VIEWS_PATH . "job-offer-modify.php");
+        } else {
+            require_once(VIEWS_PATH . "index.php");
+        }
+    }
+
+    public function Modify($jobOfferId, $title ,$createdAt ,$expirationDate ,$salary)
+    {        
+        try {
+            $response = $this->jobOfferDAO->Modify($jobOfferId, $title, $createdAt, $expirationDate, $salary);
+            echo "<script type='text/javascript'>alert('Se ha modificado exitosamente.');</script>";
+            $this->ShowModifyView($jobOfferId);
+        } catch (Exception $ex) {
+            $errMessage = $ex->getMessage();
+            echo "<script type='text/javascript'>alert('Error: $errMessage');</script>";
+            $this->ShowModifyView($jobOfferId);
+        }        
+    }
 }

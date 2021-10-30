@@ -1,4 +1,6 @@
 <?php
+
+use Models\JobOffer;
 use Utils\CustomSessionHandler as CustomSessionhandler;
 
 $sessionHandler = new CustomSessionhandler();
@@ -19,6 +21,7 @@ $sessionHandler = new CustomSessionhandler();
                 <tbody>
                     <?php
                     foreach ($jobOffersList as $jobOffer) {
+                     if($jobOffer->getActive() == true){   
                     ?>
                         <tr>
                             <td><?php echo $jobOffer->getTitle(); ?></td>
@@ -38,9 +41,12 @@ $sessionHandler = new CustomSessionhandler();
                                     }
                                 }
                                 ?></td>
+                            <td><a class="btn btn-secondary" href="<?php echo FRONT_ROOT ?>jobOffer/delete/<?php echo $jobOffer->getJobOfferId(); ?>">Eliminar</a></td> 
+                            <td><a class="btn btn-secondary" href="<?php echo FRONT_ROOT ?>jobOffer/showModifyView/<?php echo $jobOffer->getJobOfferId(); ?>">Modificar</a></td>   
                         </tr>
                     <?php
                     }
+                }
                     ?>
                 </tbody>
             </table>
