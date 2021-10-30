@@ -12,4 +12,6 @@ interface IJobOfferDAO
     function GetByName($name);
     function Modify($jobOfferId, $title ,$createdAt ,$expirationDate ,$salary);
     function Delete($id);
+    function addPostulation($jobOfferId, $studentId, $comment, $cvarchive);
+    function isPostulated($studentId);
 }
