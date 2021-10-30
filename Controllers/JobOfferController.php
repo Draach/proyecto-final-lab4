@@ -13,7 +13,7 @@ class JobOfferController
 {
     private $companyDAO;
     private $jobOfferDAO;
-    private $jobPositionDAO;    
+    private $jobPositionDAO;
     private $sessionHandler;
 
     public function __construct()
@@ -25,7 +25,7 @@ class JobOfferController
     }
 
 
-    
+
     public function ShowAddView()
     {
         $jobPositionsList = $this->jobPositionDAO->GetAll();
@@ -41,7 +41,7 @@ class JobOfferController
     public function ShowListView()
     {
 
-        $companiesList = $this->companyDAO->GetAll();        
+        $companiesList = $this->companyDAO->GetAll();
         $jobOffersList = $this->jobOfferDAO->GetAll();
         $jobPositionsList = $this->jobPositionDAO->GetAll();
 
@@ -64,7 +64,7 @@ class JobOfferController
         $jobOffer->setExpirationDate($expirationDate);
         $jobOffer->setSalary($salary);
         $jobOffer->setCompanyId($companyId);
-        $jobOffer->setJobPositionId($jobPositionId);   
+        $jobOffer->setJobPositionId($jobPositionId);
 
         try {
             $this->jobOfferDAO->Add($jobOffer);
@@ -76,16 +76,18 @@ class JobOfferController
         $this->ShowAddView();
     }
 
-    public function Delete($id) {
-        if($this->sessionHandler->isAdmin()){
+    public function Delete($id)
+    {
+        if ($this->sessionHandler->isAdmin()) {
             $this->jobOfferDAO->delete($id);
-            $this->ShowListView();    
-        } else{
+            $this->ShowListView();
+        } else {
             require_once(VIEWS_PATH . "index.php");
         }
     }
 
-    public function showModifyView($jobOfferId){
+    public function showModifyView($jobOfferId)
+    {
         if ($this->sessionHandler->isAdmin()) {
             $jobOffer = $this->jobOfferDAO->GetById($jobOfferId);
             require_once(VIEWS_PATH . "nav.php");
@@ -95,8 +97,8 @@ class JobOfferController
         }
     }
 
-    public function Modify($jobOfferId, $title ,$createdAt ,$expirationDate ,$salary)
-    {        
+    public function Modify($jobOfferId, $title, $createdAt, $expirationDate, $salary)
+    {
         try {
             $response = $this->jobOfferDAO->Modify($jobOfferId, $title, $createdAt, $expirationDate, $salary);
             echo "<script type='text/javascript'>alert('Se ha modificado exitosamente.');</script>";
@@ -105,6 +107,6 @@ class JobOfferController
             $errMessage = $ex->getMessage();
             echo "<script type='text/javascript'>alert('Error: $errMessage');</script>";
             $this->ShowModifyView($jobOfferId);
-        }        
+        }
     }
 }

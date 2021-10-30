@@ -23,7 +23,7 @@ if ($sessionHandler->isAdmin()) {
           <hr>
           <button type='submit'>Login</button>
           <div id="formFooter">
-            <a class="underlineHover" href="<?php echo FRONT_ROOT ?>Auth/ShowRegisterView">Sign In</a>
+            <a class="underlineHover" href="<?php echo FRONT_ROOT ?>Auth/ShowRegisterView">Registrarse</a>
             <a class="underlineHover" href="#">Olvidé mi contraseña</a>
           </div>
           <?php
