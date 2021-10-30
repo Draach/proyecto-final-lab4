@@ -9,6 +9,9 @@ $sessionHandler = new CustomSessionhandler();
     <section id="listado" class="mb-5">
         <div class="container">
             <h2 class="mb-4">Listado de Propuestas Laborales</h2>
+            <?php if(isset($message)){
+                echo $message;
+            } ?>
             <table class="table bg-light-alpha">
                 <thead>
                     <th>Titulo</th>
@@ -41,8 +44,13 @@ $sessionHandler = new CustomSessionhandler();
                                     }
                                 }
                                 ?></td>
+                                <?php if($sessionHandler->isAdmin()==true  ){ ?>
                             <td><a class="btn btn-secondary" href="<?php echo FRONT_ROOT ?>jobOffer/delete/<?php echo $jobOffer->getJobOfferId(); ?>">Eliminar</a></td> 
                             <td><a class="btn btn-secondary" href="<?php echo FRONT_ROOT ?>jobOffer/showModifyView/<?php echo $jobOffer->getJobOfferId(); ?>">Modificar</a></td>   
+                                <?php } ?>
+                                <?php if($sessionHandler->isStudent()==true  ){ ?>
+                            <td><a class="btn btn-secondary" href="<?php echo FRONT_ROOT ?>jobOffer/postulateView/<?php echo $jobOffer->getJobOfferId(); ?>">Postularse</a></td>    
+                                <?php } ?>
                         </tr>
                     <?php
                     }
