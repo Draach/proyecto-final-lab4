@@ -37,7 +37,7 @@ $sessionHandler = new CustomSessionhandler();
                             if ($company->getStatus() == true) {
                         ?>
                                 <tr>
-                                    <?php if ($sessionhandler->isAdmin()) {
+                                    <?php if ($sessionHandler->isAdmin()) {
                                     ?>
                                         <td><?php echo $company->getCompanyId() ?></td>
                                     <?php
