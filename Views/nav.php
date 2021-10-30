@@ -24,7 +24,7 @@
           Propuestas Laborales
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="<?php echo FRONT_ROOT ?>JobPosition/ShowListView">Listar Propuestas</a>
+          <a class="dropdown-item" href="<?php echo FRONT_ROOT ?>JobOffer/ShowListView">Listar Propuestas</a>
         </div>
       </li>
       <li class="nav-item dropdown">

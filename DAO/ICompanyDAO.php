@@ -6,7 +6,7 @@ use Models\Company as Company;
 
 interface ICompanyDAO
 {
-    function add(Company $company);
+    function Add(Company $company);
     function GetAll();
     function GetById($number);
     function GetByName($name);

@@ -96,6 +96,9 @@ class CompanyController
     {
         if ($this->sessionHandler->isAdmin() || $this->sessionHandler->isStudent()) {
             $company = $this->companyDAO->GetById($companyId);
+
+            // TODO Verificar que funcione correctamente cuando le pasamos un ID inexistente.
+
             if ($this->sessionHandler->isAdmin()) {
                 require_once(VIEWS_PATH . "nav.php");
             }

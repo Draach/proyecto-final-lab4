@@ -60,6 +60,7 @@
                 </table>
             </div>
     </section>
+    <div class='list-nav'>
     <?php
     if ($_SESSION['loggedUser']['role'] == "student") {
     ?>
@@ -67,8 +68,10 @@
     <?php
     } else if ($_SESSION['loggedUser']['role'] == "admin") {
     ?>
-        <a class="btn btn-secondary go-back" href="<?php echo FRONT_ROOT ?>Admin/ShowDashboard">Regresar</a>
+        <a class="btn btn-secondary go-back mr-2" href="<?php echo FRONT_ROOT ?>Admin/ShowDashboard">Regresar</a>
+        <a class="btn btn-success" href="<?php echo FRONT_ROOT ?>Company/ShowAddView">Agregar</a>
     <?php
     }
     ?>
+    </div>
 </main>

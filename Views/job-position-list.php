@@ -1,4 +1,4 @@
-    <main class="py-5">
+<main class="py-5">
         <section id="listado" class="mb-5">
             <div class="container">
                 <h2 class="mb-4">Listado de Propuestas Laborales</h2>

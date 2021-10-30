@@ -88,7 +88,7 @@ class CompanyDAO implements ICompanyDAO
             throw $ex;
         }
     }
-    // TODO
+    
     public function GetById($number)
     {
         try {
@@ -98,9 +98,12 @@ class CompanyDAO implements ICompanyDAO
 
             $parameters["number"] = $number;
 
-            $this->connection = Connection::GetInstance();
+            $this->connection = Connection::GetInstance();            
 
             $resultSet = $this->connection->Execute($query, $parameters);
+
+            // TODO validate if results != null
+            
             foreach ($resultSet as $row) {
                 $company = new Company();
                 $company->setCompanyId($row["companyId"]);
