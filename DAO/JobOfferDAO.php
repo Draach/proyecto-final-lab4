@@ -13,6 +13,9 @@ class JobOfferDAO implements IJobOfferDAO
     private $tableName = "job_offers";
     private $postulationTableName = "job_postulations";
 
+    /**
+     * Recibe una propuesta laboral y la agrega a la base de datos.
+     */
     function Add(JobOffer $jobOffer)
     {
         try {
@@ -43,6 +46,9 @@ class JobOfferDAO implements IJobOfferDAO
         }
     }
 
+    /**
+     * Busca y retorna todas las propuestas laborales de la base de datos.
+     */
     function GetAll()
     {
         try {
@@ -74,6 +80,9 @@ class JobOfferDAO implements IJobOfferDAO
         }
     }
 
+    /**
+     * Recibe el id de una propuesta laboral, la busca en la base de datos y devuelve la propuesta laboral.
+     */
     public function GetById($number)
     {
         try {
@@ -104,10 +113,14 @@ class JobOfferDAO implements IJobOfferDAO
         }
     }
 
+    // TODO
     function GetByName($name)
     {
     }
 
+    /**
+     * Recibe la id de una propuesta laboral existente y los datos a modificar de la misma, y la modifica en la base de datos.
+     */
     function Modify($jobOfferId, $title ,$createdAt ,$expirationDate ,$salary) {
         try {
             $query = "UPDATE " . $this->tableName . " SET `title` = :title, `createdAt` = :createdAt, `expirationDate` = :expirationDate, `salary` = :salary WHERE `jobOfferId` = :jobOfferId";
@@ -125,6 +138,9 @@ class JobOfferDAO implements IJobOfferDAO
         }
     }
 
+    /**
+     * Recibe la id de una propuesta laboral y la elimina de la base de datos.
+    */
     function Delete($id)
     {
         try {
@@ -141,7 +157,10 @@ class JobOfferDAO implements IJobOfferDAO
         }
     }
 
-    function addPostulation($jobOfferId, $studentId, $comment, $cvarchive){
+    /**
+     * Recibe los datos de una postulación y la agrega a la base de datos.
+     */
+    function AddPostulation($jobOfferId, $studentId, $comment, $cvarchive){
 
         try{
             
@@ -161,7 +180,11 @@ class JobOfferDAO implements IJobOfferDAO
         }
     }
 
-    function isPostulated($studentId){
+    /**
+     * Recibe el ID de un usuario estudiante y verifica si ya está postulado a una propuesta laboral.
+     * Devuelve false en caso de no estar postulado, true en caso contrario.
+     */
+    function IsPostulated($studentId){
 
         $response = false;
 
@@ -174,7 +197,7 @@ class JobOfferDAO implements IJobOfferDAO
 
             $resultSet = $this->connection->Execute($query, $parameters);
 
-            //Si hay postulacion se cambia a true
+            //Si se encuentra postulacion se cambia a true
             if($resultSet != null){
                 $response = true;
             }

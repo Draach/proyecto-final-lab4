@@ -12,6 +12,10 @@ class AdminDAO implements IAdminDAO
     private $connection;
     private $tableName = "admins";
 
+    /**
+     * Recibe un correo y una contraseña para verificar si existe un admin con esos datos.
+     * Devuelve al usuario administrador si lo encuentra, arroja una excepción en caso contrario.
+     */
     public function Login($email, $password)
     {
         try {
@@ -45,6 +49,9 @@ class AdminDAO implements IAdminDAO
         }
     }
 
+    /**
+     * Recibe un objeto de tipo Admin y lo inserta en la base de datos.
+     */
     public function Add(Admin $admin)
     {
         try {
@@ -76,6 +83,9 @@ class AdminDAO implements IAdminDAO
         }
     }
 
+    /**
+     * Devuelve una lista con todos los administradores.
+     */
     public function GetAll()
     {
         try {
@@ -109,6 +119,9 @@ class AdminDAO implements IAdminDAO
         }
     }
 
+    /**
+     * Recibe el id de un administrador y lo elimina de la base de datos.
+     */
     public function Delete($number)
     {
         try {
@@ -125,7 +138,12 @@ class AdminDAO implements IAdminDAO
         }
     }
 
-    function dniVerify($id = null, $dni)
+    /**
+     * Verifica si el DNI ingresado ya existe en la base de datos.
+     * Devuelve 1 si el DNI existe pero no corresponde al ID del administrador que se está editando.
+     * Devuelve 0 si el DNI no existe.     
+     */
+    function DniVerify($id = null, $dni)
     {
         try {
             $response = 0;

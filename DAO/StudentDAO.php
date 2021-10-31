@@ -4,7 +4,7 @@ namespace DAO;
 
 use \Exception as Exception;
 use DAO\IStudentDAO as IStudentDAO;
-use Models\Student;
+use Models\Student as Student;
 use DAO\Connection as Connection;
 
 class StudentDAO implements IStudentDAO
@@ -12,6 +12,10 @@ class StudentDAO implements IStudentDAO
     private $connection;
     private $tableName = "students";
 
+    /**
+     * Recibe un correo y una contraseña para efectuar el login.
+     * Devuelve un objeto de tipo Student si encuentra al usuario en la base de datos.
+     */
     public function Login($email, $password)
     {
         try {
@@ -69,6 +73,9 @@ class StudentDAO implements IStudentDAO
     }
     }
 
+    /**
+     * Solicita la lista de estudiantes a la API de la UTN y devuelve una lista de estudiantes.
+     */
     public function GetAll()
     {
         $studentsList = '';
@@ -94,6 +101,11 @@ class StudentDAO implements IStudentDAO
         }
     }
 
+    /**
+     * Recibe los datos de un usuario a crear en nuestra base de datos.
+     * Verifica que los datos sean de un usuario existente en la API de la UTN y lo registra en nuestra base de datos.
+     * Devuelve un objeto de tipo Student si el usuario se registró correctamente. Arroja una excepción en caso contrario.
+     */
     public function Register($dni, $email, $password, $passwordConfirm)
     {
         try {
@@ -146,9 +158,10 @@ class StudentDAO implements IStudentDAO
         }
     }
 
-    private function Add(Student $student)
-    {
-
+    /**
+     * Recibe un objeto de tipo estudiante y lo guarda en nuestra base de datos.
+     */
+    function Add(Student $student) {
         try {
 
             $query = "INSERT INTO " . $this->tableName . " (studentId, firstName, lastName, email, password, phoneNumber, careerId) VALUES (:studentId, :firstName, :lastName, :email, :password, :phoneNumber, :careerId);";
@@ -169,6 +182,9 @@ class StudentDAO implements IStudentDAO
         }
     }
 
+    /**
+     * Verifica si un correo electrónico ya se encuentra registrado en la aplicación.
+     */
     function registeredEmailVerify($email)
     {
         try {

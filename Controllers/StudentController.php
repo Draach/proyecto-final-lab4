@@ -16,8 +16,10 @@ class StudentController
         $this->studentDAO = new StudentDAO();
         $this->sessionHandler = new CustomSessionHandler();
     }
-
-
+    
+    /**
+     * Devuelve la vista de tablero de un estudiante.
+     */
     public function ShowDashboard()
     {
 
@@ -28,6 +30,9 @@ class StudentController
         }
     }
 
+    /**
+     * Devuelve la vista de perfil de un estudiante.
+     */
     public function AcademicStatus()
     {
         if ($this->sessionHandler->isStudent()) {

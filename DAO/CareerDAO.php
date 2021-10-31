@@ -7,6 +7,9 @@ use \Exception as Exception;
 
 class CareerDAO implements ICareerDAO
 {
+    /**
+     * Solicita la lista de carreras a la API de la UTN y la retorna.
+     */
     public function GetAll()
     {
         $careers = '';

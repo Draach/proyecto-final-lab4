@@ -18,6 +18,9 @@ class AdminController
         $this->sessionHandler = new CustomSessionHandler();
     }
 
+    /**
+     * Recibe los datos de un usuario y administrador y lo crea.
+     */
     public function Add($firstName, $lastName, $dni, $gender, $birthDate, $email, $password, $phoneNumber)
     {
         $admin = new Admin();
@@ -45,6 +48,10 @@ class AdminController
         
     }
 
+    /**
+     * Devuelve una lista de administradores.
+     */
+    // TODO - Implementar
     public function List()
     {
         /**
@@ -60,6 +67,10 @@ class AdminController
         }
     }
 
+    /**
+     * Devuelve una vista para crear un nuevo usuario administrador si se está logeado como administrador
+     * o una vista para logearse si no se está logeado.
+     */
     public function ShowAddView()
     {
         if ($this->sessionHandler->isAdmin()) {
@@ -70,6 +81,10 @@ class AdminController
         }
     }
 
+
+    /**
+     * Devuelve la vista del tablero de administrador si se está logeado como administrador.
+     */
     public function ShowDashboard()
     {
         if ($this->sessionHandler->isAdmin()) {
@@ -80,6 +95,9 @@ class AdminController
         }
     }
 
+    /**
+     * Devuelve la vista para remover un administrador si se está logeado como administrador.
+     */
     public function Remove()
     {
         if ($this->sessionHandler->isAdmin()) {
@@ -90,6 +108,9 @@ class AdminController
         }
     }
 
+    /**
+     * @param recibe un id de usuario administrador y lo elimina.
+     */
     public function RemoveAdmin($number)
     {
         $message = "";
@@ -98,9 +119,6 @@ class AdminController
          * Remueve logicamente un admin de la base de datos (Status = false).
          */
         $response = $this->adminDAO->Delete($number);
-
-
-
 
         if ($response == 1) {
             $message = "El admin con ID " . $number . " ha sido eliminada exitosamente.";

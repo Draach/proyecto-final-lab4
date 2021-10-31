@@ -26,8 +26,9 @@ class JobOfferController
         $this->message = "";
     }
 
-
-
+    /**
+     * Devuelve una vista para agregar una nueva propuesta laboral
+     */
     public function ShowAddView()
     {
         $jobPositionsList = $this->jobPositionDAO->GetAll();
@@ -40,6 +41,9 @@ class JobOfferController
         }
     }
 
+    /**
+     * Devuelve una vista con la lista de propuestas laborales con su empresa y posición asociada.
+     */
     public function ShowListView()
     {
 
@@ -57,9 +61,11 @@ class JobOfferController
         }
     }
 
+    /**
+     * Recibe los datos de una nueva propuesta laboral y la agrega a la base de datos.
+     */
     public function Add($title, $createdAt, $expirationDate, $salary, $companyId, $jobPositionId)
     {
-        echo $title, $createdAt, $expirationDate, $salary, $companyId, $jobPositionId;
         $jobOffer = new JobOffer();
         $jobOffer->setTitle($title);
         $jobOffer->setCreatedAt($createdAt);
@@ -78,6 +84,9 @@ class JobOfferController
         $this->ShowAddView();
     }
 
+    /**
+     * Recibe el id de una propuesta laboral y la elimina de la base de datos.
+     */
     public function Delete($id)
     {
         if ($this->sessionHandler->isAdmin()) {
@@ -88,7 +97,10 @@ class JobOfferController
         }
     }
 
-    public function showModifyView($jobOfferId)
+    /**
+     * Recibe el id de una propuesta laboral y la devuelve en una vista para editarla.
+     */
+    public function ShowModifyView($jobOfferId)
     {
         if ($this->sessionHandler->isAdmin()) {
             $jobOffer = $this->jobOfferDAO->GetById($jobOfferId);
@@ -99,6 +111,9 @@ class JobOfferController
         }
     }
 
+    /**
+     * Recibe los datos de una propuesta laboral y la modifica en la base de datos.
+     */
     public function Modify($jobOfferId, $title, $createdAt, $expirationDate, $salary)
     {
         try {
@@ -112,69 +127,77 @@ class JobOfferController
         }
     }
 
-    public function postulateView($jobOfferId){
-            $jobOffer = $this->jobOfferDAO->GetById($jobOfferId);
-            require_once(VIEWS_PATH . "job-offer-postulation.php");
+    /**
+     * Recibe el ID de una propuesta laboral y devuelve una vista para que un estudiante pueda postularse a la misma.
+     */
+    public function PostulateView($jobOfferId)
+    {
+        $jobOffer = $this->jobOfferDAO->GetById($jobOfferId);
+        require_once(VIEWS_PATH . "job-offer-postulation.php");
     }
 
-    //Funcion que postula una Student a una jobOffer
-    public function Postulate($jobOfferId, $studentId, $comment, $cvarchive){
+    /**
+     * Recibe el ID de una propuesta laboral, el ID de un estudiante, un comentario del estudiante y un archivo currículum.
+     * Agrega una nueva postulación a la base de datos con los respectivos datos.
+     */
+    public function Postulate($jobOfferId, $studentId, $comment, $cvarchive)
+    {
 
-        $companiesList = $this->companyDAO->GetAll();        
+        $companiesList = $this->companyDAO->GetAll();
         $jobOffersList = $this->jobOfferDAO->GetAll();
         $jobPositionsList = $this->jobPositionDAO->GetAll();
 
-        if($this->jobOfferDAO->isPostulated($studentId)==false){
-            //Subimos el archivo a la carpeta
-            $message =$this->uploadArchive($cvarchive);
+        if ($this->jobOfferDAO->IsPostulated($studentId) == false) {
+            // Recibe un archivo y lo sube a la carpeta uploads
+            $message = $this->UploadArchive($cvarchive);
 
-            //Subimos la postulacion a la db
-            $this->jobOfferDAO->addPostulation($jobOfferId, $studentId, $comment, $cvarchive['name']);
+            // Guardamos la postulacion a la db
+            $this->jobOfferDAO->AddPostulation($jobOfferId, $studentId, $comment, $cvarchive['name']);
             $message = "Postulacion realizada con exito ";
             require_once(VIEWS_PATH . "job-offer-list.php");
-        }else{
+        } else {
             $message = "El usuario ya se encuentra postulado";
             require_once(VIEWS_PATH . "job-offer-list.php");
         }
     }
 
-    public function uploadArchive($cvarchive){
-        try
-        {
-            //Obtenemos nombre del archivo, tipo, direccion temporal
-            $fileName = $cvarchive["name"];
-            $tempFileName = $cvarchive["tmp_name"];
-            $type = $cvarchive["type"];
 
-            $filePath = UPLOADS_PATH.basename($fileName);
+
+
+    //? ######## MÉTODOS PARA GESTIONAR LA POSTULACIÓN ########
+    /**
+     * Recibe un archivo y lo guarda en la carpeta uploads del proyecto.
+     */
+    public function UploadArchive($cvarchive)
+    {
+        try {
+            // Obtenemos nombre del archivo, tipo, direccion temporal
+            $fileName = $cvarchive["name"];
+            $type = $cvarchive["type"];
+            $tempFileName = $cvarchive["tmp_name"];
+
+            $filePath = UPLOADS_PATH . basename($fileName);
 
             $fileType = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
 
-            //Obtenemos el peso
+            // Obtenemos el peso del archivo
             $fileSize = filesize($tempFileName);
 
-            //Si tiene datos
-            if($fileSize !== false)
-            {
-                //Recibe el archivo, recibe la ruta a la que queremos moverlo 
-                if (move_uploaded_file($tempFileName, $filePath))
-                {
+            // Si tiene datos
+            if ($fileSize !== false) {
+                // Recibe el archivo, recibe la ruta a la que queremos moverlo 
+                if (move_uploaded_file($tempFileName, $filePath)) {
                     $this->message = "Archivo subido correctamente";
+                } else {
+                    $this->message = "Ocurrió un error al intentar subir el archivo";
                 }
-                else
-                $this->message = "Ocurrió un error al intentar subir el archivo";
+            } else {
+                $this->message = "El archivo no corresponde a una imágen";
             }
-            else
-            $this->message = "El archivo no corresponde a una imágen";               
-        }    catch(Exception $ex){
-                    
-                    $this->message = $ex->getMessage();
-                }
-
-        finally{
+        } catch (Exception $ex) {
+            $this->message = $ex->getMessage();
+        } finally {
             return $this->message;
         }
-
     }
-
 }

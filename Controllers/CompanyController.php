@@ -19,6 +19,9 @@ class CompanyController
         $this->sessionHandler = new CustomSessionHandler();
     }
 
+    /**
+     * Devuelve una vista para agregar una nueva empresa.
+     */
     public function ShowAddView()
     {
         if ($this->sessionHandler->isAdmin()) {
@@ -29,6 +32,9 @@ class CompanyController
         }
     }
 
+    /**
+     * Devuelve una vista con la lista de empresas activas en la aplicación.
+     */
     public function ShowListView()
     {
 
@@ -44,6 +50,9 @@ class CompanyController
         }
     }
 
+    /**
+     * Revise los datos de una nueva empresa y la agrega a nuestra base de datos.
+     */
     public function Add($name, $email, $phone, $address, $cuit, $website, $founded)
     {
         $company = new Company();
@@ -65,6 +74,8 @@ class CompanyController
         $this->ShowAddView();
     }
 
+    // Devuelve una vista para eliminar una empresa.
+    // TODO Eliminar método?
     public function Remove()
     {
         if ($this->sessionHandler->isAdmin()) {
@@ -75,6 +86,9 @@ class CompanyController
         }
     }
 
+    /**
+     * Recibe el ID de una empresa y la elimina de nuestra base de datos. (Borrado lógico)
+     */
     public function RemoveCompany($number)
     {
         $message = "";
@@ -92,6 +106,9 @@ class CompanyController
         $this->ShowListView();
     }
 
+    /**
+     * Devuelve una vista con los datos de una empresa.
+     */
     public function ShowDetails($companyId)
     {
         if ($this->sessionHandler->isAdmin() || $this->sessionHandler->isStudent()) {
@@ -108,6 +125,9 @@ class CompanyController
         }
     }
 
+    /**
+     * Devuelve una vista para modificar una empresa.
+     */
     public function ShowModifyView($companyId)
     {
         if ($this->sessionHandler->isAdmin()) {
@@ -119,6 +139,9 @@ class CompanyController
         }
     }
 
+    /**
+     * Recibe los datos de una empresa y los modifica en nuestra base de datos.
+     */
     public function Modify($id, $companyName, $email, $phone, $address, $cuit, $website, $founded)
     {        
         try {
@@ -132,6 +155,9 @@ class CompanyController
         }        
     }
 
+    /**
+     * Devuelve una vista con la lista de empresas que coinciden con el nombre pasado por parámetro.
+     */
     public function GetByName($name)
     {
         if ($this->sessionHandler->isAdmin() || $this->sessionHandler->isStudent()) {

@@ -12,6 +12,9 @@ class CompanyDAO implements ICompanyDAO
     private $connection;
     private $tableName = "companies";
 
+    /**
+     * Recibe una compañía y la agrega a la base de datos pasando por las respectivas validaciones.
+     */
     public function Add(Company $company)
     {
         try {
@@ -42,6 +45,9 @@ class CompanyDAO implements ICompanyDAO
         }
     }
 
+    /**
+     * Devuelve la lista de compañías de la base de datos.
+     */
     public function GetAll()
     {
         try {
@@ -73,6 +79,9 @@ class CompanyDAO implements ICompanyDAO
         }
     }
 
+    /**
+     * Recibe una id de una compañía y la elimina de la base de datos.
+     */
     public function Delete($number)
     {
         try {
@@ -89,6 +98,9 @@ class CompanyDAO implements ICompanyDAO
         }
     }
     
+    /**
+     * Recibe un id de una compañia, la busca en la base de datos y devuelve la compañia.
+     */
     public function GetById($number)
     {
         try {
@@ -124,6 +136,9 @@ class CompanyDAO implements ICompanyDAO
         }
     }
 
+    /** 
+     * Recibe los datos de una compañía y la modifica en la base de datos.
+     */
     public function Modify($id, $name, $email, $phone, $address, $cuit, $website, $founded)
     {
         try {
@@ -189,7 +204,11 @@ class CompanyDAO implements ICompanyDAO
         }
     }
 
-    function cuitVerify($id = null, $cuit)
+    /**
+     * Verifica si el cuit ingresado ya existe en la base de datos.
+     * Devuelve 1 si existe, 0 si no existe o corresponde a la compañia que se quiere editar.
+     */
+    function CuitVerify($id = null, $cuit)
     {
         try {
             $response = 0;

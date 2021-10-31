@@ -7,6 +7,9 @@ use \Exception as Exception;
 
 class JobPositionDAO implements IJobPositionDAO
 {
+    /**
+     * Solicita la lista de posiciones de trabajo a la API de la UTN y la devuelve.
+     */
     public function GetAll()
     {
         $jobPositions = '';

@@ -14,6 +14,9 @@ class JsonCompanyDAO implements ICompanyDAO
         $this->fileName = dirname(__DIR__) . "/Data/Companies.json";
     }
 
+    /**
+     * Recibe una empresa y la guarda en el archivo JSON
+     */
     public function Add(Company $company)
     {
         $this->RetrieveData();
@@ -170,6 +173,10 @@ class JsonCompanyDAO implements ICompanyDAO
             }
         }
         return $foundCompanies;
+    }
+
+    function CuitVerify($id = null, $cuit){
+        
     }
 
     // TODO Delete this if php 8 and replace with native str_contains in GetByName method.
