@@ -5,7 +5,7 @@
                <div>
                    <?php echo var_dump($jobOffer); ?>
                </div>
-               <form action="<?php echo FRONT_ROOT ?>JobOffer/Postulate" method="post" enctype = "multipart/form-data" class="bg-light-alpha p-5">
+               <form action="<?php echo FRONT_ROOT ?>JobPostulation/Add" method="post" enctype = "multipart/form-data" class="bg-light-alpha p-5">
                <input type="hidden" name="jobOfferId" value="<?php echo $jobOffer->getJobOfferId(); ?>">
                <input type="hidden" name="studentId" value="<?php echo $_SESSION['loggedUser']->getStudentId(); ?>">
                     <div class="row">

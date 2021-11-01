@@ -9,17 +9,22 @@ class JobPostulation
     private $jobOfferId; 
     private $comment;
     private $CVarchive;
+    private $active;
 
-
-    public function getPostulacionId()
-    {
-        return $this->postulacionId;
+    public function __construct() {
+        $this->active = true;
     }
 
 
-    public function setPostulacionId($postulacionId)
+    public function getPostulationId()
     {
-        $this->postulacionId = $postulacionId;
+        return $this->postulationId;
+    }
+
+
+    public function setPostulationId($postulationId)
+    {
+        $this->postulationId = $postulationId;
 
         return $this;
     }
@@ -48,26 +53,38 @@ class JobPostulation
         return $this;
     }
 
-    public function getComentario()
+    public function getComment()
     {
-        return $this->comentario;
+        return $this->comment;
     }
 
-    public function setComentario($comentario)
+    public function setComment($comment)
     {
-        $this->comentario = $comentario;
+        $this->comment = $comment;
 
         return $this;
     }
 
-    public function getArchivoCV()
+    public function getCVarchive()
     {
-        return $this->archivoCV;
+        return $this->CVarchive;
     }
 
-    public function setArchivoCV($archivoCV)
+    public function setCVarchive($CVarchive)
     {
-        $this->archivoCV = $archivoCV;
+        $this->CVarchive = $CVarchive;
+
+        return $this;
+    }
+
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    public function setActive($active)
+    {
+        $this->active = $active;
 
         return $this;
     }

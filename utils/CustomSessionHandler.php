@@ -6,9 +6,10 @@ namespace Utils;
 class CustomSessionHandler
 {
 
-    public function userIsSet(){
+    public function userIsSet()
+    {
         $result = false;
-        if(isset($_SESSION["loggedUser"])) {
+        if (isset($_SESSION["loggedUser"])) {
             $result = true;
         }
 
@@ -18,13 +19,20 @@ class CustomSessionHandler
     public function createAdminUser($user)
     {
         $user->setRole('admin');
-        $_SESSION['loggedUser'] = $user;       
+        $_SESSION['loggedUser'] = $user;
     }
 
     public function createStudentUser($user)
     {
         $user->setRole('student');
-        $_SESSION['loggedUser'] = $user;        
+        $_SESSION['loggedUser'] = $user;
+    }
+
+    public function getLoggedStudentId()
+    {
+        if ($this->isStudent()) {
+            return $_SESSION['loggedUser']->getStudentId();
+        }
     }
 
     public function isAdmin()

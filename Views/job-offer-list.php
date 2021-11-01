@@ -9,7 +9,7 @@ $sessionHandler = new CustomSessionhandler();
     <section id="listado" class="mb-5">
         <div class="container">
             <h2 class="mb-4">Listado de Propuestas Laborales</h2>
-            <?php if(isset($message)){
+            <?php if (isset($message)) {
                 echo $message;
             } ?>
             <table class="table bg-light-alpha">
@@ -24,37 +24,44 @@ $sessionHandler = new CustomSessionhandler();
                 <tbody>
                     <?php
                     foreach ($jobOffersList as $jobOffer) {
-                     if($jobOffer->getActive() == true){   
+                        if ($jobOffer->getActive() == true) {
                     ?>
-                        <tr>
-                            <td><?php echo $jobOffer->getTitle(); ?></td>
-                            <td><?php echo $jobOffer->getCreatedAt(); ?></td>
-                            <td><?php echo $jobOffer->getExpirationDate(); ?></td>
-                            <td><?php echo $jobOffer->getSalary(); ?></td>
-                            <td><?php
-                                foreach ($companiesList as $company) {
-                                    if ($company->getCompanyId() == $jobOffer->getCompanyId()) {
-                                        echo $company->getName();
+                            <tr>
+                                <td><?php echo $jobOffer->getTitle(); ?></td>
+                                <td><?php echo $jobOffer->getCreatedAt(); ?></td>
+                                <td><?php echo $jobOffer->getExpirationDate(); ?></td>
+                                <td><?php echo $jobOffer->getSalary(); ?></td>
+                                <td><?php
+                                    foreach ($companiesList as $company) {
+                                        if ($company->getCompanyId() == $jobOffer->getCompanyId()) {
+                                            echo $company->getName();
+                                        }
                                     }
-                                }
-                                ?></td>
-                            <td><?php foreach ($jobPositionsList as $jobPosition) {
-                                    if ($jobPosition['jobPositionId'] == $jobOffer->getJobPositionId()) {
-                                        echo $jobPosition['description'];
+                                    ?></td>
+                                <td><?php foreach ($jobPositionsList as $jobPosition) {
+                                        if ($jobPosition['jobPositionId'] == $jobOffer->getJobPositionId()) {
+                                            echo $jobPosition['description'];
+                                        }
                                     }
-                                }
-                                ?></td>
-                                <?php if($sessionHandler->isAdmin()==true  ){ ?>
-                            <td><a class="btn btn-secondary" href="<?php echo FRONT_ROOT ?>jobOffer/delete/<?php echo $jobOffer->getJobOfferId(); ?>">Eliminar</a></td> 
-                            <td><a class="btn btn-secondary" href="<?php echo FRONT_ROOT ?>jobOffer/showModifyView/<?php echo $jobOffer->getJobOfferId(); ?>">Modificar</a></td>   
-                                <?php } ?>
-                                <?php if($sessionHandler->isStudent()==true  ){ ?>
-                            <td><a class="btn btn-secondary" href="<?php echo FRONT_ROOT ?>jobOffer/postulateView/<?php echo $jobOffer->getJobOfferId(); ?>">Postularse</a></td>    
-                                <?php } ?>
-                        </tr>
+                                    ?></td>
+                                <?php if ($sessionHandler->isAdmin() == true) { ?>
+                                    <td><a class="btn btn-secondary" href="<?php echo FRONT_ROOT ?>JobOffer/Delete/<?php echo $jobOffer->getJobOfferId(); ?>">Eliminar</a></td>
+                                    <td><a class="btn btn-secondary" href="<?php echo FRONT_ROOT ?>JobOffer/ShowModifyView/<?php echo $jobOffer->getJobOfferId(); ?>">Modificar</a></td>
+                                    <?php }
+                                if ($sessionHandler->isStudent() == true) {
+                                    if ($isPostulated != $jobOffer->getJobOfferId()) { ?>
+                                        <td><a class="btn btn-secondary" href="<?php echo FRONT_ROOT ?>JobPostulation/ShowPostulationView/<?php echo $jobOffer->getJobOfferId(); ?>">Postularse</a></td>
+                                    <?php
+                                    }
+                                    if ($isPostulated == $jobOffer->getJobOfferId()) { ?>
+                                        <td><a class="btn btn-danger" href="<?php echo FRONT_ROOT ?>JobPostulation/Remove?jobOfferId=<?php echo $jobOffer->getJobOfferId(); ?>&studentId=<?php echo $sessionHandler->getLoggedStudentId(); ?>">Despostularse</a></td>
+                                <?php
+                                    }
+                                } ?>
+                            </tr>
                     <?php
+                        }
                     }
-                }
                     ?>
                 </tbody>
             </table>
