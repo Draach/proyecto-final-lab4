@@ -13,7 +13,7 @@ $sessionHandler = new CustomSessionhandler();
                     <h2>Listado de Propuestas Laborales</h2>
                 </div>
                 <div class="col">
-                    <input class="form-control mr-sm-2" type="search" name="jobPositionDesc" placeholder="Search" aria-label="Search">
+                    <input class="form-control mr-sm-2" type="search" name="jobPositionDesc" placeholder="Buscar por puesto" aria-label="Search">
                 </div>
                 <div class="col">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>

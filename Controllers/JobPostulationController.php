@@ -66,7 +66,7 @@ class JobPostulationController
 
                 // Guardamos la postulacion a la db
                 $this->jobPostulationDAO->Add($jobPostulation);
-                $message = "Postulacion realizada con exito ";
+                $message = "Postulacion realizada con exito ";                
                 require_once(VIEWS_PATH . "job-offer-list.php");
             } catch (Exception $ex) {
                 $message = $ex->getMessage();
@@ -101,12 +101,12 @@ class JobPostulationController
         $isPostulated = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getLoggedStudentId());
         try {
             $this->jobPostulationDAO->Remove($jobOfferId, $studentId);
-            $message = "Postulacion eliminada con exito";
+            $message = "Postulacion eliminada con exito";         
             require_once(VIEWS_PATH . "job-offer-list.php");
         } catch (Exception $ex) {
             $message = "No se ha encontrado una postulación activa.";
             require_once(VIEWS_PATH . "job-offer-list.php");
-        }
+        }        
     }
 
     //? ######## MÉTODOS PARA GESTIONAR LA POSTULACIÓN ########
