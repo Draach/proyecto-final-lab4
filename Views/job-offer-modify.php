@@ -5,6 +5,7 @@
                <form action="<?php echo FRONT_ROOT ?>jobOffer/Modify" method="post" class="bg-light-alpha p-5">
                     <div class="row">
                          <input type="hidden" name="jobOfferId" value="<?php echo $jobOffer->getJobOfferId(); ?>">
+                         <?php var_dump($jobOffer); ?>
                          <div class="col-lg-4">
                               <div class="form-group">
                                    <label for="">Title</label>
@@ -27,6 +28,18 @@
                               <div class="form-group">
                                    <label for="">Salario</label>
                                    <input type="number" name="salary" value="<?php echo $jobOffer->getSalary(); ?>" class="form-control">
+                              </div>
+                         </div>
+                         <div class="col-lg-4">
+                              <div class="form-group">
+                                   <label for="">Empresa</label>
+                                   <input type="number" name="salary" value="<?php $jobOfferDAO->get echo $jobOffer->getJobOfferId(); ?>" class="form-control">
+                              </div>
+                         </div>
+                         <div class="col-lg-4">
+                              <div class="form-group">
+                                   <label for="">Puesto</label>
+                                   <input type="number" name="salary" value="<?php echo $jobOffer->getJobPositionId(); ?>" class="form-control">
                               </div>
                          </div>
                     </div>
