@@ -24,10 +24,11 @@ class CompanyDAO implements ICompanyDAO
             if ($response == 1) {
                 throw new Exception('El cuit ingresado ya existe.');
             }
-            
+            $ucFirstName = ucfirst($company->getName());
+
             $query = "INSERT INTO " . $this->tableName . " (name, email, phone, address, cuit, website, founded, status) VALUES (:name, :email, :phone, :address, :cuit, :website, :founded, :status);";
 
-            $parameters["name"] = $company->getName();
+            $parameters["name"] = $ucFirstName;
             $parameters["email"] = $company->getEmail();
             $parameters["phone"] = $company->getPhone();
             $parameters["address"] = $company->getAddress();
@@ -73,6 +74,10 @@ class CompanyDAO implements ICompanyDAO
 
                 array_push($companiesList, $company);
             }
+            // Ordena el arreglo alfabéticamente antes de retornarlo.
+            usort($companiesList, function ($param1, $param2) {
+                return strcmp($param1->getName(), $param2->getName());
+            });
             return $companiesList;
         } catch (Exception $ex) {
             throw $ex;
@@ -97,7 +102,7 @@ class CompanyDAO implements ICompanyDAO
             throw $ex;
         }
     }
-    
+
     /**
      * Recibe un id de una compañia, la busca en la base de datos y devuelve la compañia.
      */
@@ -110,12 +115,12 @@ class CompanyDAO implements ICompanyDAO
 
             $parameters["number"] = $number;
 
-            $this->connection = Connection::GetInstance();            
+            $this->connection = Connection::GetInstance();
 
             $resultSet = $this->connection->Execute($query, $parameters);
 
             // TODO validate if results != null
-            
+
             foreach ($resultSet as $row) {
                 $company = new Company();
                 $company->setCompanyId($row["companyId"]);
@@ -174,11 +179,10 @@ class CompanyDAO implements ICompanyDAO
         try {
             $companiesList = array();
             $loweredReceivedName = strtolower($name);
-            $query = "SELECT * FROM " . $this->tableName . " WHERE 'name' LIKE '%:name%'";
-
+            $query = "SELECT * FROM " . $this->tableName . " WHERE `name` LIKE '%:name%'";
 
             $parameters["name"] = $loweredReceivedName;
-            
+
             $this->connection = Connection::GetInstance();
 
             $resultSet = $this->connection->Execute($query, $parameters);
@@ -196,9 +200,32 @@ class CompanyDAO implements ICompanyDAO
                 $company->setStatus($row["status"]);
 
                 array_push($companiesList, $company);
-            }               
+            }
 
             return $companiesList;
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
+    public function temporaryGetByName($name)
+    {
+        try {
+            $companiesList = $this->GetAll();
+            if ($name != null) {
+                $filteredCompaniesList = array();
+                $loweredReceivedName = strtolower($name);
+                foreach ($companiesList as $company) {
+                    $loweredCompanyName = strtolower($company->getName());
+                    if (strpos($loweredCompanyName, $loweredReceivedName) !== false) {
+                        array_push($filteredCompaniesList, $company);
+                    }
+                }
+            } else {
+                $filteredCompaniesList = $companiesList;
+            }
+
+            return $filteredCompaniesList;
         } catch (Exception $ex) {
             throw $ex;
         }
@@ -230,10 +257,10 @@ class CompanyDAO implements ICompanyDAO
             // TODO
         }
     }
-}
 
-// TODO Delete this if php 8 and replace with native str_contains in GetByName method.
-function str_contains(string $haystack, string $needle): bool
-{
-    return '' === $needle || false !== strpos($haystack, $needle);
+    // TODO Delete this if php 8 and replace with native str_contains in GetByName method.
+    function str_contains(string $haystack, string $needle): bool
+    {
+        return '' === $needle || false !== strpos($haystack, $needle);
+    }
 }

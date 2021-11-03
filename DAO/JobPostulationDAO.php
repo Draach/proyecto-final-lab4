@@ -19,8 +19,10 @@ class JobPostulationDAO implements IJobPostulationDAO
     function Add(JobPostulation $jobPostulation)
     {
 
+
+
         try {
-            if($this->IsPostulated($jobPostulation->getStudentId()) == true) {
+            if ($this->IsPostulated($jobPostulation->getStudentId()) == true) {
                 throw new Exception("El alumno ya se encuentra postulado a una oferta de trabajo.");
             }
 
@@ -30,7 +32,7 @@ class JobPostulationDAO implements IJobPostulationDAO
             $parameters["studentId"] = $jobPostulation->getStudentId();
             $parameters["comment"] = $jobPostulation->getComment();
             $parameters["cvarchive"] = $jobPostulation->getCvarchive()['name'];
-            $parameters["active"] = $jobPostulation->getActive();            
+            $parameters["active"] = $jobPostulation->getActive();
 
 
             $this->connection = Connection::GetInstance();
@@ -74,17 +76,21 @@ class JobPostulationDAO implements IJobPostulationDAO
         }
     }
 
-    public function isPostulatedToSpecificOffer($studentId) {
+    /**
+     * Busca si el alumno ya se encuentra postulado a una oferta laboral y retorna el ID de la oferta laboral a la cual se encuentra postulado.
+     */
+    public function isPostulatedToSpecificOffer($studentId)
+    {
         $response = -1;
 
         try {
-            $query = "SELECT * FROM " . $this->tableName . " WHERE `studentId` = :studentId";            
+            $query = "SELECT * FROM " . $this->tableName . " WHERE `studentId` = :studentId";
             $parameters["studentId"] = $studentId;
 
             $this->connection = Connection::GetInstance();
 
             $resultSet = $this->connection->Execute($query, $parameters);
-            
+
             if ($resultSet != null) {
                 foreach ($resultSet as $row) {
                     if ($row['active'] == true) {
@@ -100,7 +106,8 @@ class JobPostulationDAO implements IJobPostulationDAO
     }
 
 
-    public function Remove($jobOfferId, $studentId) {
+    public function Remove($jobOfferId, $studentId)
+    {
         try {
             $query = "UPDATE " . $this->tableName . " SET active = 0 WHERE jobOfferId = :jobOfferId AND studentId = :studentId";
             $parameters["jobOfferId"] = $jobOfferId;
@@ -111,6 +118,35 @@ class JobPostulationDAO implements IJobPostulationDAO
             $this->connection->ExecuteNonQuery($query, $parameters);
         } catch (Exception $ex) {
             throw $ex;
-        }        
+        }
+    }
+
+    public function GetAllByStudentId($studentId)
+    {
+        $jobPostulationsList = array();
+        try {
+            $query = "SELECT * FROM " . $this->tableName . " WHERE `studentId` = :studentId";
+            $parameters["studentId"] = $studentId;
+
+            $this->connection = Connection::GetInstance();
+
+            $resultSet = $this->connection->Execute($query, $parameters);            
+
+            foreach($resultSet as $row) {
+                $jobPostulation = new JobPostulation();
+                $jobPostulation->setPostulationId($row['idjob_postulations']);
+                $jobPostulation->setStudentId($row['studentId']);
+                $jobPostulation->setJobOfferId($row['jobOfferId']);
+                $jobPostulation->setComment($row['comment']);
+                $jobPostulation->setCvarchive($row['cvarchive']);
+                $jobPostulation->setActive($row['active']);                
+
+                array_push($jobPostulationsList, $jobPostulation);
+            }            
+
+            return array_reverse($jobPostulationsList);
+        } catch (Exception $ex) {
+            throw $ex;
+        }
     }
 }

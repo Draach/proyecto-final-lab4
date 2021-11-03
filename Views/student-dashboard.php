@@ -1,3 +1,8 @@
+<?php 
+use Utils\CustomSessionHandler as CustomSessionHandler;
+
+$sessionHandler = new CustomSessionHandler();
+?>
 <main class='py-5'>
     <section class='dashboard py-5'>
         <div class='option-card border border-dark'>
@@ -16,7 +21,7 @@
             </a>
         </div>
         <div class='option-card border border-dark'>
-            <a href='#'>
+            <a href='<?php echo FRONT_ROOT ?>JobPostulation/ShowPostulationsHistory?studentId=<?php echo $this->sessionHandler->getLoggedStudentId();?>'>
                 Consultar Historial de Aplicaciones
             </a>
         </div>

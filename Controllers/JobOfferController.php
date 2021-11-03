@@ -2,26 +2,28 @@
 
 namespace Controllers;
 
+use DAO\CareerDAO as CareerDAO;
+use DAO\CompanyDAO as CompanyDAO;
 use DAO\JobOfferDAO as JobOfferDAO;
 use DAO\JobPositionDAO as JobPositionDAO;
 use DAO\JobPostulationDAO as JobPostulationDAO;
-use DAO\CompanyDAO as CompanyDAO;
 use Models\JobOffer as JobOffer;
 use Utils\CustomSessionHandler as CustomSessionHandler;
 use Exception as Exception;
-use Models\JobPostulation;
 
 class JobOfferController
 {
+    private $careerDAO;
     private $companyDAO;
     private $jobOfferDAO;
     private $jobPositionDAO;
-    private $sessionHandler;
     private $jobPostulationDAO;
+    private $sessionHandler;
     private $message;
 
     public function __construct()
     {
+        $this->careerDAO = new CareerDAO();
         $this->companyDAO = new CompanyDAO();
         $this->jobOfferDAO = new JobOfferDAO();
         $this->jobPositionDAO = new JobPositionDAO();
@@ -35,8 +37,13 @@ class JobOfferController
      */
     public function ShowAddView()
     {
-        $jobPositionsList = $this->jobPositionDAO->GetAll();
+        $jobPositionsList = $this->jobPositionDAO->GetAll();        
+        foreach ($jobPositionsList as $key => $row) {
+            $description[$key] = $row['description'];
+        }
+        array_multisort($description, SORT_ASC, $jobPositionsList);
         $companiesList = $this->companyDAO->GetAll();
+        $careersList = $this->careerDAO->GetAll();
         if ($this->sessionHandler->isAdmin()) {
             require_once(VIEWS_PATH . "nav.php");
             require_once(VIEWS_PATH . "job-offer-add.php");
@@ -53,7 +60,7 @@ class JobOfferController
         $companiesList = $this->companyDAO->GetAll();
         $jobPositionsList = $this->jobPositionDAO->GetAll();
         $jobOffersList = $this->jobOfferDAO->GetAll();
-        $isPostulated = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getLoggedStudentId());  
+        $isPostulated = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getLoggedStudentId());
 
         if ($this->sessionHandler->isAdmin() || $this->sessionHandler->isStudent()) {
             if ($this->sessionHandler->isAdmin()) {
@@ -128,6 +135,23 @@ class JobOfferController
             $errMessage = $ex->getMessage();
             echo "<script type='text/javascript'>alert('Error: $errMessage');</script>";
             $this->ShowModifyView($jobOfferId);
+        }
+    }
+
+    public function GetByJobPositionDesc($jobPositionDesc)
+    {
+        if ($this->sessionHandler->isAdmin() || $this->sessionHandler->isStudent()) {
+            $jobOffersList = $this->jobOfferDAO->temporaryGetByJobPositionDesc($jobPositionDesc);
+            $companiesList = $this->companyDAO->GetAll();
+            $jobPositionsList = $this->jobPositionDAO->GetAll();
+            $isPostulated = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getLoggedStudentId());
+
+            if ($this->sessionHandler->isAdmin()) {
+                require_once(VIEWS_PATH . "nav.php");
+            }
+            require_once(VIEWS_PATH . "job-offer-list.php");
+        } else {
+            require_once(VIEWS_PATH . "index.php");
         }
     }
 }

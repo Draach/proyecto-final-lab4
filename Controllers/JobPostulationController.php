@@ -6,6 +6,7 @@ use DAO\JobOfferDAO as JobOfferDAO;
 use DAO\JobPositionDAO as JobPositionDAO;
 use DAO\JobPostulationDAO as JobPostulationDAO;
 use DAO\CompanyDAO as CompanyDAO;
+use DAO\StudentDAO as StudentDAO;
 use Utils\CustomSessionHandler as CustomSessionHandler;
 use Exception as Exception;
 use Models\JobPostulation;
@@ -17,6 +18,7 @@ class JobPostulationController
     private $jobPositionDAO;
     private $jobPostulationDAO;
     private $sessionHandler;
+    private $studentDAO;
     private $message;
 
     public function __construct()
@@ -26,6 +28,7 @@ class JobPostulationController
         $this->jobPositionDAO = new JobPositionDAO();
         $this->jobPostulationDAO = new JobPostulationDAO();
         $this->sessionHandler = new CustomSessionHandler();
+        $this->studentDAO = new StudentDAO();
         $this->message = "";
     }
 
@@ -35,6 +38,8 @@ class JobPostulationController
     public function ShowPostulationView($jobOfferId)
     {
         $jobOffer = $this->jobOfferDAO->GetById($jobOfferId);
+        $companiesList = $this->companyDAO->GetAll();        
+        $jobPositionsList = $this->jobPositionDAO->GetAll();
         require_once(VIEWS_PATH . "job-offer-postulation.php");
     }
 
@@ -47,25 +52,42 @@ class JobPostulationController
         $companiesList = $this->companyDAO->GetAll();
         $jobOffersList = $this->jobOfferDAO->GetAll();
         $jobPositionsList = $this->jobPositionDAO->GetAll();
-        $isPostulated = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getLoggedStudentId());  
+        $isPostulated = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getLoggedStudentId());
 
         $jobPostulation = new JobPostulation();
         $jobPostulation->setJobOfferId($jobOfferId);
         $jobPostulation->setStudentId($studentId);
         $jobPostulation->setComment($comment);
-        $jobPostulation->setCvArchive($cvarchive);        
-        try {
-            // Recibe un archivo y lo sube a la carpeta uploads
-            $message = $this->UploadArchive($cvarchive);
+        $jobPostulation->setCvArchive($cvarchive);
+        if ($this->studentDAO->isActive($studentId)) {
+            try {
+                // Recibe un archivo y lo sube a la carpeta uploads
+                $message = $this->UploadArchive($cvarchive);
 
-            // Guardamos la postulacion a la db
-            $this->jobPostulationDAO->Add($jobPostulation);
-            $message = "Postulacion realizada con exito ";
-            require_once(VIEWS_PATH . "job-offer-list.php");
-        } catch (Exception $ex) {
-            $message = $ex->getMessage();
-            require_once(VIEWS_PATH . "job-offer-list.php");
+                // Guardamos la postulacion a la db
+                $this->jobPostulationDAO->Add($jobPostulation);
+                $message = "Postulacion realizada con exito ";
+                require_once(VIEWS_PATH . "job-offer-list.php");
+            } catch (Exception $ex) {
+                $message = $ex->getMessage();
+                require_once(VIEWS_PATH . "job-offer-list.php");
+            }
+        } else {
+            $message = "El usuario ha sido dado de baja.";
+            $this->sessionHandler->logout();
         }
+    }
+
+    /**
+     * Muestra el historial de postulaciónes de un estudiante.
+     */
+    public function ShowPostulationsHistory($studentId)
+    {
+        $jobPostulationsList = $this->jobPostulationDAO->GetAllByStudentId($studentId);
+        $companiesList = $this->companyDAO->GetAll();
+        $jobOffersList = $this->jobOfferDAO->GetAll();
+        $jobPositionsList = $this->jobPositionDAO->GetAll();
+        require_once(VIEWS_PATH . "student-postulations-history.php");
     }
 
     /**
@@ -76,8 +98,8 @@ class JobPostulationController
         $companiesList = $this->companyDAO->GetAll();
         $jobOffersList = $this->jobOfferDAO->GetAll();
         $jobPositionsList = $this->jobPositionDAO->GetAll();
-        $isPostulated = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getLoggedStudentId());  
-        try {        
+        $isPostulated = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getLoggedStudentId());
+        try {
             $this->jobPostulationDAO->Remove($jobOfferId, $studentId);
             $message = "Postulacion eliminada con exito";
             require_once(VIEWS_PATH . "job-offer-list.php");

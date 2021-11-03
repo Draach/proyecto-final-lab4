@@ -200,4 +200,20 @@ class StudentDAO implements IStudentDAO
             throw $ex;
         }
     }
+
+    /**
+     * Recibe el ID de un estudiante y verifica si este está activo en la api de la utn.
+     */
+    function isActive($id) {
+        $response = false;
+        $studentsList = $this->GetAll();        
+        foreach ($studentsList as $student) {
+            if ($id == $student['studentId']) {
+                if($student['active'] == true) {
+                    $response = true;
+                }
+            }
+        }
+        return $response;
+    }
 }

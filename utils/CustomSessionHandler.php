@@ -56,4 +56,18 @@ class CustomSessionHandler
         }
         return $response;
     }
+
+    public function logout(){
+        unset($_SESSION["loggedUser"]);
+        session_destroy();        
+        require_once(VIEWS_PATH . "index.php");
+    }
+
+    public function getLoggedUserName() {
+        $response = false;
+        if ($this->userisSet()) {
+           $response = ucfirst($_SESSION["loggedUser"]->getFirstName()) . " " . ucfirst($_SESSION["loggedUser"]->getLastName());
+        }
+        return $response;
+    }
 }

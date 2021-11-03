@@ -161,7 +161,7 @@ class CompanyController
     public function GetByName($name)
     {
         if ($this->sessionHandler->isAdmin() || $this->sessionHandler->isStudent()) {
-            $companiesList = $this->companyDAO->GetByName($name);
+            $companiesList = $this->companyDAO->temporaryGetByName($name);
             if ($this->sessionHandler->isAdmin()) {
                 require_once(VIEWS_PATH . "nav.php");
             }

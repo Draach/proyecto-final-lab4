@@ -8,18 +8,30 @@ $sessionHandler = new CustomSessionhandler();
 <main class="py-5">
     <section id="listado" class="mb-5">
         <div class="container">
-            <h2 class="mb-4">Listado de Propuestas Laborales</h2>
+            <form action="<?php echo FRONT_ROOT ?>JobOffer/GetByJobPositionDesc" method="post" class="form-row">
+            <div class="col-8">
+                    <h2>Listado de Propuestas Laborales</h2>
+                </div>
+                <div class="col">
+                    <input class="form-control mr-sm-2" type="search" name="jobPositionDesc" placeholder="Search" aria-label="Search">
+                </div>
+                <div class="col">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </div>
+            </form>
             <?php if (isset($message)) {
                 echo $message;
             } ?>
             <table class="table bg-light-alpha">
                 <thead>
-                    <th>Titulo</th>
+                    <th>Descripción</th>
                     <th>Creación</th>
                     <th>Expiración</th>
                     <th>Salario</th>
                     <th>Empresa</th>
                     <th>Puesto</th>
+                    <th></th>
+                    <th></th>
                 </thead>
                 <tbody>
                     <?php
@@ -50,7 +62,7 @@ $sessionHandler = new CustomSessionhandler();
                                     <?php }
                                 if ($sessionHandler->isStudent() == true) {
                                     if ($isPostulated != $jobOffer->getJobOfferId()) { ?>
-                                        <td><a class="btn btn-secondary" href="<?php echo FRONT_ROOT ?>JobPostulation/ShowPostulationView/<?php echo $jobOffer->getJobOfferId(); ?>">Postularse</a></td>
+                                        <td><a class="btn btn-primary" href="<?php echo FRONT_ROOT ?>JobPostulation/ShowPostulationView/<?php echo $jobOffer->getJobOfferId(); ?>">Postularse</a></td>
                                     <?php
                                     }
                                     if ($isPostulated == $jobOffer->getJobOfferId()) { ?>

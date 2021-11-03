@@ -43,8 +43,6 @@
   .details-header-card button:hover {
     background-color: red; 
   }
-
-
   
   .details-content-card {
     grid-row: 2;

@@ -48,7 +48,7 @@
                               </div>
                          </div>
                     </div>
-                    <a class="btn btn-secondary ml-auto" href="<?php echo FRONT_ROOT ?>Admin/ShowDashboard">Regresar</a>
+                    <a class="btn btn-secondary ml-auto" href="<?php echo FRONT_ROOT ?>Company/ShowListView">Regresar</a>
                     <button type="submit" class="btn btn-dark">Modificar</button>
                </form>
           </div>

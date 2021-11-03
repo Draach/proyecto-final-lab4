@@ -6,11 +6,18 @@ use \Exception as Exception;
 use DAO\IJobOfferDAO as IJobOfferDAO;
 use Models\JobOffer as JobOffer;
 use DAO\Connection as Connection;
+use DAO\JobPositionDAO as JobPositionDAO;
 
 class JobOfferDAO implements IJobOfferDAO
 {
     private $connection;
     private $tableName = "job_offers";
+    private $jobPositionDAO;
+
+    public function __construct()
+    {
+        $this->jobPositionDAO = new JobPositionDAO();
+    }
 
     /**
      * Recibe una propuesta laboral y la agrega a la base de datos.
@@ -104,6 +111,8 @@ class JobOfferDAO implements IJobOfferDAO
                 $jobOffer->setCreatedAt($row["createdAt"]);
                 $jobOffer->setExpirationDate($row["expirationDate"]);
                 $jobOffer->setSalary($row["salary"]);
+                $jobOffer->setCompanyId($row["companyId"]);
+                $jobOffer->setJobPositionId($row["jobPositionId"]);
                 array_push($jobOffersList, $jobOffer);
             }
             return $jobOffersList[0];
@@ -112,9 +121,35 @@ class JobOfferDAO implements IJobOfferDAO
         }
     }
 
-    // TODO
-    function GetByName($name)
+
+    function temporaryGetByJobPositionDesc($jobPositionDesc)
     {
+        try {
+
+            $jobOffersList = $this->GetAll();
+            $jobPositionsList = $this->jobPositionDAO->GetAll();
+            if ($jobPositionDesc != null) {
+                $filteredJobOffersList = array();
+                $loweredReceivedDesc = strtolower($jobPositionDesc);
+                foreach ($jobOffersList as $jobOffer) {
+                    foreach ($jobPositionsList as $jobPosition) {
+                        if ($jobOffer->getJobPositionId() == $jobPosition['jobPositionId']) {
+                            $loweredJobPositionDesc = strtolower($jobPosition['description']);
+                            if (strpos($loweredJobPositionDesc, $loweredReceivedDesc) !== false) {
+                                array_push($filteredJobOffersList, $jobOffer);
+                            }
+                        }
+                    }
+                }
+            } else {
+                $filteredJobOffersList = $jobOffersList;
+            }
+
+
+            return $filteredJobOffersList;
+        } catch (Exception $ex) {
+            throw $ex;
+        }
     }
 
     /**

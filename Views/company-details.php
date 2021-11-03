@@ -1,4 +1,5 @@
 <?php
+
 use Utils\CustomSessionHandler as CustomSessionhandler;
 
 $sessionHandler = new CustomSessionhandler();
@@ -8,9 +9,9 @@ $sessionHandler = new CustomSessionhandler();
     <div class='details-header-card'>
       <?php if ($sessionHandler->isAdmin()) {
       ?>
-        <form>
-          <button type="button">Delete</button>
-        </form>
+        <a href="<?php echo FRONT_ROOT ?>Company/ShowModifyView/<?php echo $company->getCompanyId(); ?>">Modificar</a>
+        <a href="<?php echo FRONT_ROOT ?>Company/RemoveCompany/<?php echo $company->getCompanyId(); ?>">Eliminar</a>
+
       <?php
       }
       ?>

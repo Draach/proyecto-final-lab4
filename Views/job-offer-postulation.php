@@ -2,12 +2,47 @@
      <section id="listado" class="mb-5">
           <div class="container">
                <h2 class="mb-4">Postulacion</h2>
-               <div>
-                   <?php echo var_dump($jobOffer); ?>
+               <div class="container">
+                    <div class="row">
+                         <div class="col-sm">
+                              <label for="">Empresa:</label>
+                              <p><?php foreach ($companiesList as $company) {
+                                        if ($company->getCompanyId() == $jobOffer->getCompanyId()) {
+                                             echo $company->getName();
+                                        }
+                                   } ?></p>
+                         </div>
+                         <div class="col-sm">
+                              <label for="">Posición:</label>
+                              <p><?php foreach ($jobPositionsList as $jobPosition) {
+                                        if ($jobPosition['jobPositionId'] == $jobOffer->getJobPositionId()) {
+                                             echo $jobPosition['description'];
+                                        }
+                                   } ?></p>
+                         </div>
+                         <div class="col-sm">
+                              <label for="">Descripción:</label>
+                              <p><?php echo $jobOffer->getTitle(); ?></p>
+                         </div>
+                    </div>
+                    <div class="row">
+                         <div class="col-sm">
+                              <label for="">Fecha de Creación:</label>
+                              <p><?php echo $jobOffer->getCreatedAt(); ?></p>
+                         </div>
+                         <div class="col-sm">
+                              <label for="">Fecha de Expiración:</label>
+                              <p><?php echo $jobOffer->getExpirationDate(); ?></p>
+                         </div>
+                         <div class="col-sm">
+                              <label for="">Salario:</label>
+                              <p><?php echo $jobOffer->getSalary(); ?></p>
+                         </div>
+                    </div>
                </div>
-               <form action="<?php echo FRONT_ROOT ?>JobPostulation/Add" method="post" enctype = "multipart/form-data" class="bg-light-alpha p-5">
-               <input type="hidden" name="jobOfferId" value="<?php echo $jobOffer->getJobOfferId(); ?>">
-               <input type="hidden" name="studentId" value="<?php echo $_SESSION['loggedUser']->getStudentId(); ?>">
+               <form action="<?php echo FRONT_ROOT ?>JobPostulation/Add" method="post" enctype="multipart/form-data" class="bg-light-alpha p-5">
+                    <input type="hidden" name="jobOfferId" value="<?php echo $jobOffer->getJobOfferId(); ?>">
+                    <input type="hidden" name="studentId" value="<?php echo $_SESSION['loggedUser']->getStudentId(); ?>">
                     <div class="row">
                          <div class="col-lg-4">
                               <div class="form-group">
@@ -17,10 +52,10 @@
                          </div>
                          <div class="col-lg-4">
                               <div class="form-group">
-                                   <label for="">CV</label>
+                                   <label for="">Currículum</label>
                                    <input type="file" name="cvarchive" value="" class="form-control">
                               </div>
-                        </div>
+                         </div>
                     </div>
                     <a class="btn btn-secondary" href="<?php echo FRONT_ROOT ?>Student/ShowDashboard">Regresar</a>
                     <button type="submit" class="btn btn-dark">Postularse</button>

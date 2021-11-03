@@ -1,4 +1,11 @@
+<?php
+
+use Utils\CustomSessionHandler as CustomSessionHandler;
+
+$sessionHandler = new CustomSessionHandler();
+?>
 <main class="admin-dashboard">
-    <img class="utn-dashboard" src='<?php echo FRONT_ROOT ?>Views/img/utnmdp.png' />
-    <img class="utn-dashboard-vert" src='<?php echo FRONT_ROOT ?>Views/img/utnmdp-vert.png'>
+    <div class="admin-dashboard-content">
+        <h1>Bienvenido <?php echo $this->sessionHandler->getLoggedUserName(); ?></h1>
+    </div>
 </main>
