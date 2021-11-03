@@ -57,6 +57,7 @@ class JobOfferController
      */
     public function ShowListView()
     {
+        $careersList = $this->careerDAO->GetAll();
         $companiesList = $this->companyDAO->GetAll();
         $jobPositionsList = $this->jobPositionDAO->GetAll();
         $jobOffersList = $this->jobOfferDAO->GetAll();
@@ -75,8 +76,10 @@ class JobOfferController
     /**
      * Recibe los datos de una nueva propuesta laboral y la agrega ala base de datos.
      */
-    public function Add($title, $createdAt, $expirationDate, $salary, $companyId, $jobPositionId)
+    public function Add($jobPositionId, $companyId, $title, $salary, $createdAt, $expirationDate)
     {
+        $timeNow = date("Y-m-d");
+        
         $jobOffer = new JobOffer();
         $jobOffer->setTitle($title);
         $jobOffer->setCreatedAt($createdAt);
@@ -85,7 +88,10 @@ class JobOfferController
         $jobOffer->setCompanyId($companyId);
         $jobOffer->setJobPositionId($jobPositionId);
 
-        try {
+        try {            
+            if($expirationDate <= $timeNow) {                
+                throw new Exception('La fecha de expiración no puede ser anterior o igual a la fecha de hoy. Ingrese una fecha válida.');
+            } 
             $this->jobOfferDAO->Add($jobOffer);
         } catch (Exception $ex) {
             $errMessage = $ex->getMessage();
@@ -144,6 +150,7 @@ class JobOfferController
             $jobOffersList = $this->jobOfferDAO->temporaryGetByJobPositionDesc($jobPositionDesc);
             $companiesList = $this->companyDAO->GetAll();
             $jobPositionsList = $this->jobPositionDAO->GetAll();
+            $careersList = $this->careerDAO->GetAll();
             $isPostulated = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getLoggedStudentId());
 
             if ($this->sessionHandler->isAdmin()) {

@@ -55,6 +55,7 @@ class CompanyController
      */
     public function Add($name, $email, $phone, $address, $cuit, $website, $founded)
     {
+        $timeNow = date("Y-m-d");
         $company = new Company();
         $company->setName($name);
         $company->setEmail($email);
@@ -65,6 +66,9 @@ class CompanyController
         $company->setFounded($founded);
 
         try {
+            if($founded > $timeNow) {                
+                throw new Exception('La fecha de fundación no puede ser posterior a hoy. Por favor, ingrese una fecha válida.');
+            } 
             $this->companyDAO->Add($company);
         } catch (Exception $ex) {
             $errMessage = $ex->getMessage();

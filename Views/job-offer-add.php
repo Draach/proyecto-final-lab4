@@ -53,7 +53,7 @@ date_default_timezone_set('America/Argentina/Buenos_Aires');
                     </div>
                 </div>
                 <a class="btn btn-secondary" href="<?php echo FRONT_ROOT ?>Admin/ShowDashboard">Regresar</a>
-                <button type="submit" class="btn btn-dark">Agregar</button>
+                <button type="submit" class="btn btn-success">Agregar</button>
             </form>
         </div>
     </section>

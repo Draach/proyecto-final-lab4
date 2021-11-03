@@ -11,10 +11,10 @@ $sessionHandler = new CustomSessionhandler();
                     <h2>Listado de Empresas</h2>
                 </div>
                 <div class="col">
-                    <input class="form-control mr-sm-2" type="search" name="name" placeholder="Search" aria-label="Search">
+                    <input class="form-control mr-sm-2" type="search" name="name" placeholder="Buscar por nombre..." aria-label="Search">
                 </div>
                 <div class="col">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
                 </div>
             </form>
             <div class="table-container overflow-auto">
@@ -51,7 +51,7 @@ $sessionHandler = new CustomSessionhandler();
                                         <?php if ($sessionHandler->isAdmin()) {
                                         ?>
                                             <a href="<?php echo FRONT_ROOT ?>Company/ShowModifyView/<?php echo $company->getCompanyId(); ?>" class="btn btn-primary">Modificar</a>
-                                            <a href="<?php echo FRONT_ROOT ?>Company/RemoveCompany/<?php echo $company->getCompanyId(); ?>" class="btn btn-primary">Eliminar</a>
+                                            <a href="<?php echo FRONT_ROOT ?>Company/RemoveCompany/<?php echo $company->getCompanyId(); ?>" class="btn btn-danger">Eliminar</a>
                                     </td>
                                 <?php
                                         }

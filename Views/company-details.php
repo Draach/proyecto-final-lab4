@@ -7,6 +7,7 @@ $sessionHandler = new CustomSessionhandler();
 <div class='details'>
   <div class='details-card shadow'>
     <div class='details-header-card'>
+      <!--
       <?php if ($sessionHandler->isAdmin()) {
       ?>
         <a href="<?php echo FRONT_ROOT ?>Company/ShowModifyView/<?php echo $company->getCompanyId(); ?>">Modificar</a>
@@ -15,6 +16,7 @@ $sessionHandler = new CustomSessionhandler();
       <?php
       }
       ?>
+      -->
       <h1><?php echo $company->getName(); ?></h1>
       <hr>
     </div>

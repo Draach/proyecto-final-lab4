@@ -29,21 +29,9 @@
                                    <input type="number" name="salary" value="<?php echo $jobOffer->getSalary(); ?>" class="form-control">
                               </div>
                          </div>
-                         <div class="col-lg-4">
-                              <div class="form-group">
-                                   <label for="">Empresa</label>
-                                   <input type="number" name="salary" value="<?php echo $jobOffer->getJobOfferId(); ?>" class="form-control">
-                              </div>
-                         </div>
-                         <div class="col-lg-4">
-                              <div class="form-group">
-                                   <label for="">Puesto</label>
-                                   <input type="number" name="salary" value="<?php echo $jobOffer->getJobPositionId(); ?>" class="form-control">
-                              </div>
-                         </div>
                     </div>
                     <a class="btn btn-secondary ml-auto" href="<?php echo FRONT_ROOT ?>Admin/ShowDashboard">Regresar</a>
-                    <button type="submit" class="btn btn-primary">Modificar</button>
+                    <button type="submit" class="btn btn-dark">Modificar</button>
                </form>
           </div>
      </section>

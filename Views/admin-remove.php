@@ -12,7 +12,7 @@
                             <input type="number" name="id" value="" class="form-control">
                         </div>
                         <a class="btn btn-secondary ml-auto" href="<?php echo FRONT_ROOT ?>Admin/ShowDashboard">Regresar</a>
-                        <button type="submit" class="btn btn-dark">Eliminar</button>
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
                     </div>
                 </div>
             </form>

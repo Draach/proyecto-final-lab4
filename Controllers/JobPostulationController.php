@@ -2,10 +2,11 @@
 
 namespace Controllers;
 
+use DAO\CareerDAO as CareerDAO;
+use DAO\CompanyDAO as CompanyDAO;
 use DAO\JobOfferDAO as JobOfferDAO;
 use DAO\JobPositionDAO as JobPositionDAO;
 use DAO\JobPostulationDAO as JobPostulationDAO;
-use DAO\CompanyDAO as CompanyDAO;
 use DAO\StudentDAO as StudentDAO;
 use Utils\CustomSessionHandler as CustomSessionHandler;
 use Exception as Exception;
@@ -13,6 +14,7 @@ use Models\JobPostulation;
 
 class JobPostulationController
 {
+    private $careerDAO;
     private $companyDAO;
     private $jobOfferDAO;
     private $jobPositionDAO;
@@ -23,6 +25,7 @@ class JobPostulationController
 
     public function __construct()
     {
+        $this->careerDAO = new CareerDAO();
         $this->companyDAO = new CompanyDAO();
         $this->jobOfferDAO = new JobOfferDAO();
         $this->jobPositionDAO = new JobPositionDAO();
@@ -52,6 +55,7 @@ class JobPostulationController
         $companiesList = $this->companyDAO->GetAll();
         $jobOffersList = $this->jobOfferDAO->GetAll();
         $jobPositionsList = $this->jobPositionDAO->GetAll();
+        $careersList = $this->careerDAO->GetAll();
         $isPostulated = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getLoggedStudentId());
 
         $jobPostulation = new JobPostulation();
@@ -86,7 +90,7 @@ class JobPostulationController
         $jobPostulationsList = $this->jobPostulationDAO->GetAllByStudentId($studentId);
         $companiesList = $this->companyDAO->GetAll();
         $jobOffersList = $this->jobOfferDAO->GetAll();
-        $jobPositionsList = $this->jobPositionDAO->GetAll();
+        $jobPositionsList = $this->jobPositionDAO->GetAll();        
         require_once(VIEWS_PATH . "student-postulations-history.php");
     }
 
@@ -98,6 +102,7 @@ class JobPostulationController
         $companiesList = $this->companyDAO->GetAll();
         $jobOffersList = $this->jobOfferDAO->GetAll();
         $jobPositionsList = $this->jobPositionDAO->GetAll();
+        $careersList = $this->careerDAO->GetAll();
         $isPostulated = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getLoggedStudentId());
         try {
             $this->jobPostulationDAO->Remove($jobOfferId, $studentId);

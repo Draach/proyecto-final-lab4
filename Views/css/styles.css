@@ -159,7 +159,7 @@
 }
 
 .table-container {
-  height: 65vh;
+  height: 60vh;
   overflow: auto;
 }
 
@@ -197,6 +197,7 @@
 
 .admin-dashboard-content {
   margin: auto;
+  margin-top: 30vh;
   text-align: center;
   justify-content: center;
 
