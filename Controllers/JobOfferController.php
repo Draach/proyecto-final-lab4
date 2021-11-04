@@ -119,6 +119,9 @@ class JobOfferController
      */
     public function ShowModifyView($jobOfferId)
     {
+        $companiesList = $this->companyDAO->GetAll();
+        $jobPositionsList = $this->jobPositionDAO->GetAll();
+        
         if ($this->sessionHandler->isAdmin()) {
             $jobOffer = $this->jobOfferDAO->GetById($jobOfferId);
             require_once(VIEWS_PATH . "nav.php");
