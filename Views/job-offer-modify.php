@@ -32,13 +32,21 @@
                          <div class="col-lg-4">
                               <div class="form-group">
                                    <label for="">Empresa</label>
-                                   <input type="number" name="salary" value="<?php echo $jobOffer->getJobOfferId(); ?>" class="form-control">
+                                   <input type="text" name="salary" value="<?php foreach($companiesList as $company){
+                                        if($jobOffer->getCompanyId() == $company->getCompanyId()){
+                                             echo $company->getName();
+                                        }
+                                   } ?>" class="form-control" disabled>
                               </div>
                          </div>
                          <div class="col-lg-4">
                               <div class="form-group">
                                    <label for="">Puesto</label>
-                                   <input type="number" name="salary" value="<?php echo $jobOffer->getJobPositionId(); ?>" class="form-control">
+                                   <input type="text" name="salary" value="<?php foreach($jobPositionsList as $position){
+                                        if($position['jobPositionId'] == $jobOffer->getJobPositionId()){
+                                             echo $position['description'];
+                                        }
+                                   } ?>" class="form-control" disabled>
                               </div>
                          </div>
                     </div>
