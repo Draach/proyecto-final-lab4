@@ -12,6 +12,8 @@ class JobOfferDAO implements IJobOfferDAO
 {
     private $connection;
     private $tableName = "job_offers";
+    private $postulationsTableName = "job_postulations";
+
     private $jobPositionDAO;
 
     public function __construct()
@@ -187,6 +189,22 @@ class JobOfferDAO implements IJobOfferDAO
             $this->connection = Connection::GetInstance();
 
             return $this->connection->ExecuteNonQuery($query, $parameters);
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
+    function GetPostulationsByJobOfferId($jobOfferId){
+        try{
+
+            $query = "SELECT * FROM " . $this->tableName . " INNER JOIN " . $this->postulationsTableName . " WHERE " . $this->tableName.".jobOfferId = :jobOfferId AND " . $this->postulationsTableName . ".jobOfferId = :jobOfferId AND " . $this->postulationsTableName .".Active = true ";
+            $parameters["jobOfferId"] = $jobOfferId;
+
+            $this->connection = Connection::GetInstance();
+
+            $resultSet = $this->connection->Execute($query, $parameters);
+
+            return $resultSet;
         } catch (Exception $ex) {
             throw $ex;
         }

@@ -121,7 +121,7 @@ class JobOfferController
     {
         $companiesList = $this->companyDAO->GetAll();
         $jobPositionsList = $this->jobPositionDAO->GetAll();
-        
+
         if ($this->sessionHandler->isAdmin()) {
             $jobOffer = $this->jobOfferDAO->GetById($jobOfferId);
             require_once(VIEWS_PATH . "nav.php");
@@ -163,5 +163,19 @@ class JobOfferController
         } else {
             require_once(VIEWS_PATH . "index.php");
         }
+    }
+
+    //TODO 
+    public function showPostulationsByJobOfferId($jobOfferId){
+        if ($this->sessionHandler->isAdmin()){
+
+            $postulationsHistory = $this->$jobOfferDAO->GetPostulationsByJobOfferId($jobOfferId);
+            require_once(VIEWS_PATH . "nav.php");
+            require_once(VIEWS_PATH . "job-offer-postulation-list.php");
+  
+        }else{
+            require_once(VIEWS_PATH . "index.php");
+        }
+        
     }
 }
