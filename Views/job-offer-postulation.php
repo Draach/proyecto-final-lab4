@@ -47,7 +47,7 @@
                          <div class="col-lg-4">
                               <div class="form-group">
                                    <label for="">Comentario</label>
-                                   <input type="text" name="comment" value="" class="form-control">
+                                   <textarea name="comment" value="" class="form-control" rows="3"></textarea>
                               </div>
                          </div>
                          <div class="col-lg-4">

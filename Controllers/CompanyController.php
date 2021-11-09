@@ -75,10 +75,11 @@ class CompanyController
             echo "<script type='text/javascript'>alert('Error: $errMessage');</script>";
         }
 
+        echo "<script type='text/javascript'>alert('Empresa agregada exitosamente.');</script>";
         $this->ShowAddView();
     }
 
-    // Devuelve una vista para eliminar una empresa.
+    // Devuelve una vista para eliminar una empresa.    
     // TODO Eliminar método?
     public function Remove()
     {

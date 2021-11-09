@@ -2,42 +2,37 @@
 
 namespace Controllers;
 
-use DAO\AdminDAO as AdminDAO;
-use Models\Admin as Admin;
+use DAO\UserDAO as UserDAO;
+use Models\User as User;
 use Utils\CustomSessionHandler as CustomSessionHandler;
 use Exception as Exception;
 
 class AdminController
 {
-    private $adminDAO;
+    private $userDAO;
     private $sessionHandler;
+    private $adminRole = 2;
 
     public function __construct()
     {
-        $this->adminDAO = new AdminDAO();
+        $this->userDAO = new UserDAO();
         $this->sessionHandler = new CustomSessionHandler();
     }
 
     /**
      * Recibe los datos de un usuario y administrador y lo crea.
      */
-    public function Add($firstName, $lastName, $dni, $gender, $birthDate, $email, $password, $phoneNumber)
+    public function Add($email, $password)
     {
-        $admin = new Admin();
+        $user = new User();
 
         $encryptedPassword = password_hash($password, PASSWORD_BCRYPT);
-        $admin->setFirstName(strtolower($firstName));
-        $admin->setLastName(strtolower($lastName));
-        $admin->setDni($dni);
-        $admin->setGender($gender);
-        $admin->setBirthDate($birthDate);
-        $admin->setEmail(strtolower($email));
-        $admin->setPassword($encryptedPassword);
-        $admin->setPhoneNumber($phoneNumber);
-        $admin->setActive(true);
+        $user->setEmail($email);
+        $user->setPassword($encryptedPassword);
+        $user->setRoleId($this->adminRole);        
 
         try {
-            $this->adminDAO->Add($admin);
+            $this->userDAO->Add($user);
         } catch (Exception $ex) {
             $errMessage = $ex->getMessage();
             echo "<script type='text/javascript'>alert('Error: $errMessage');</script>";
@@ -52,16 +47,16 @@ class AdminController
      * Devuelve una lista de administradores.
      */
     // TODO - Implementar
-    public function List()
+    public function ShowListView()
     {
         /**
          * Recupera la lista de admins desde la base de datos.
          */
-        $adminsList = $this->adminDAO->GetAll();
+        $usersList = $this->userDAO->GetAllUsers();
 
         if ($this->sessionHandler->isAdmin()) {
             require_once(VIEWS_PATH . "nav.php");
-            require_once(VIEWS_PATH . "admin-list.php");
+            require_once(VIEWS_PATH . "user-list.php");
         } else {
             require_once(VIEWS_PATH . "index.php");
         }
@@ -111,19 +106,19 @@ class AdminController
     /**
      * @param recibe un id de usuario administrador y lo elimina.
      */
-    public function RemoveAdmin($number)
+    public function RemoveAdmin($userId)
     {
         $message = "";
 
         /**
          * Remueve logicamente un admin de la base de datos (Status = false).
          */
-        $response = $this->adminDAO->Delete($number);
+        $response = $this->userDAO->Remove($userId);
 
         if ($response == 1) {
-            $message = "El admin con ID " . $number . " ha sido eliminada exitosamente.";
+            $message = "El usuario con ID " . $userId . " ha sido eliminada exitosamente.";
         } else {
-            $message = "El admin con ID " . $number . " no ha sido encontrada. Intente nuevamente.";
+            $message = "El usuario con ID " . $userId . " no ha sido encontrado. Intente nuevamente.";
         }
 
         echo "<script type='text/javascript'>alert('$message');</script>";

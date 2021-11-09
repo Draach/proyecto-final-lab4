@@ -61,7 +61,8 @@ class JobOfferController
         $companiesList = $this->companyDAO->GetAll();
         $jobPositionsList = $this->jobPositionDAO->GetAll();
         $jobOffersList = $this->jobOfferDAO->GetAll();
-        $isPostulated = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getLoggedStudentId());
+        $postulatedJobOfferId = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getStudentId());
+        $isPostulated = $this->jobPostulationDAO->isPostulated($this->sessionHandler->getStudentId());
 
         if ($this->sessionHandler->isAdmin() || $this->sessionHandler->isStudent()) {
             if ($this->sessionHandler->isAdmin()) {
@@ -92,12 +93,13 @@ class JobOfferController
             if($expirationDate <= $timeNow) {                
                 throw new Exception('La fecha de expiración no puede ser anterior o igual a la fecha de hoy. Ingrese una fecha válida.');
             } 
+            echo "<script type='text/javascript'>alert('Propuesta agregada exitosamente.');</script>";
             $this->jobOfferDAO->Add($jobOffer);
         } catch (Exception $ex) {
             $errMessage = $ex->getMessage();
             echo "<script type='text/javascript'>alert('Error: $errMessage');</script>";
         }
-
+        
         $this->ShowAddView();
     }
 
@@ -108,6 +110,7 @@ class JobOfferController
     {
         if ($this->sessionHandler->isAdmin()) {
             $this->jobOfferDAO->delete($id);
+            echo "<script type='text/javascript'>alert('Propuesta eliminada exitosamente.');</script>";
             $this->ShowListView();
         } else {
             require_once(VIEWS_PATH . "index.php");
@@ -154,7 +157,7 @@ class JobOfferController
             $companiesList = $this->companyDAO->GetAll();
             $jobPositionsList = $this->jobPositionDAO->GetAll();
             $careersList = $this->careerDAO->GetAll();
-            $isPostulated = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getLoggedStudentId());
+            $postulatedJobOfferId = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getStudentId());
 
             if ($this->sessionHandler->isAdmin()) {
                 require_once(VIEWS_PATH . "nav.php");
@@ -169,7 +172,7 @@ class JobOfferController
     public function showPostulationsByJobOfferId($jobOfferId){
         if ($this->sessionHandler->isAdmin()){
 
-            $postulationsHistory = $this->$jobOfferDAO->GetPostulationsByJobOfferId($jobOfferId);
+            $postulationsHistory = $this->jobOfferDAO->GetPostulationsByJobOfferId($jobOfferId);
             require_once(VIEWS_PATH . "nav.php");
             require_once(VIEWS_PATH . "job-offer-postulation-list.php");
   

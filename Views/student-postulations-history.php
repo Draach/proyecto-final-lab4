@@ -1,13 +1,8 @@
-<?php
 
-use Utils\CustomSessionHandler as CustomSessionHandler;
-
-$sessionHandler = new CustomSessionHandler();
-?>
 <main class="py-5">
     <section id="listado" class="mb-5">
         <div class="container">
-            <h2 class="mb-4">Historial de Postulaciones de <?php echo $this->sessionHandler->getLoggedUserName(); ?></h2>
+            <h2 class="mb-4">Historial de Postulaciones de <?php echo $student->getFirstName() . " " . $student->getLastName(); ?></h2>
             <div class="table-container overflow-auto">
                 <table class="table bg-light-alpha">
                     <thead class='thead-dark'>

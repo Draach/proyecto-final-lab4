@@ -36,6 +36,7 @@ class StudentController
     public function AcademicStatus()
     {
         if ($this->sessionHandler->isStudent()) {
+            $student = $this->studentDAO->GetAcademicStatusByStudentId($this->sessionHandler->getStudentId());
             require_once(VIEWS_PATH . "student-academic-status.php");
         } else {
             require_once(VIEWS_PATH . "index.php");

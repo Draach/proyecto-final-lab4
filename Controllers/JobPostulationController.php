@@ -56,7 +56,7 @@ class JobPostulationController
         $jobOffersList = $this->jobOfferDAO->GetAll();
         $jobPositionsList = $this->jobPositionDAO->GetAll();
         $careersList = $this->careerDAO->GetAll();
-        $isPostulated = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getLoggedStudentId());
+        $postulatedJobOfferId = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getStudentId());
 
         $jobPostulation = new JobPostulation();
         $jobPostulation->setJobOfferId($jobOfferId);
@@ -87,11 +87,17 @@ class JobPostulationController
      */
     public function ShowPostulationsHistory($studentId)
     {
+        if ($this->sessionHandler->isStudent()) {
         $jobPostulationsList = $this->jobPostulationDAO->GetAllByStudentId($studentId);
         $companiesList = $this->companyDAO->GetAll();
         $jobOffersList = $this->jobOfferDAO->GetAll();
-        $jobPositionsList = $this->jobPositionDAO->GetAll();        
-        require_once(VIEWS_PATH . "student-postulations-history.php");
+        $jobPositionsList = $this->jobPositionDAO->GetAll();  
+            $student = $this->studentDAO->GetAcademicStatusByStudentId($this->sessionHandler->getStudentId());
+            require_once(VIEWS_PATH . "student-postulations-history.php");
+        } else {
+            require_once(VIEWS_PATH . "index.php");
+        }      
+        
     }
 
     /**
@@ -103,7 +109,7 @@ class JobPostulationController
         $jobOffersList = $this->jobOfferDAO->GetAll();
         $jobPositionsList = $this->jobPositionDAO->GetAll();
         $careersList = $this->careerDAO->GetAll();
-        $isPostulated = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getLoggedStudentId());
+        $postulatedJobOfferId = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getStudentId());
         try {
             $this->jobPostulationDAO->Remove($jobOfferId, $studentId);
             $message = "Postulacion eliminada con exito";         

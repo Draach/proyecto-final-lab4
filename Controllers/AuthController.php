@@ -3,21 +3,23 @@
 namespace Controllers;
 
 use DAO\StudentDAO as StudentDAO;
-use DAO\AdminDAO as AdminDAO;
+use DAO\UserDAO as UserDAO;
 use Utils\CustomSessionHandler as CustomSessionHandler;
+use Models\User as User;
 use \Exception as Exception;
 
 class AuthController
-{
-    private $message;
+{    
     private $studentDAO;
-    private $adminDAO;
+    private $userDAO;
     private $sessionHandler;
+    private $studentRole = 1;
+    private $adminRole = 2;
 
     public function __construct()
     {
+        $this->userDAO = new UserDAO();
         $this->studentDAO = new StudentDAO();
-        $this->adminDAO = new AdminDAO();
         $this->sessionHandler = new CustomSessionHandler();
         $this->message = '';
     }
@@ -27,37 +29,25 @@ class AuthController
      */
     public function Login($email, $password)
     {
-        $user = null;
-        try {
+        try{
+            $user = $this->userDAO->GetUserByCredentials($email, $password);
+            if($user->getRoleId() == $this->studentRole && $user->getActive() == 1) {
+                $this->studentDAO->studentVerifyForLogin($email);
+                $this->sessionHandler->createUserSession($user);
+                return require_once(VIEWS_PATH . 'student-dashboard.php');
+            } else if($user->getRoleId() == $this->adminRole && $user->getActive() == 1) {
+                $this->sessionHandler->createUserSession($user);
+                require_once(VIEWS_PATH . 'nav.php');
+                return require_once(VIEWS_PATH . 'admin-dashboard.php');                    
+            } else {
+                $message = "El usuario no se encuentra activo.";
+                return require_once(VIEWS_PATH . 'index.php');
+            }                            
 
-            // Intenta validar el usuario contra la api de estudiantes y nuestra base de datos.
-            // Si se valida exitosamente, crea una sesión de tipo estudiante y devuelve una vista al tablero de estudiante.
-            try {
-                // Si no se encuentra al usuario, arroja una excepción.
-                $user = $this->studentDAO->Login($email, $password);
-                $this->sessionHandler->createStudentUser($user);
-                return require_once(VIEWS_PATH . "student-dashboard.php");
-            } catch (Exception $ex) {
-                $this->message = $ex->getMessage();
-            }
-
-            // Intenta validar el usuario contra nuestra tabla de administradores en la base de datos.
-            // Si se valida exitosamente, crea una sesión de tipo administrador y devuelve una vista al tablero de administrador.
-            try {
-                // Busca al usuario administrador en la base de datos, si no lo encuentra devuelve una excepción.
-                $user = $this->adminDAO->Login($email, $password);
-                $this->sessionHandler->createAdminUser($user);
-                require_once(VIEWS_PATH . "nav.php");
-                return require_once(VIEWS_PATH . "admin-dashboard.php");
-            } catch (Exception $ex) {
-                $this->message = $ex->getMessage();
-            } finally {
-                $message = "<p class='message'>$this->message</p>";
-                require_once(VIEWS_PATH . "index.php");
-            }
-        } catch (Exception $ex) {
+        } catch(Exception $ex) {
+            $message = $ex->getMessage();
             require_once(VIEWS_PATH . "index.php");
-        }
+        }        
     }
 
     /**
@@ -78,16 +68,31 @@ class AuthController
      */
     public function Register($dni, $email, $password, $passwordConfirm)
     {
-
         try {
-            $registeredStudent = $this->studentDAO->Register($dni, $email, $password, $passwordConfirm);
-            if ($registeredStudent) {
-                $this->sessionHandler->createStudentUser($registeredStudent);
+
+            // Lo verificamos en la API
+            $student = $this->studentDAO->studentVerify($dni, $email);
+
+            // Si la verificacion de la password es correcta, procedemos a registrar al usuario en nuestra base de datos.
+            if ($password == $passwordConfirm) {        
+                $encryptedPassword = password_hash($password, PASSWORD_BCRYPT);
+                $user = new User();
+                $user->setEmail($email);
+                $user->setPassword($encryptedPassword) ;
+                $user->setRoleId($this->studentRole);
+                $user->setStudentId($student->getStudentId());
+                $this->userDAO->Add($user);
+
+                // Creamos la sesión y lo mandamos al dashboard.
+                // TODO Agregar confirmación "Registrado con éxito."
+                $this->sessionHandler->createUserSession($user);
                 require_once(VIEWS_PATH . "student-dashboard.php");
+            } else {
+                $message = "Las contraseñas no coinciden.";
+                require_once(VIEWS_PATH . "register.php");
             }
-        } catch (Exception $ex) {
-            $this->message = $ex->getMessage();
-            $message = "<p class='message'>$this->message</p>";
+        } catch (Exception $ex) { // Si ocurre algún error interno, lo reenviamos al registro indicando el error.
+            $message = $ex->getMessage();
             require_once(VIEWS_PATH . "register.php");
         }
     }
@@ -97,8 +102,7 @@ class AuthController
      */
     public function Logout()
     {
-        unset($_SESSION["loggedUser"]);
-        session_destroy();
+        $this->sessionHandler->Logout();
         $message = "";
         require_once(VIEWS_PATH . "index.php");
     }

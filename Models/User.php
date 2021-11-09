@@ -4,87 +4,46 @@ namespace Models;
 
 class User
 {
-    private $firstName;
-    private $lastName;
-    private $dni;
-    private $gender;
-    private $birthDate;
+    private $userId;
     private $email;
     private $password;
-    private $phoneNumber;
+    private $roleId;
+    private $studentId;
     private $active;
-    private $role;
 
-    public function getFirstName()
+    /**
+     * Get the value of userId
+     */ 
+    public function getUserId()
     {
-        return $this->firstName;
+        return $this->userId;
     }
 
-    public function setFirstName($firstName)
+    /**
+     * Set the value of userId
+     *
+     * @return  self
+     */ 
+    public function setUserId($userId)
     {
-        $this->firstName = $firstName;
+        $this->userId = $userId;
 
         return $this;
     }
 
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
-
-    public function setLastName($lastName)
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    public function getDni()
-    {
-        return $this->dni;
-    }
-
-    public function setDni($dni)
-    {
-        $this->dni = $dni;
-
-        return $this;
-    }
-
-    public function getGender()
-    {
-        return $this->gender;
-    }
-
-
-    public function setGender($gender)
-    {
-        $this->gender = $gender;
-
-        return $this;
-    }
-
-
-    public function getBirthDate()
-    {
-        return $this->birthDate;
-    }
-
-
-    public function setBirthDate($birthDate)
-    {
-        $this->birthDate = $birthDate;
-
-        return $this;
-    }
-
-
+    /**
+     * Get the value of email
+     */ 
     public function getEmail()
     {
         return $this->email;
     }
 
-
+    /**
+     * Set the value of email
+     *
+     * @return  self
+     */ 
     public function setEmail($email)
     {
         $this->email = $email;
@@ -92,39 +51,19 @@ class User
         return $this;
     }
 
-
-    public function getPhoneNumber()
-    {
-        return $this->phoneNumber;
-    }
-
-
-    public function setPhoneNumber($phoneNumber)
-    {
-        $this->phoneNumber = $phoneNumber;
-
-        return $this;
-    }
-
-
-    public function getActive()
-    {
-        return $this->active;
-    }
-
-
-    public function setActive($active)
-    {
-        $this->active = $active;
-
-        return $this;
-    }
-
+    /**
+     * Get the value of password
+     */ 
     public function getPassword()
     {
         return $this->password;
     }
 
+    /**
+     * Set the value of password
+     *
+     * @return  self
+     */ 
     public function setPassword($password)
     {
         $this->password = $password;
@@ -132,14 +71,62 @@ class User
         return $this;
     }
 
-    public function getRole()
+    /**
+     * Get the value of roleId
+     */ 
+    public function getRoleId()
     {
-        return $this->role;
+        return $this->roleId;
     }
 
-    public function setRole($role)
+    /**
+     * Set the value of roleId
+     *
+     * @return  self
+     */ 
+    public function setRoleId($roleId)
     {
-        $this->role = $role;
+        $this->roleId = $roleId;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of studentId
+     */ 
+    public function getStudentId()
+    {
+        return $this->studentId;
+    }
+
+    /**
+     * Set the value of studentId
+     *
+     * @return  self
+     */ 
+    public function setStudentId($studentId)
+    {
+        $this->studentId = $studentId;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of active
+     */ 
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Set the value of active
+     *
+     * @return  self
+     */ 
+    public function setActive($active)
+    {
+        $this->active = $active;
 
         return $this;
     }

@@ -73,15 +73,19 @@ $sessionHandler = new CustomSessionhandler();
                                     </td>
                                     <?php if ($sessionHandler->isAdmin() == true) { ?>
                                         <td><a class="btn btn-primary" href="<?php echo FRONT_ROOT ?>JobOffer/ShowModifyView/<?php echo $jobOffer->getJobOfferId(); ?>">Modificar</a></td>
-                                        <td><a class="btn btn-danger" href="<?php echo FRONT_ROOT ?>JobOffer/Delete/<?php echo $jobOffer->getJobOfferId(); ?>">Eliminar</a></td>
+                                        <td><a class="btn btn-danger" href="<?php echo FRONT_ROOT ?>JobOffer/Delete/<?php echo $jobOffer->getJobOfferId(); ?>" onclick="return confirm('Estas seguro de que quieres eliminar esta propuesta laboral?');">Eliminar</a></td>
                                         <?php }
                                     if ($sessionHandler->isStudent() == true) {
-                                        if ($isPostulated != $jobOffer->getJobOfferId()) { ?>
-                                            <td><a class="btn btn-primary" href="<?php echo FRONT_ROOT ?>JobPostulation/ShowPostulationView/<?php echo $jobOffer->getJobOfferId(); ?>">Postularse</a></td>
+                                        if ($postulatedJobOfferId != $jobOffer->getJobOfferId() && $postulatedJobOfferId == -1) { ?>
+                                            <td><a class="btn btn-primary" href="<?php echo FRONT_ROOT ?>JobPostulation/ShowPostulationView/<?php echo $jobOffer->getJobOfferId(); ?>" onclick="return confirm('Desea aplicar para la propuesta <?php echo $jobOffer->getTitle(); ?>?');">Aplicar</a></td>
                                         <?php
                                         }
-                                        if ($isPostulated == $jobOffer->getJobOfferId()) { ?>
-                                            <td><a class="btn btn-danger" href="<?php echo FRONT_ROOT ?>JobPostulation/Remove?jobOfferId=<?php echo $jobOffer->getJobOfferId(); ?>&studentId=<?php echo $sessionHandler->getLoggedStudentId(); ?>">Despostularse</a></td>
+                                        if ($postulatedJobOfferId != $jobOffer->getJobOfferId() && $postulatedJobOfferId != -1) { ?>
+                                        <td><a class="btn btn-secondary disabled" href="<?php echo FRONT_ROOT ?>JobPostulation/ShowPostulationView/<?php echo $jobOffer->getJobOfferId(); ?>">Aplicar</a></td>                                            
+                                        <?php
+                                        }
+                                        if ($postulatedJobOfferId == $jobOffer->getJobOfferId()) { ?>
+                                            <td><a class="btn btn-danger" href="<?php echo FRONT_ROOT ?>JobPostulation/Remove?jobOfferId=<?php echo $jobOffer->getJobOfferId(); ?>&studentId=<?php echo $sessionHandler->getStudentId(); ?>" onclick="return confirm('Estas a punto de remover tu aplicación. Estás seguro de que deseas hacer esto?');">Remover Aplicación</a></td>
                                     <?php
                                         }
                                     } ?>
