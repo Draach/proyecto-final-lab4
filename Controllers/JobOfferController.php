@@ -7,6 +7,7 @@ use DAO\CompanyDAO as CompanyDAO;
 use DAO\JobOfferDAO as JobOfferDAO;
 use DAO\JobPositionDAO as JobPositionDAO;
 use DAO\JobPostulationDAO as JobPostulationDAO;
+use DAO\StudentDAO as StudentDAO;
 use Models\JobOffer as JobOffer;
 use Utils\CustomSessionHandler as CustomSessionHandler;
 use Exception as Exception;
@@ -14,6 +15,7 @@ use Exception as Exception;
 class JobOfferController
 {
     private $careerDAO;
+    private $studentDAO;
     private $companyDAO;
     private $jobOfferDAO;
     private $jobPositionDAO;
@@ -28,6 +30,7 @@ class JobOfferController
         $this->jobOfferDAO = new JobOfferDAO();
         $this->jobPositionDAO = new JobPositionDAO();
         $this->jobPostulationDAO = new JobPostulationDAO();
+        $this->studentDAO = new StudentDAO();
         $this->sessionHandler = new CustomSessionHandler();
         $this->message = "";
     }
@@ -168,10 +171,11 @@ class JobOfferController
         }
     }
 
-    //TODO 
-    public function showPostulationsByJobOfferId($jobOfferId){
-        if ($this->sessionHandler->isAdmin()){
-
+    public function ShowJobOfferPostulations($jobOfferId) {
+        if($this->sessionHandler->isAdmin()){
+            $jobOffer = $this->jobOfferDAO->GetById($jobOfferId);
+            $studentsList = $this->studentDAO->GetAll();
+            $company = $this->companyDAO->getById($jobOffer->getCompanyId());
             $postulationsHistory = $this->jobOfferDAO->GetPostulationsByJobOfferId($jobOfferId);
             require_once(VIEWS_PATH . "nav.php");
             require_once(VIEWS_PATH . "job-offer-postulation-list.php");
@@ -179,6 +183,5 @@ class JobOfferController
         }else{
             require_once(VIEWS_PATH . "index.php");
         }
-        
     }
 }

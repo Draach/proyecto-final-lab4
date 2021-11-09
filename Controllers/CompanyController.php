@@ -79,18 +79,6 @@ class CompanyController
         $this->ShowAddView();
     }
 
-    // Devuelve una vista para eliminar una empresa.    
-    // TODO Eliminar método?
-    public function Remove()
-    {
-        if ($this->sessionHandler->isAdmin()) {
-            require_once(VIEWS_PATH . "nav.php");
-            require_once(VIEWS_PATH . "company-remove.php");
-        } else {
-            require_once(VIEWS_PATH . "index.php");
-        }
-    }
-
     /**
      * Recibe el ID de una empresa y la elimina de nuestra base de datos. (Borrado lógico)
      */

@@ -7,7 +7,7 @@ $sessionHandler = new CustomSessionhandler();
 ?>
 <main class="py-5">
     <section id="listado" class="mb-5">
-        <div class="container">
+        <div class="container-fluid">
             <form action="<?php echo FRONT_ROOT ?>JobOffer/GetByJobPositionDesc" method="post" class="form-row">
                 <div class="col-8">
                     <h2>Listado de Propuestas Laborales</h2>
@@ -32,6 +32,7 @@ $sessionHandler = new CustomSessionhandler();
                         <th>Empresa</th>
                         <th>Puesto</th>
                         <th>Carrera</th>
+                        <th>Acciones</th>
                         <th></th>
                         <th></th>
                     </thead>
@@ -72,6 +73,7 @@ $sessionHandler = new CustomSessionhandler();
                                         ?>
                                     </td>
                                     <?php if ($sessionHandler->isAdmin() == true) { ?>
+                                        <td><a class="btn btn-primary" href="<?php echo FRONT_ROOT ?>JobOffer/ShowJobOfferPostulations/<?php echo $jobOffer->getJobOfferId(); ?>">Ver Postulaciones</a></td>
                                         <td><a class="btn btn-primary" href="<?php echo FRONT_ROOT ?>JobOffer/ShowModifyView/<?php echo $jobOffer->getJobOfferId(); ?>">Modificar</a></td>
                                         <td><a class="btn btn-danger" href="<?php echo FRONT_ROOT ?>JobOffer/Delete/<?php echo $jobOffer->getJobOfferId(); ?>" onclick="return confirm('Estas seguro de que quieres eliminar esta propuesta laboral?');">Eliminar</a></td>
                                         <?php }

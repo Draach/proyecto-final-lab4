@@ -56,7 +56,7 @@ $sessionHandler = new CustomSessionhandler();
         } else if ($sessionHandler->isAdmin()) {
         ?>
             <a class="btn btn-secondary go-back mr-2" href="<?php echo FRONT_ROOT ?>Admin/ShowDashboard">Regresar</a>
-            <a class="btn btn-success" href="<?php echo FRONT_ROOT ?>Company/ShowAddView">Agregar</a>
+            <a class="btn btn-success" href="<?php echo FRONT_ROOT ?>Admin/ShowAddView">Agregar</a>
         <?php
         }
         ?>
