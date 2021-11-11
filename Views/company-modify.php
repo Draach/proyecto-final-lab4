@@ -1,6 +1,6 @@
 <main class="py-5">
      <section id="listado" class="mb-5">
-          <div class="container">
+          <div class="container text-white">
                <h2 class="mb-4">Modificar Empresa</h2>
                <form action="<?php echo FRONT_ROOT ?>Company/Modify" method="post" class="bg-light-alpha p-5">
                     <div class="row">
@@ -49,7 +49,7 @@
                          </div>
                     </div>
                     <a class="btn btn-secondary ml-auto" href="<?php echo FRONT_ROOT ?>Company/ShowListView">Regresar</a>
-                    <button type="submit" class="btn btn-primary">Modificar</button>
+                    <button type="submit" class="btn btn-yellow">Modificar</button>
                </form>
           </div>
      </section>

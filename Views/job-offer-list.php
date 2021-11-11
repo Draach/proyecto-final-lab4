@@ -7,7 +7,7 @@ $sessionHandler = new CustomSessionhandler();
 ?>
 <main class="py-5">
     <section id="listado" class="mb-5">
-        <div class="container-fluid">
+        <div class="container-fluid text-white">
             <form action="<?php echo FRONT_ROOT ?>JobOffer/GetByJobPositionDesc" method="post" class="form-row">
                 <div class="col-8">
                     <h2>Listado de Propuestas Laborales</h2>
@@ -16,7 +16,7 @@ $sessionHandler = new CustomSessionhandler();
                     <input class="form-control mr-sm-2" type="search" name="jobPositionDesc" placeholder="Buscar por puesto..." aria-label="Search">
                 </div>
                 <div class="col">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+                    <button class="btn btn-outline-success border-yellow my-2 my-sm-0" type="submit">Buscar</button>
                 </div>
             </form>
             <?php if (isset($message)) {
@@ -58,13 +58,13 @@ $sessionHandler = new CustomSessionhandler();
                                         ?>
                                     </td>
                                     <?php if ($sessionHandler->isAdmin() == true) { ?>
-                                        <td><a class="btn btn-primary" href="<?php echo FRONT_ROOT ?>JobOffer/ShowJobOfferPostulations/<?php echo $jobOffer->getJobOfferId(); ?>">Ver Postulaciones</a></td>
-                                        <td><a class="btn btn-primary" href="<?php echo FRONT_ROOT ?>JobOffer/ShowModifyView/<?php echo $jobOffer->getJobOfferId(); ?>">Modificar</a></td>
+                                        <td><a class="btn btn-yellow" href="<?php echo FRONT_ROOT ?>JobOffer/ShowJobOfferPostulations/<?php echo $jobOffer->getJobOfferId(); ?>">Ver Postulaciones</a></td>
+                                        <td><a class="btn btn-yellow" href="<?php echo FRONT_ROOT ?>JobOffer/ShowModifyView/<?php echo $jobOffer->getJobOfferId(); ?>">Modificar</a></td>
                                         <td><a class="btn btn-danger" href="<?php echo FRONT_ROOT ?>JobOffer/Delete/<?php echo $jobOffer->getJobOfferId(); ?>" onclick="return confirm('Estas seguro de que quieres eliminar esta propuesta laboral?');">Eliminar</a></td>
                                         <?php }
                                     if ($sessionHandler->isStudent() == true) {
                                         if ($postulatedJobOfferId != $jobOffer->getJobOfferId() && $postulatedJobOfferId == -1) { ?>
-                                            <td><a class="btn btn-primary" href="<?php echo FRONT_ROOT ?>JobPostulation/ShowPostulationView/<?php echo $jobOffer->getJobOfferId(); ?>" onclick="return confirm('Desea aplicar para la propuesta <?php echo $jobOffer->getTitle(); ?>?');">Aplicar</a></td>
+                                            <td><a class="btn btn-yellow" href="<?php echo FRONT_ROOT ?>JobPostulation/ShowPostulationView/<?php echo $jobOffer->getJobOfferId(); ?>" onclick="return confirm('Desea aplicar para la propuesta <?php echo $jobOffer->getTitle(); ?>?');">Aplicar</a></td>
                                         <?php
                                         }
                                         if ($postulatedJobOfferId != $jobOffer->getJobOfferId() && $postulatedJobOfferId != -1) { ?>

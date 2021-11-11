@@ -1,6 +1,6 @@
 <main class="py-5">
      <section id="listado" class="mb-5">
-          <div class="container">
+          <div class="container text-white">
                <h2 class="mb-4">Postulacion</h2>
                <div class="container">
                     <div class="row">
@@ -41,7 +41,7 @@
                          <div class="col-lg">
                               <div class="form-group">
                                    <label for="">Comentario</label>
-                                   <textarea name="comment" value="" class="form-control" rows="3"></textarea>
+                                   <textarea name="comment" value="" class="form-control" rows="6"></textarea>
                               </div>
                          </div>
                     </div>
@@ -54,7 +54,7 @@
                          </div>
                     </div>
                     <a class="btn btn-secondary" href="<?php echo FRONT_ROOT ?>Student/ShowDashboard">Regresar</a>
-                    <button type="submit" class="btn btn-dark">Postularse</button>
+                    <button type="submit" class="btn btn-yellow">Postularse</button>
                </form>
           </div>
      </section>

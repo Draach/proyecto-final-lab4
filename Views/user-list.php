@@ -6,9 +6,9 @@ $sessionHandler = new CustomSessionhandler();
 ?>
 <main class="py-5">
     <section id="listado" class="mb-5">
-        <div class="container">
+        <div class="container text-white">
             <div class="col-8">
-                <h2>Listado de Empresas</h2>
+                <h2>Listado de Usuarios</h2>
             </div>
             <div class="table-container overflow-auto">
                 <table class="table bg-light-alpha">
@@ -56,7 +56,7 @@ $sessionHandler = new CustomSessionhandler();
         } else if ($sessionHandler->isAdmin()) {
         ?>
             <a class="btn btn-secondary go-back mr-2" href="<?php echo FRONT_ROOT ?>Admin/ShowDashboard">Regresar</a>
-            <a class="btn btn-success" href="<?php echo FRONT_ROOT ?>Admin/ShowAddView">Agregar</a>
+            <a class="btn btn-yellow" href="<?php echo FRONT_ROOT ?>Admin/ShowAddView">Agregar</a>
         <?php
         }
         ?>

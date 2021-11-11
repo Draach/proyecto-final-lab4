@@ -1,6 +1,6 @@
 <main class="py-5">
     <section id="listado" class="mb-5">
-        <div class="container">
+        <div class="container text-yellow">
             <h2 class="mb-4">
                 Eliminar Usuario
             </h2>

@@ -5,27 +5,27 @@ $sessionHandler = new CustomSessionHandler();
 ?>
 <main class='py-5'>
     <section class='dashboard py-5'>
-        <div class='option-card border border-dark'>
+        <div class='option-card btn-yellow border-rounded shadow'>
             <a href="<?php echo FRONT_ROOT ?>Student/AcademicStatus">
-                Consultar Estado Académico
+                Estado Académico
             </a>
         </div>
-        <div class='option-card border border-dark'>
+        <div class='option-card btn-yellow border-rounded shadow'>
             <a class="nav-link" href="<?php echo FRONT_ROOT ?>Company/ShowListView">
-                Consultar Listado de Empresas
+                Listado de Empresas
             </a>
         </div>
-        <div class='option-card border border-dark'>
+        <div class='option-card btn-yellow border-rounded shadow'>
             <a href="<?php echo FRONT_ROOT ?>JobOffer/ShowListView">
-                Consultar Listado de Propuestas
+                Listado de Propuestas
             </a>
         </div>
-        <div class='option-card border border-dark'>
+        <div class='option-card btn-yellow border-rounded shadow'>
             <a href='<?php echo FRONT_ROOT ?>JobPostulation/ShowPostulationsHistory?studentId=<?php echo $this->sessionHandler->getStudentId();?>'>
-                Consultar Historial de Aplicaciones
+                Historial de Aplicaciones
             </a>
         </div>
-        <div class='option-card border border-dark'>
+        <div class='option-card btn-yellow border-rounded shadow'>
             <a href="<?php echo FRONT_ROOT ?>Auth/Logout">
                 Salir
             </a>

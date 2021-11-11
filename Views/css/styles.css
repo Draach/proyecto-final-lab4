@@ -1,6 +1,7 @@
 @import 'student-dashboard.css';
 @import 'company-details.css';
 
+
 .index {
   background-color: red;
 }
@@ -31,7 +32,6 @@
   background-color: #fff687;
   height: 100%;
   width: 100%;
-
 }
 
 .login-left-card img{
@@ -191,14 +191,48 @@
 }
 
 .admin-dashboard {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 93.29vh;
 }
 
 .admin-dashboard-content {
   margin: auto;
-  margin-top: 30vh;
+  padding-top: 30vh;
   text-align: center;
   justify-content: center;
 
+}
+
+main {
+  background-color: #164954;
+  height: 100vh;
+  width: 100vw;
+}
+
+.option-card a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.btn-yellow {
+  background-color: #fff687;
+  color: black;
+}
+
+.border-yellow {
+  border: 1px solid #fff687 !important;
+  color: #fff687;
+}
+
+.text-yellow {
+  color: #fff687;
+}
+
+.btn-yellow a{
+  color:black;
+  font-weight: bold;
+}
+
+.border-rounded {
+  border-radius: 10px;
 }

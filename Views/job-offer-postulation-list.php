@@ -1,6 +1,6 @@
 <main class="py-5">
     <section id="listado" class="mb-5">
-        <div class="container">
+        <div class="container text-white">
             <?php if ($postulationsHistory == null) { ?>
                 <div class="alert alert-warning" role="alert">
                     No se han encontrado postulaciones para esta oferta de trabajo.
@@ -43,7 +43,7 @@
                                     <td><?php echo $postulation->getStudent()->getFirstName(); ?></td>
                                     <td><?php echo $postulation->getStudent()->getLastName(); ?></td>
                                     <td><?php echo $postulation->getComment(); ?></td>
-                                    <td><a href="<?php echo FRONT_ROOT ?>Uploads/<?php echo $postulation->getCVarchive(); ?>" target="_blank" class="btn btn-primary">Ver CV</a></td>
+                                    <td><a href="<?php echo FRONT_ROOT ?>Uploads/<?php echo $postulation->getCVarchive(); ?>" target="_blank" class="btn btn-yellow">Ver CV</a></td>
                                 </tr>
                             <?php } ?>
                         </tbody>

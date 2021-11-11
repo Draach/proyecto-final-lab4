@@ -1,6 +1,6 @@
 <main class="py-5">
     <section id="listado" class="mb-5">
-        <div class="container">
+        <div class="container text-white">
             <?php if ($jobPostulationsList == null) { ?>
                 <h2 class="mb-5">Aún no te has postulado a ninguna oferta!</h2>
             <?php } else { ?>
@@ -23,7 +23,7 @@
                                     <td><?php echo $jobPostulation->getComment(); ?></td>
                                     <td><?php
                                         if ($jobPostulation->getActive() == 1) {
-                                            echo "<p class='text-primary'>Activa</p>";
+                                            echo "<p class='text-warning'>Activa</p>";
                                         } else {
                                             echo "<p class='text-danger'>Inactiva</p>";
                                         }

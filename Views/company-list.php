@@ -5,16 +5,16 @@ $sessionHandler = new CustomSessionhandler();
 ?>
 <main class="py-5">
     <section id="listado" class="mb-5">
-        <div class="container">
+        <div class="container text-white">
             <form action="<?php echo FRONT_ROOT ?>Company/GetByName" method="post" class="form-row">
                 <div class="col-8">
-                    <h2>Listado de Empresas</h2>
+                    <h2 class="text-white">Listado de Empresas</h2>
                 </div>
                 <div class="col">
                     <input class="form-control mr-sm-2" type="search" name="name" placeholder="Buscar por nombre..." aria-label="Search">
                 </div>
                 <div class="col">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+                    <button class="btn btn-outline-success border-yellow my-2 my-sm-0" type="submit">Buscar</button>
                 </div>
             </form>
             <div class="table-container overflow-auto">
@@ -47,10 +47,10 @@ $sessionHandler = new CustomSessionhandler();
                                     <td><?php echo $company->getEmail() ?></td>
                                     <td><?php echo $company->getPhone() ?></td>
                                     <td>
-                                        <a href="<?php echo FRONT_ROOT ?>Company/ShowDetails/<?php echo $company->getCompanyId(); ?>" class="btn btn-primary">Detalles</a>
+                                        <a href="<?php echo FRONT_ROOT ?>Company/ShowDetails/<?php echo $company->getCompanyId(); ?>" class="btn btn-yellow">Detalles</a>
                                         <?php if ($sessionHandler->isAdmin()) {
                                         ?>
-                                            <a href="<?php echo FRONT_ROOT ?>Company/ShowModifyView/<?php echo $company->getCompanyId(); ?>" class="btn btn-primary">Modificar</a>
+                                            <a href="<?php echo FRONT_ROOT ?>Company/ShowModifyView/<?php echo $company->getCompanyId(); ?>" class="btn btn-yellow">Modificar</a>
                                             <a href="<?php echo FRONT_ROOT ?>Company/RemoveCompany/<?php echo $company->getCompanyId(); ?>" class="btn btn-danger" onclick="return confirm('Estas seguro de que quieres eliminar la empresa <?php echo $company->getName(); ?>?');">Eliminar</a>
                                     </td>
                                 <?php
@@ -74,7 +74,7 @@ $sessionHandler = new CustomSessionhandler();
     } else if ($sessionHandler->isAdmin()) {
     ?>
         <a class="btn btn-secondary go-back mr-2" href="<?php echo FRONT_ROOT ?>Admin/ShowDashboard">Regresar</a>
-        <a class="btn btn-success" href="<?php echo FRONT_ROOT ?>Company/ShowAddView">Agregar</a>
+        <a class="btn btn-yellow" href="<?php echo FRONT_ROOT ?>Company/ShowAddView">Agregar</a>
     <?php
     }
     ?>

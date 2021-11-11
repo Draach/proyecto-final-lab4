@@ -114,6 +114,10 @@ class JobPostulationController
     public function UploadArchive($cvarchive)
     {
         try {
+            if ($cvarchive["name"] == "") {
+                throw new Exception("No se ha seleccionado ningun archivo.");
+            }
+            echo var_dump($cvarchive);
             $explodedName = explode(".", $cvarchive["name"]);
             $extension = strtolower($explodedName[count($explodedName) - 1]);
             if ($extension != "pdf") {

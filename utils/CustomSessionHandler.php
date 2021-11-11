@@ -62,4 +62,12 @@ class CustomSessionHandler
 
         return $result;
     }
+
+    public function getEmail(){
+        $result = "";
+        if($this->userIsSet()){
+            $result = $_SESSION["loggedUser"]->getEmail();
+        }
+        return $result;
+    }
 }

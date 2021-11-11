@@ -3,7 +3,7 @@ date_default_timezone_set('America/Argentina/Buenos_Aires');
 ?>
 <main class="py-5">
     <section id="listado" class="mb-5">
-        <div class="container">
+        <div class="container text-white">
             <h2 class="mb-4">Agregar Propuesta Laboral</h2>
             <form action="<?php echo FRONT_ROOT ?>JobOffer/Add" method="post" class="bg-light-alpha p-5">
                 <div class="row">
@@ -53,7 +53,7 @@ date_default_timezone_set('America/Argentina/Buenos_Aires');
                     </div>
                 </div>
                 <a class="btn btn-secondary" href="<?php echo FRONT_ROOT ?>Admin/ShowDashboard">Regresar</a>
-                <button type="submit" class="btn btn-success">Agregar</button>
+                <button type="submit" class="btn btn-yellow">Agregar</button>
             </form>
         </div>
     </section>
