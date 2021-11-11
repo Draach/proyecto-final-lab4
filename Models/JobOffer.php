@@ -9,8 +9,8 @@ class JobOffer
     private $createdAt;
     private $expirationDate;
     private $salary;
-    private $companyId;
-    private $jobPositionId;
+    private $company;
+    private $jobPosition;
     private $applications;
     private $active;
 
@@ -80,30 +80,6 @@ class JobOffer
         return $this;
     }
 
-    public function getCompanyId()
-    {
-        return $this->companyId;
-    }
-
-    public function setCompanyId($companyId)
-    {
-        $this->companyId = $companyId;
-
-        return $this;
-    }
-
-    public function getJobPositionId()
-    {
-        return $this->jobPositionId;
-    }
-
-    public function setJobPositionId($jobPositionId)
-    {
-        $this->jobPositionId = $jobPositionId;
-
-        return $this;
-    }
-
     public function getStudentId()
     {
         return $this->studentId;
@@ -136,6 +112,30 @@ class JobOffer
     public function setApplications($applications)
     {
         $this->applications = $applications;
+
+        return $this;
+    }
+
+    public function getCompany()
+    {
+        return $this->company;
+    }
+
+    public function setCompany($company)
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    public function getJobPosition()
+    {
+        return $this->jobPosition;
+    }
+
+    public function setJobPosition($jobPosition)
+    {
+        $this->jobPosition = $jobPosition;
 
         return $this;
     }

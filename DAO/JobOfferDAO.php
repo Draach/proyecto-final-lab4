@@ -12,7 +12,7 @@ class JobOfferDAO implements IJobOfferDAO
 {
     private $connection;
     private $tableName = "job_offers";
-    private $postulationsTableName = "job_postulations";
+    private $g = "job_postulations";
 
     private $jobPositionDAO;
 
