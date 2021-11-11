@@ -1,6 +1,7 @@
 <?php
 
 namespace Models;
+use Models\Company as Company;
 
 class JobOffer
 {

@@ -29,7 +29,8 @@ class AdminController
         $encryptedPassword = password_hash($password, PASSWORD_BCRYPT);
         $user->setEmail($email);
         $user->setPassword($encryptedPassword);
-        $user->setRoleId($this->adminRole);        
+        $user->setRoleId($this->adminRole);
+        $user->setActive(true);        
 
         try {
             $this->userDAO->Add($user);

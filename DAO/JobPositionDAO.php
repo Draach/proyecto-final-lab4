@@ -34,4 +34,20 @@ class JobPositionDAO implements IJobPositionDAO
             throw $ex;
         }
     }
+
+    public function GetById($id)
+    {
+        $jobPositionsList = $this->GetAll();
+        $found = null;
+        foreach ($jobPositionsList as $jobPosition) {
+            if ($jobPosition['jobPositionId'] == $id) {
+                $found = new JobPosition();
+                $found->setJobPositionId($jobPosition['jobPositionId']);
+                $found->setCareerId($jobPosition['careerId']);
+                $found->setDescription($jobPosition['description']);
+                break;
+            }
+        }
+        return $found;
+    }
 }

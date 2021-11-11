@@ -7,12 +7,15 @@ use DAO\IJobOfferDAO as IJobOfferDAO;
 use Models\JobOffer as JobOffer;
 use DAO\Connection as Connection;
 use DAO\JobPositionDAO as JobPositionDAO;
+use Models\Company as Company; 
+use Models\JobPosition as JobPosition;
+
 
 class JobOfferDAO implements IJobOfferDAO
 {
     private $connection;
     private $tableName = "job_offers";
-    private $g = "job_postulations";
+    
 
     private $jobPositionDAO;
 
@@ -41,8 +44,8 @@ class JobOfferDAO implements IJobOfferDAO
             $parameters["createdAt"] = $jobOffer->getCreatedAt();
             $parameters["expirationDate"] = $jobOffer->getExpirationDate();
             $parameters["salary"] = $jobOffer->getSalary();
-            $parameters["companyId"] = $jobOffer->getCompanyId();
-            $parameters["jobPositionId"] = $jobOffer->getJobPositionId();
+            $parameters["companyId"] = $jobOffer->getCompany()->getCompanyId();
+            $parameters["jobPositionId"] = $jobOffer->getJobPosition()->getJobPositionId();
             $parameters["active"] = $jobOffer->getActive();
 
             $this->connection = Connection::GetInstance();
@@ -62,21 +65,38 @@ class JobOfferDAO implements IJobOfferDAO
         try {
             $jobOffersList = array();
 
-            $query = "SELECT * FROM " . $this->tableName;
+            $query = "call get_all_job_offers()";
 
             $this->connection = Connection::GetInstance();
 
             $resultSet = $this->connection->Execute($query);
 
             foreach ($resultSet as $row) {
+                $jobPosition = new JobPosition();
                 $jobOffer = new JobOffer();
+                $company = new Company();
+
+                //Seteo de Company
+                $company->setName($row["companyName"]);
+                $company->setCompanyId($row["companyId"]);
+                $company->setEmail($row["email"]);
+                $company->setPhone($row["phone"]);
+                $company->setAddress($row["address"]); 
+                $company->setCuit($row["cuit"]); 
+                $company->setWebsite($row["website"]); 
+                $company->setFounded($row["founded"]); 
+                $company->setStatus($row["status"]); 
+
+                //Seteo de JobPosition
+                $jobPosition->setJobPositionId($row["jobPositionId"]);
+                
                 $jobOffer->setJobOfferId($row["jobOfferId"]);
                 $jobOffer->setTitle($row["title"]);
                 $jobOffer->setCreatedAt($row["createdAt"]);
                 $jobOffer->setExpirationDate($row["expirationDate"]);
                 $jobOffer->setSalary($row["salary"]);
-                $jobOffer->setCompanyId($row["companyId"]);
-                $jobOffer->setJobPositionId($row["jobPositionId"]);
+                $jobOffer->setCompany($company);
+                $jobOffer->setJobPosition($jobPosition);
                 $jobOffer->setActive($row["active"]);
 
 

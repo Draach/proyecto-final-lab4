@@ -22,12 +22,14 @@ class UserDAO implements IUserDAO
         try {            
             $this->EmailVerify($user->getEmail());            
 
-            $query = "INSERT INTO " . $this->tableName . " (email, password, roleId, studentId) VALUES (:email, :password, :roleId, :studentId);";
+            $query = "INSERT INTO " . $this->tableName . " (email, password, roleId, studentId, active) VALUES (:email, :password, :roleId, :studentId, :active);";
 
             $parameters['email'] = $user->getEmail();
             $parameters['password'] = $user->getPassword();
             $parameters['roleId'] = $user->getRoleId();
             $parameters['studentId'] = $user->getStudentId();
+            $parameters['active'] = $user->getActive();
+        
 
             $this->connection = Connection::GetInstance();
 
