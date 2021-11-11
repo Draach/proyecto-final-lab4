@@ -20,7 +20,9 @@ $sessionHandler = new CustomSessionhandler();
                 </div>
             </form>
             <?php if (isset($message)) {
-                echo $message;
+                echo "<div class='alert alert-warning' role='alert'>
+                $message
+                </div>";          
             } ?>
             <div class="table-container overflow-auto">
                 <table class="table bg-light-alpha">
@@ -64,7 +66,7 @@ $sessionHandler = new CustomSessionhandler();
                                         <?php }
                                     if ($sessionHandler->isStudent() == true) {
                                         if ($postulatedJobOfferId != $jobOffer->getJobOfferId() && $postulatedJobOfferId == -1) { ?>
-                                            <td><a class="btn btn-yellow" href="<?php echo FRONT_ROOT ?>JobPostulation/ShowPostulationView/<?php echo $jobOffer->getJobOfferId(); ?>" onclick="return confirm('Desea aplicar para la propuesta <?php echo $jobOffer->getTitle(); ?>?');">Aplicar</a></td>
+                                            <td><a class="btn btn-yellow" href="<?php echo FRONT_ROOT ?>JobPostulation/ShowPostulationView/<?php echo $jobOffer->getJobOfferId(); ?>" onclick="return confirm('Desea aplicar para el puesto <?php echo $jobOffer->getJobPosition()->getDescription();?>?');">Aplicar</a></td>
                                         <?php
                                         }
                                         if ($postulatedJobOfferId != $jobOffer->getJobOfferId() && $postulatedJobOfferId != -1) { ?>

@@ -63,7 +63,7 @@ class JobPostulationController
 
                 // Guardamos la postulacion a la db
                 $this->jobPostulationDAO->Add($jobPostulation);
-                $message = "Postulacion realizada con exito ";
+                $message = "Postulacion realizada con exito.";
                 require_once(VIEWS_PATH . "job-offer-list.php");
             } catch (Exception $ex) {
                 $message = $ex->getMessage();
@@ -99,8 +99,8 @@ class JobPostulationController
         $postulatedJobOfferId = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getStudentId());
         try {
             $this->jobPostulationDAO->Remove($jobOfferId, $studentId);
-            $message = "Postulacion eliminada con exito";
-            require_once(VIEWS_PATH . "job-offer-list.php");
+            $message = "Postulacion eliminada con exito.";
+            require_once(VIEWS_PATH . "job-offer-list.php");            
         } catch (Exception $ex) {
             $message = "No se ha encontrado una postulación activa.";
             require_once(VIEWS_PATH . "job-offer-list.php");
@@ -117,7 +117,7 @@ class JobPostulationController
             if ($cvarchive["name"] == "") {
                 throw new Exception("No se ha seleccionado ningun archivo.");
             }
-            echo var_dump($cvarchive);
+            
             $explodedName = explode(".", $cvarchive["name"]);
             $extension = strtolower($explodedName[count($explodedName) - 1]);
             if ($extension != "pdf") {
