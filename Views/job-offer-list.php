@@ -47,22 +47,15 @@ $sessionHandler = new CustomSessionhandler();
                                     <td><?php echo $jobOffer->getExpirationDate(); ?></td>
                                     <td><?php echo $jobOffer->getSalary(); ?></td>
                                     <td><?php
-                                        foreach ($companiesList as $company) {
-                                            if ($company->getCompanyId() == $jobOffer->getCompanyId()) {
-                                                echo $company->getName();
-                                            }
-                                        }
+                                        echo $jobOffer->getCompany()->getName();
                                         ?></td>
-                                    <td><?php foreach ($jobPositionsList as $jobPosition) {
-                                            if ($jobPosition['jobPositionId'] == $jobOffer->getJobPositionId()) {
-                                                echo $jobPosition['description'];
-                                            }
-                                        }
+                                    <td><?php 
+                                        echo $jobOffer->getJobPosition()->getDescription();
                                         ?></td>
                                     <td>
                                         <?php
                                         foreach ($jobPositionsList as $jobPosition) {
-                                            if ($jobPosition['jobPositionId'] == $jobOffer->getJobPositionId()) {
+                                            if ($jobPosition['jobPositionId'] == $jobOffer->getJobPosition()->getJobPositionId()) {
                                                 foreach ($careersList as $career) {
                                                     if ($career['careerId'] == $jobPosition['careerId']) {
                                                         echo $career['description'];

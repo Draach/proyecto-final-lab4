@@ -40,7 +40,7 @@ class JobOfferController
      */
     public function ShowAddView()
     {
-        $jobPositionsList = $this->jobPositionDAO->GetAll();        
+        $jobPositionsList = $this->jobPositionDAO->GetAll();
         foreach ($jobPositionsList as $key => $row) {
             $description[$key] = $row['description'];
         }
@@ -61,11 +61,21 @@ class JobOfferController
     public function ShowListView()
     {
         $careersList = $this->careerDAO->GetAll();
-        $companiesList = $this->companyDAO->GetAll();
+        //$companiesList = $this->companyDAO->GetAll();
         $jobPositionsList = $this->jobPositionDAO->GetAll();
         $jobOffersList = $this->jobOfferDAO->GetAll();
         $postulatedJobOfferId = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getStudentId());
         $isPostulated = $this->jobPostulationDAO->isPostulated($this->sessionHandler->getStudentId());
+
+        foreach ($jobOffersList as $jobOffer) {
+            foreach ($jobPositionsList as $jobPosition) {
+                if ($jobOffer->getJobPosition()->getJobPositionId() == $jobPosition['jobPositionId']) {
+                    $jobOffer->getJobPosition()->setCareerId($jobPosition['careerId']);
+                    $jobOffer->getJobPosition()->setDescription($jobPosition['description']);
+                }
+            }
+        }
+
 
         if ($this->sessionHandler->isAdmin() || $this->sessionHandler->isStudent()) {
             if ($this->sessionHandler->isAdmin()) {
@@ -83,26 +93,28 @@ class JobOfferController
     public function Add($jobPositionId, $companyId, $title, $salary, $createdAt, $expirationDate)
     {
         $timeNow = date("Y-m-d");
-        
+
         $jobOffer = new JobOffer();
+
         $jobOffer->setTitle($title);
         $jobOffer->setCreatedAt($createdAt);
         $jobOffer->setExpirationDate($expirationDate);
         $jobOffer->setSalary($salary);
-        $jobOffer->setCompanyId($companyId);
-        $jobOffer->setJobPositionId($jobPositionId);
+        $jobOffer->setCompany($this->companyDAO->GetById($companyId));
+        $jobOffer->setJobPosition($this->jobPositionDAO->GetById($jobPositionId));
 
-        try {            
-            if($expirationDate <= $timeNow) {                
+        echo var_dump($jobOffer);
+        try {
+            if ($expirationDate <= $timeNow) {
                 throw new Exception('La fecha de expiración no puede ser anterior o igual a la fecha de hoy. Ingrese una fecha válida.');
-            } 
+            }
             echo "<script type='text/javascript'>alert('Propuesta agregada exitosamente.');</script>";
             $this->jobOfferDAO->Add($jobOffer);
         } catch (Exception $ex) {
             $errMessage = $ex->getMessage();
             echo "<script type='text/javascript'>alert('Error: $errMessage');</script>";
         }
-        
+
         $this->ShowAddView();
     }
 
@@ -171,16 +183,16 @@ class JobOfferController
         }
     }
 
-    public function ShowJobOfferPostulations($jobOfferId) {
-        if($this->sessionHandler->isAdmin()){
+    public function ShowJobOfferPostulations($jobOfferId)
+    {
+        if ($this->sessionHandler->isAdmin()) {
             $jobOffer = $this->jobOfferDAO->GetById($jobOfferId);
             $studentsList = $this->studentDAO->GetAll();
             $company = $this->companyDAO->getById($jobOffer->getCompanyId());
             $postulationsHistory = $this->jobOfferDAO->GetPostulationsByJobOfferId($jobOfferId);
             require_once(VIEWS_PATH . "nav.php");
             require_once(VIEWS_PATH . "job-offer-postulation-list.php");
-  
-        }else{
+        } else {
             require_once(VIEWS_PATH . "index.php");
         }
     }

@@ -5,8 +5,8 @@ namespace Models;
 class JobPostulation
 {
     private $postulationId; 
-    private $studentId; 
-    private $jobOfferId; 
+    private $jobOffer;
+    private $student;
     private $comment;
     private $CVarchive;
     private $active;
@@ -25,30 +25,6 @@ class JobPostulation
     public function setPostulationId($postulationId)
     {
         $this->postulationId = $postulationId;
-
-        return $this;
-    }
-
-    public function getStudentId()
-    {
-        return $this->studentId;
-    }
-
-    public function setStudentId($studentId)
-    {
-        $this->studentId = $studentId;
-
-        return $this;
-    }
-
-    public function getJobOfferId()
-    {
-        return $this->jobOfferId;
-    }
-
-    public function setJobOfferId($jobOfferId)
-    {
-        $this->jobOfferId = $jobOfferId;
 
         return $this;
     }
@@ -85,6 +61,30 @@ class JobPostulation
     public function setActive($active)
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    public function getJobOffer()
+    {
+        return $this->jobOffer;
+    }
+
+    public function setJobOffer($jobOffer)
+    {
+        $this->jobOffer = $jobOffer;
+
+        return $this;
+    }
+
+    public function getStudent()
+    {
+        return $this->student;
+    }
+
+    public function setStudent($student)
+    {
+        $this->student = $student;
 
         return $this;
     }
