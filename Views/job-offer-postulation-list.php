@@ -36,12 +36,7 @@ echo var_dump($studentsList);
                             <tr>
                                 <td><?php echo $postulation['idjob_postulations']; ?></td>
                                 <td><?php echo $postulation['studentId']; ?></td>
-                                <?php foreach($studentsList as $student) {
-                                    if($student['studentId'] == $postulation['studentId']) { ?>
-                                        <td><?php echo $student['firstName']; ?></td>
-                                        <td><?php echo $student['lastName']; ?></td>
-                                    <?php }
-                                } ?>                                
+                                <td><?php echo $postulation->getStu</td>                           
                                 <td><?php echo $postulation['comment']; ?></td>
                                 <td><a href="<?php echo FRONT_ROOT ?>Uploads/<?php echo $postulation['cvarchive']; ?>" target="_blank"><?php echo $postulation['cvarchive']; ?></a></td>
                             </tr>

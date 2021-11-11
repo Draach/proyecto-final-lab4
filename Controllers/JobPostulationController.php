@@ -58,9 +58,10 @@ class JobPostulationController
         $careersList = $this->careerDAO->GetAll();
         $postulatedJobOfferId = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getStudentId());
 
+        
         $jobPostulation = new JobPostulation();
-        $jobPostulation->setJobOfferId($jobOfferId);
-        $jobPostulation->setStudentId($studentId);
+        $jobPostulation->setJobOffer($this->jobOfferDAO->GetById($jobOfferId));
+        $jobPostulation->setStudent($this->studentDAO->getById($studentId));
         $jobPostulation->setComment($comment);
         $jobPostulation->setCvArchive($cvarchive);
         if ($this->studentDAO->isActive($studentId)) {

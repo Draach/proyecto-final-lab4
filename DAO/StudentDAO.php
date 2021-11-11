@@ -157,4 +157,29 @@ class StudentDAO implements IStudentDAO
             throw $ex;
         }
     }
+
+    public function getById($id){
+        $studentsList = $this->getAll();
+        $found = null;
+        foreach($studentsList as $student){
+            if($student['studentId'] == $id){
+                $found = new Student();
+                $found->setStudentId($student['studentId']);
+                $found->setCareerId($student['$careerId']);
+                $found->setFileNumber($student['$fileNumber']);
+                $found->setFirstName($student['$firstName']);
+                $found->setLastName($student['$lastName']);
+                $found->setDni($student['$dni']);
+                $found->setGender($student['$gender']);
+                $found->setBirthDate($student['$birthDate']);
+                $found->setEmail($student['$email']);
+                $found->setPhoneNumber($student['$phoneNumber']);
+                $found->setActive($student['$active']);
+                break;
+            }
+
+        }
+
+        return $found;
+    }
 }
