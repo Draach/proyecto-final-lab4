@@ -45,9 +45,8 @@ class AdminController
     }
 
     /**
-     * Devuelve una lista de administradores.
-     */
-    // TODO - Implementar
+     * Devuelve una lista de usuarios.
+     */   
     public function ShowListView()
     {
         /**

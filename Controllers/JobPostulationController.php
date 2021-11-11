@@ -2,8 +2,6 @@
 
 namespace Controllers;
 
-use DAO\CareerDAO as CareerDAO;
-use DAO\CompanyDAO as CompanyDAO;
 use DAO\JobOfferDAO as JobOfferDAO;
 use DAO\JobPositionDAO as JobPositionDAO;
 use DAO\JobPostulationDAO as JobPostulationDAO;
@@ -14,8 +12,6 @@ use Models\JobPostulation;
 
 class JobPostulationController
 {
-    private $careerDAO;
-    private $companyDAO;
     private $jobOfferDAO;
     private $jobPositionDAO;
     private $jobPostulationDAO;
@@ -25,8 +21,6 @@ class JobPostulationController
 
     public function __construct()
     {
-        $this->careerDAO = new CareerDAO();
-        $this->companyDAO = new CompanyDAO();
         $this->jobOfferDAO = new JobOfferDAO();
         $this->jobPositionDAO = new JobPositionDAO();
         $this->jobPostulationDAO = new JobPostulationDAO();
@@ -41,7 +35,6 @@ class JobPostulationController
     public function ShowPostulationView($jobOfferId)
     {
         $jobOffer = $this->jobOfferDAO->GetById($jobOfferId);
-        $companiesList = $this->companyDAO->GetAll();
         $jobPositionsList = $this->jobPositionDAO->GetAll();
         require_once(VIEWS_PATH . "job-offer-postulation.php");
     }
@@ -52,18 +45,17 @@ class JobPostulationController
      */
     public function Add($jobOfferId, $studentId, $comment, $cvarchive)
     {
-        $companiesList = $this->companyDAO->GetAll();
         $jobOffersList = $this->jobOfferDAO->GetAll();
-        $jobPositionsList = $this->jobPositionDAO->GetAll();
-        $careersList = $this->careerDAO->GetAll();
+
         $postulatedJobOfferId = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getStudentId());
 
-        
+
         $jobPostulation = new JobPostulation();
         $jobPostulation->setJobOffer($this->jobOfferDAO->GetById($jobOfferId));
         $jobPostulation->setStudent($this->studentDAO->getById($studentId));
         $jobPostulation->setComment($comment);
         $jobPostulation->setCvArchive($cvarchive);
+        $jobPostulation->setActive(true);
         if ($this->studentDAO->isActive($studentId)) {
             try {
                 // Recibe un archivo y lo sube a la carpeta uploads
@@ -90,10 +82,7 @@ class JobPostulationController
     {
         if ($this->sessionHandler->isStudent()) {
             $jobPostulationsList = $this->jobPostulationDAO->GetAllByStudentId($studentId);
-            $companiesList = $this->companyDAO->GetAll();
-            $jobOffersList = $this->jobOfferDAO->GetAll();
-            $jobPositionsList = $this->jobPositionDAO->GetAll();
-            $student = $this->studentDAO->GetAcademicStatusByStudentId($this->sessionHandler->getStudentId());
+
             require_once(VIEWS_PATH . "student-postulations-history.php");
         } else {
             require_once(VIEWS_PATH . "index.php");
@@ -105,10 +94,8 @@ class JobPostulationController
      */
     public function Remove($jobOfferId, $studentId)
     {
-        $companiesList = $this->companyDAO->GetAll();
         $jobOffersList = $this->jobOfferDAO->GetAll();
-        $jobPositionsList = $this->jobPositionDAO->GetAll();
-        $careersList = $this->careerDAO->GetAll();
+
         $postulatedJobOfferId = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getStudentId());
         try {
             $this->jobPostulationDAO->Remove($jobOfferId, $studentId);
@@ -127,6 +114,12 @@ class JobPostulationController
     public function UploadArchive($cvarchive)
     {
         try {
+            $explodedName = explode(".", $cvarchive["name"]);
+            $extension = strtolower($explodedName[count($explodedName) - 1]);
+            if ($extension != "pdf") {
+                throw new Exception("El archivo no es un pdf");
+            }
+
             // Obtenemos nombre del archivo, tipo, direccion temporal
             $fileName = $cvarchive["name"];
             $type = $cvarchive["type"];
@@ -152,8 +145,7 @@ class JobPostulationController
             }
         } catch (Exception $ex) {
             $this->message = $ex->getMessage();
-        } finally {
-            return $this->message;
+            throw $ex;
         }
     }
 }

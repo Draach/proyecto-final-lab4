@@ -36,7 +36,7 @@ $sessionHandler = new CustomSessionhandler();
                                     }
                                     ?>                                    
                                     <td><?php echo $user->getEmail() ?></td>
-                                    <td><?php echo $user->getRoleId() ?></td>
+                                    <td><?php echo ucfirst($user->getRoleName()); ?></td>
                                     <td><?php echo $user->getStudentId() ?></td>
                                 </tr>
                         <?php

@@ -4,15 +4,23 @@ namespace DAO;
 
 use \Exception as Exception;
 use DAO\IJobPostulationDAO as IJobPostulationDAO;
-use Models\JobPostulation as JobPostulation;
+use DAO\JobPositionDAO as JobPositionDAO;
 use DAO\Connection as Connection;
+use Models\JobPostulation as JobPostulation;
 use Models\JobOffer as JobOffer;
-
+use Models\Student as Student;
+use Models\Company as Company;
 
 class JobPostulationDAO implements IJobPostulationDAO
 {
     private $connection;
     private $tableName = "job_postulations";
+    private $jobPositionDAO;
+
+    public function __construct()
+    {        
+        $this->jobPositionDAO = new JobPositionDAO();
+    }
 
     /**
      * Recibe los datos de una postulación y la agrega a la base de datos.
@@ -125,23 +133,54 @@ class JobPostulationDAO implements IJobPostulationDAO
 
     public function GetAllByStudentId($studentId)
     {
-        $jobPostulationsList = array();
+        $jobPostulationsList = array();        
         try {
-            $query = "SELECT * FROM " . $this->tableName . " WHERE `studentId` = :studentId";
-            $parameters["studentId"] = $studentId;
+            $query = "CALL get_postulations_by_student_id(?)";
+            $parameters["?"] = $studentId;
 
             $this->connection = Connection::GetInstance();
 
-            $resultSet = $this->connection->Execute($query, $parameters);            
-
+            $resultSet = $this->connection->Execute($query, $parameters, QueryType::StoredProcedure);            
+            
             foreach($resultSet as $row) {
                 $jobPostulation = new JobPostulation();
-                $jobPostulation->setPostulationId($row['idjob_postulations']);
-                $jobPostulation->setStudentId($row['studentId']);
-                $jobPostulation->setJobOfferId($row['jobOfferId']);
+                $student = new Student();
+                $jobOffer = new JobOffer();
+                $company = new Company();
+                $jobPosition = $this->jobPositionDAO->GetById($row['jobPositionId']);                
+
+
+                // Mapeo ID Student - El resto viene de la api en el controlador.
+                $student->setStudentId($row["studentId"]);
+
+                // Mapeo Company
+                $company->setCompanyId($row["companyId"]);
+                $company->setName($row["name"]);
+                $company->setEmail($row["email"]);
+                $company->setPhone($row["phone"]);
+                $company->setAddress($row["address"]);
+                $company->setCuit($row["cuit"]);
+                $company->setWebsite($row["website"]);
+                $company->setFounded($row["founded"]);
+                $company->setStatus($row["status"]);
+
+
+                // Mapeo
+                $jobOffer->setJobOfferId($row["jobOfferId"]);
+                $jobOffer->setCompany($company);
+                $jobOffer->setTitle($row["title"]);
+                $jobOffer->setCreatedAt($row["createdAt"]);
+                $jobOffer->setExpirationDate($row["expirationDate"]);
+                $jobOffer->setSalary($row["salary"]);
+                $jobOffer->setJobPosition($jobPosition);
+                $jobOffer->setActive($row["jo_active"]);
+
+                $jobPostulation->setPostulationId($row['idjob_postulations']);                
+                $jobPostulation->setStudent($student);
+                $jobPostulation->setJobOffer($jobOffer);
                 $jobPostulation->setComment($row['comment']);
                 $jobPostulation->setCvarchive($row['cvarchive']);
-                $jobPostulation->setActive($row['active']);                
+                $jobPostulation->setActive($row['jp_active']);                
 
                 array_push($jobPostulationsList, $jobPostulation);
             }            

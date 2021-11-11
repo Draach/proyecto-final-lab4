@@ -69,7 +69,7 @@ class UserDAO implements IUserDAO
 
     function GetAllUsers(){
         try {
-            $query = "SELECT * FROM " . $this->tableName . ";";
+            $query = "CALL get_users_with_roles()";
 
             $this->connection = Connection::GetInstance();
 
@@ -80,11 +80,11 @@ class UserDAO implements IUserDAO
             foreach ($resultSet as $row) {
                 $user = new User();
                 $user->setUserId($row["userId"]);
-                $user->setEmail($row["email"]);
-                $user->setPassword($row["password"]);
-                $user->setRoleId($row["roleId"]);
+                $user->setEmail($row["email"]);                                
                 $user->setStudentId($row["studentId"]);
                 $user->setActive($row["active"]);
+                $user->setRoleId($row["roleId"]);
+                $user->setRoleName($row["roleName"]);
 
                 array_push($users, $user);
             }

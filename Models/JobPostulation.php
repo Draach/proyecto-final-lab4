@@ -11,10 +11,6 @@ class JobPostulation
     private $CVarchive;
     private $active;
 
-    public function __construct() {
-        $this->active = true;
-    }
-
 
     public function getPostulationId()
     {

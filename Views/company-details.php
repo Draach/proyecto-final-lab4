@@ -25,30 +25,30 @@ $sessionHandler = new CustomSessionhandler();
         <img src='<?php echo FRONT_ROOT ?>Views/img/placeholder.png'>
       </div>
       <div class='content-right'>
-        <ul className="ul-education fa-ul">
+        <ul className="ul-education fa-ul" style="list-style:none">
           <li>
             <p className="item-desc">
-              <?php echo $company->getEmail(); ?>
+              Correo: <?php echo $company->getEmail(); ?>
             </p>
           </li>
           <li>
             <p className="item-desc">
-              <?php echo $company->getPhone(); ?>
+              Teléfono: <?php echo $company->getPhone(); ?>
             </p>
           </li>
           <li>
             <p className="item-desc">
-              <?php echo $company->getAddress(); ?>
+              Dirección: <?php echo $company->getAddress(); ?>
             </p>
           </li>
           <li>
             <p className="item-desc">
-              <?php echo $company->getCuit(); ?>
+              Cuit: <?php echo $company->getCuit(); ?>
             </p>
           </li>
           <li>
             <p className="item-desc">
-              <?php echo $company->getWebsite(); ?>
+              Sitio Web: <a href="<?php echo $company->getWebsite(); ?>"><?php echo $company->getWebsite(); ?></a>
             </p>
           </li>
         </ul>

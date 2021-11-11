@@ -70,12 +70,12 @@ class CompanyController
                 throw new Exception('La fecha de fundación no puede ser posterior a hoy. Por favor, ingrese una fecha válida.');
             } 
             $this->companyDAO->Add($company);
+            echo "<script type='text/javascript'>alert('Empresa agregada exitosamente.');</script>";
         } catch (Exception $ex) {
             $errMessage = $ex->getMessage();
             echo "<script type='text/javascript'>alert('Error: $errMessage');</script>";
         }
 
-        echo "<script type='text/javascript'>alert('Empresa agregada exitosamente.');</script>";
         $this->ShowAddView();
     }
 
@@ -138,7 +138,17 @@ class CompanyController
     public function Modify($id, $companyName, $email, $phone, $address, $cuit, $website, $founded)
     {        
         try {
-            $response = $this->companyDAO->Modify($id, $companyName, $email, $phone, $address, $cuit, $website, $founded);
+            $company = new Company();
+            $company->setCompanyId($id);
+            $company->setName($companyName);
+            $company->setEmail($email);
+            $company->setPhone($phone);
+            $company->setAddress($address);
+            $company->setCuit($cuit);
+            $company->setWebsite($website);
+            $company->setFounded($founded);
+
+            $response = $this->companyDAO->Modify($company);
             echo "<script type='text/javascript'>alert('Se ha modificado exitosamente.');</script>";
             $this->ShowModifyView($id);
         } catch (Exception $ex) {

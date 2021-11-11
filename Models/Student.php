@@ -5,7 +5,7 @@ namespace Models;
 class Student
 {
         private $studentId;
-        private $careerId;
+        private $career;
         private $fileNumber;
         private $firstName;
         private $lastName;
@@ -15,8 +15,6 @@ class Student
         private $email;
         private $phoneNumber;
         private $active;
-
-
 
         public function getFirstName()
         {
@@ -67,15 +65,15 @@ class Student
                 return $this;
         }
 
-        public function getCareerId()
+        public function getCareer()
         {
-                return $this->careerId;
+                return $this->career;
         }
 
 
-        public function setCareerId($careerId)
+        public function setCareer($career)
         {
-                $this->careerId = $careerId;
+                $this->career = $career;
 
                 return $this;
         }

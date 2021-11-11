@@ -146,25 +146,25 @@ class CompanyDAO implements ICompanyDAO
     /** 
      * Recibe los datos de una compañía y la modifica en la base de datos.
      */
-    public function Modify($id, $name, $email, $phone, $address, $cuit, $website, $founded)
+    public function Modify(Company $company)
     {
         try {
             $query = "UPDATE " . $this->tableName . " SET `name` = :name, `email` = :email, `phone` = :phone, `address` = :address, `cuit` = :cuit, `website` = :website, `founded` = :founded WHERE `companyId` = :id";
 
-            $response = $this->cuitVerify($id, $cuit);
+            $response = $this->cuitVerify($company->getCompanyId(), $company->getCuit());
 
             if ($response == 1) {
                 throw new Exception('El cuit ingresado ya existe.');
             }
 
-            $parameters["id"] = $id;
-            $parameters["name"] = $name;
-            $parameters["email"] = $email;
-            $parameters["phone"] = $phone;
-            $parameters["address"] = $address;
-            $parameters["cuit"] = $cuit;
-            $parameters["website"] = $website;
-            $parameters["founded"] = $founded;
+            $parameters["id"] = $company->getCompanyId();
+            $parameters["name"] = $company->getName();
+            $parameters["email"] = $company->getEmail();
+            $parameters["phone"] = $company->getPhone();
+            $parameters["address"] = $company->getAddress();
+            $parameters["cuit"] = $company->getCuit();
+            $parameters["website"] = $company->getWebsite();
+            $parameters["founded"] = $company->getFounded();
 
 
             $this->connection = Connection::GetInstance();

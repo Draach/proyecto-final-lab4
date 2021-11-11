@@ -7,11 +7,18 @@ use DAO\IStudentDAO as IStudentDAO;
 use Models\Student as Student;
 use Models\User as User;
 use DAO\Connection as Connection;
+use DAO\CareerDAO as CareerDAO;
 
 class StudentDAO implements IStudentDAO
 {
     private $connection;
     private $tableName = "students";
+    private $careerDAO;
+
+    public function __construct()
+    {        
+        $this->careerDAO = new CareerDAO();
+    }
 
 
     public function GetAcademicStatusByStudentId($studentId)
@@ -23,7 +30,7 @@ class StudentDAO implements IStudentDAO
                 if ($student['studentId'] == $studentId) {
                     $found = new Student();
                     $found->setStudentId($student['studentId']);
-                    $found->setCareerId($student['careerId']);
+                    $found->setCareer($this->careerDAO->getById($student['careerId']));
                     $found->setFirstName($student['firstName']);
                     $found->setLastName($student['lastName']);
                     $found->setDni($student['dni']);
@@ -104,7 +111,7 @@ class StudentDAO implements IStudentDAO
                     if ($student['active'] == true) {
                         $found = new Student();
                         $found->setStudentId($student['studentId']);
-                        $found->setCareerId($student['careerId']);
+                        $found->setCareer($this->careerDAO->getById($student['careerId']));
                         $found->setFirstName($student['firstName']);
                         $found->setLastName($student['lastName']);
                         $found->setDni($student['dni']);
@@ -137,7 +144,7 @@ class StudentDAO implements IStudentDAO
                     if ($student['active'] == true) {
                         $found = new Student();
                         $found->setStudentId($student['studentId']);
-                        $found->setCareerId($student['careerId']);
+                        $found->setCareer($this->careerDAO->getById($student['careerId']));
                         $found->setFirstName($student['firstName']);
                         $found->setLastName($student['lastName']);
                         $found->setDni($student['dni']);
@@ -165,16 +172,16 @@ class StudentDAO implements IStudentDAO
             if($student['studentId'] == $id){
                 $found = new Student();
                 $found->setStudentId($student['studentId']);
-                $found->setCareerId($student['$careerId']);
-                $found->setFileNumber($student['$fileNumber']);
-                $found->setFirstName($student['$firstName']);
-                $found->setLastName($student['$lastName']);
-                $found->setDni($student['$dni']);
-                $found->setGender($student['$gender']);
-                $found->setBirthDate($student['$birthDate']);
-                $found->setEmail($student['$email']);
-                $found->setPhoneNumber($student['$phoneNumber']);
-                $found->setActive($student['$active']);
+                $found->setCareer($this->careerDAO->getById($student['careerId']));
+                $found->setFileNumber($student['fileNumber']);
+                $found->setFirstName($student['firstName']);
+                $found->setLastName($student['lastName']);
+                $found->setDni($student['dni']);
+                $found->setGender($student['gender']);
+                $found->setBirthDate($student['birthDate']);
+                $found->setEmail($student['email']);
+                $found->setPhoneNumber($student['phoneNumber']);
+                $found->setActive($student['active']);
                 break;
             }
 

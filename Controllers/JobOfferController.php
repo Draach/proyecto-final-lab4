@@ -21,7 +21,6 @@ class JobOfferController
     private $jobPositionDAO;
     private $jobPostulationDAO;
     private $sessionHandler;
-    private $message;
 
     public function __construct()
     {
@@ -32,7 +31,6 @@ class JobOfferController
         $this->jobPostulationDAO = new JobPostulationDAO();
         $this->studentDAO = new StudentDAO();
         $this->sessionHandler = new CustomSessionHandler();
-        $this->message = "";
     }
 
     /**
@@ -60,22 +58,8 @@ class JobOfferController
      */
     public function ShowListView()
     {
-        $careersList = $this->careerDAO->GetAll();
-        //$companiesList = $this->companyDAO->GetAll();
-        $jobPositionsList = $this->jobPositionDAO->GetAll();
         $jobOffersList = $this->jobOfferDAO->GetAll();
         $postulatedJobOfferId = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getStudentId());
-        $isPostulated = $this->jobPostulationDAO->isPostulated($this->sessionHandler->getStudentId());
-
-        foreach ($jobOffersList as $jobOffer) {
-            foreach ($jobPositionsList as $jobPosition) {
-                if ($jobOffer->getJobPosition()->getJobPositionId() == $jobPosition['jobPositionId']) {
-                    $jobOffer->getJobPosition()->setCareerId($jobPosition['careerId']);
-                    $jobOffer->getJobPosition()->setDescription($jobPosition['description']);
-                }
-            }
-        }
-
 
         if ($this->sessionHandler->isAdmin() || $this->sessionHandler->isStudent()) {
             if ($this->sessionHandler->isAdmin()) {
@@ -103,7 +87,6 @@ class JobOfferController
         $jobOffer->setCompany($this->companyDAO->GetById($companyId));
         $jobOffer->setJobPosition($this->jobPositionDAO->GetById($jobPositionId));
 
-        echo var_dump($jobOffer);
         try {
             if ($expirationDate <= $timeNow) {
                 throw new Exception('La fecha de expiración no puede ser anterior o igual a la fecha de hoy. Ingrese una fecha válida.');
@@ -155,7 +138,15 @@ class JobOfferController
     public function Modify($jobOfferId, $title, $createdAt, $expirationDate, $salary)
     {
         try {
-            $response = $this->jobOfferDAO->Modify($jobOfferId, $title, $createdAt, $expirationDate, $salary);
+            $jobOffer = new JobOffer();
+            $jobOffer->setJobOfferId($jobOfferId);
+            $jobOffer->setTitle($title);
+            $jobOffer->setCreatedAt($createdAt);
+            $jobOffer->setExpirationDate($expirationDate);
+            $jobOffer->setSalary($salary);
+
+            $response = $this->jobOfferDAO->Modify($jobOffer);
+
             echo "<script type='text/javascript'>alert('Se ha modificado exitosamente.');</script>";
             $this->ShowModifyView($jobOfferId);
         } catch (Exception $ex) {
@@ -169,8 +160,8 @@ class JobOfferController
     {
         if ($this->sessionHandler->isAdmin() || $this->sessionHandler->isStudent()) {
             $jobOffersList = $this->jobOfferDAO->temporaryGetByJobPositionDesc($jobPositionDesc);
-            $companiesList = $this->companyDAO->GetAll();
             $jobPositionsList = $this->jobPositionDAO->GetAll();
+            $companiesList = $this->companyDAO->GetAll();
             $careersList = $this->careerDAO->GetAll();
             $postulatedJobOfferId = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getStudentId());
 
@@ -186,12 +177,15 @@ class JobOfferController
     public function ShowJobOfferPostulations($jobOfferId)
     {
         if ($this->sessionHandler->isAdmin()) {
-            $jobOffer = $this->jobOfferDAO->GetById($jobOfferId);
-            $studentsList = $this->studentDAO->GetAll();
-            $company = $this->companyDAO->getById($jobOffer->getCompanyId());
-            $postulationsHistory = $this->jobOfferDAO->GetPostulationsByJobOfferId($jobOfferId);
-            require_once(VIEWS_PATH . "nav.php");
-            require_once(VIEWS_PATH . "job-offer-postulation-list.php");
+            try {
+                $postulationsHistory = $this->jobOfferDAO->GetPostulationsByJobOfferId($jobOfferId);
+                
+            } catch (Exception $ex) {
+                $postulationsHistory = null;                
+            } finally {
+                require_once(VIEWS_PATH . "nav.php");
+                require_once(VIEWS_PATH . "job-offer-postulation-list.php");
+            }
         } else {
             require_once(VIEWS_PATH . "index.php");
         }

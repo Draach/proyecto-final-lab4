@@ -7,43 +7,43 @@
                          <div class="col-lg-4">
                               <div class="form-group">
                                    <label for="">Nombre</label>
-                                   <input type="text" name="name" value="" class="form-control">
+                                   <input type="text" name="name" value="" class="form-control" required>
                               </div>
                          </div>
                          <div class="col-lg-4">
                               <div class="form-group">
                                    <label for="">Email</label>
-                                   <input type="email" name="email" value="" class="form-control">
+                                   <input type="email" name="email" value="" class="form-control" required>
                               </div>
                          </div>
                          <div class="col-lg-4">
                               <div class="form-group">
                                    <label for="">Teléfono</label>
-                                   <input type="text" name="phone" value="" class="form-control">
+                                   <input type="text" name="phone" value="" class="form-control" required>
                               </div>
                          </div>
                          <div class="col-lg-4">
                               <div class="form-group">
                                    <label for="">Dirección</label>
-                                   <input type="text" name="address" value="" class="form-control">
+                                   <input type="text" name="address" value="" class="form-control" required>
                               </div>
                          </div>
                          <div class="col-lg-4">
                               <div class="form-group">
                                    <label for="">Cuit</label>
-                                   <input type="text" name="cuit" value="" class="form-control">
+                                   <input type="text" name="cuit" value="" class="form-control" required>
                               </div>
                          </div>
                          <div class="col-lg-4">
                               <div class="form-group">
                                    <label for="">Sitio Web</label>
-                                   <input type="text" name="website" value="" class="form-control">
+                                   <input type="text" name="website" value="" class="form-control" required>
                               </div>
                          </div>
                          <div class="col-lg-4">
                               <div class="form-group">
                                    <label for="">Fundación</label>
-                                   <input type="date" name="founded" value="" class="form-control">
+                                   <input type="date" name="founded" value="" class="form-control" required>
                               </div>
                          </div>
                     </div>

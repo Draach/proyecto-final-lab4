@@ -29,14 +29,14 @@ date_default_timezone_set('America/Argentina/Buenos_Aires');
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
-                            <label for="">Descripción</label>
-                            <input type="text" name="title" value="" class="form-control" required="required">
+                            <label for="">Descripción<sub>(45 Caracteres)</sub></label>
+                            <input type="text" name="title" value="" class="form-control" required>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label for="">Salario</label>
-                            <input type="number" min="0" name="salary" value="" class="form-control" required="required">
+                            <input type="number" min="0" name="salary" value="" class="form-control" required>
                         </div>
                     </div>
                     <div class="col-lg-4">

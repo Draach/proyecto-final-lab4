@@ -3,14 +3,15 @@
 namespace DAO;
 
 use \Exception as Exception;
-use DAO\IJobOfferDAO as IJobOfferDAO;
-use Models\JobOffer as JobOffer;
 use DAO\Connection as Connection;
+use DAO\IJobOfferDAO as IJobOfferDAO;
 use DAO\JobPositionDAO as JobPositionDAO;
-use Models\Company as Company; 
-use Models\JobPosition as JobPosition;
-use DAO\CompanyDAO as CompayDAO;
-
+use DAO\CompanyDAO as CompanyDAO;
+use DAO\StudentDAO as StudentDAO;
+use DAO\CareerDAO as CareerDAO;
+use Models\JobOffer as JobOffer;
+use Models\Company as Company;
+use Models\JobPostulation;
 
 class JobOfferDAO implements IJobOfferDAO
 {
@@ -18,11 +19,15 @@ class JobOfferDAO implements IJobOfferDAO
     private $tableName = "job_offers";
     private $companyDAO;    
     private $jobPositionDAO;
+    private $careerDAO;
+    private $studentDAO;
 
     public function __construct()
     {
         $this->jobPositionDAO = new JobPositionDAO();
         $this->companyDAO = new CompanyDAO();
+        $this->studentDAO = new StudentDAO();        
+        $this->careerDAO = new CareerDAO();
     }
 
     /**
@@ -72,10 +77,9 @@ class JobOfferDAO implements IJobOfferDAO
 
             $resultSet = $this->connection->Execute($query);
 
-            foreach ($resultSet as $row) {
-                $jobPosition = new JobPosition();
+            foreach ($resultSet as $row) {                
                 $jobOffer = new JobOffer();
-                $company = new Company();
+                $company = new Company();                
 
                 //Seteo de Company
                 $company->setName($row["companyName"]);
@@ -88,8 +92,6 @@ class JobOfferDAO implements IJobOfferDAO
                 $company->setFounded($row["founded"]); 
                 $company->setStatus($row["status"]); 
 
-                //Seteo de JobPosition
-                $jobPosition->setJobPositionId($row["jobPositionId"]);
                 
                 $jobOffer->setJobOfferId($row["jobOfferId"]);
                 $jobOffer->setTitle($row["title"]);
@@ -97,7 +99,7 @@ class JobOfferDAO implements IJobOfferDAO
                 $jobOffer->setExpirationDate($row["expirationDate"]);
                 $jobOffer->setSalary($row["salary"]);
                 $jobOffer->setCompany($company);
-                $jobOffer->setJobPosition($jobPosition);
+                $jobOffer->setJobPosition($this->jobPositionDAO->getById($row["jobPositionId"]));
                 $jobOffer->setActive($row["active"]);
 
 
@@ -125,7 +127,9 @@ class JobOfferDAO implements IJobOfferDAO
 
             $resultSet = $this->connection->Execute($query, $parameters);
 
-            // TODO validate if results != null
+            if($resultSet == null) {
+                throw new Exception("No se encontró la propuesta laboral.");
+            }
 
             foreach ($resultSet as $row) {
                 $jobOffer = new JobOffer();
@@ -156,9 +160,11 @@ class JobOfferDAO implements IJobOfferDAO
                 $loweredReceivedDesc = strtolower($jobPositionDesc);
                 foreach ($jobOffersList as $jobOffer) {
                     foreach ($jobPositionsList as $jobPosition) {
-                        if ($jobOffer->getJobPositionId() == $jobPosition['jobPositionId']) {
+                        if ($jobOffer->getJobPosition()->getJobPositionId() == $jobPosition['jobPositionId']) {
                             $loweredJobPositionDesc = strtolower($jobPosition['description']);
                             if (strpos($loweredJobPositionDesc, $loweredReceivedDesc) !== false) {
+                                $jobOffer->getJobPosition()->setDescription($jobPosition['description']);
+                                $jobOffer->getJobPosition()->setCareer($this->careerDAO->getById($jobPosition['careerId']));
                                 array_push($filteredJobOffersList, $jobOffer);
                             }
                         }
@@ -178,15 +184,15 @@ class JobOfferDAO implements IJobOfferDAO
     /**
      * Recibe la id de una propuesta laboral existente y los datos a modificar de la misma, y la modifica en la base de datos.
      */
-    function Modify($jobOfferId, $title, $createdAt, $expirationDate, $salary)
+    function Modify(JobOffer $jobOffer)
     {
         try {
             $query = "UPDATE " . $this->tableName . " SET `title` = :title, `createdAt` = :createdAt, `expirationDate` = :expirationDate, `salary` = :salary WHERE `jobOfferId` = :jobOfferId";
-            $parameters["jobOfferId"] = $jobOfferId;
-            $parameters["title"] = $title;
-            $parameters["createdAt"] = $createdAt;
-            $parameters["expirationDate"] = $expirationDate;
-            $parameters["salary"] = $salary;
+            $parameters["jobOfferId"] = $jobOffer->getJobOfferId();
+            $parameters["title"] = $jobOffer->getTitle();
+            $parameters["createdAt"] = $jobOffer->getCreatedAt();
+            $parameters["expirationDate"] = $jobOffer->getExpirationDate();
+            $parameters["salary"] = $jobOffer->getSalary();
 
             $this->connection = Connection::GetInstance();
 
@@ -217,7 +223,7 @@ class JobOfferDAO implements IJobOfferDAO
 
     function GetPostulationsByJobOfferId($jobOfferId){
         try{
-
+            $postulationsHistory = array();
             $query = "CALL GetPostulationsByJobOfferId(?)";
 
             $parameters["?"] = $jobOfferId;
@@ -226,7 +232,23 @@ class JobOfferDAO implements IJobOfferDAO
 
             $resultSet = $this->connection->Execute($query, $parameters, QueryType::StoredProcedure);
 
-            return $resultSet;
+            if($resultSet == null) {
+                throw new Exception("No se encontró ningun postulado para esta propuesta laboral.");
+            }
+            
+            foreach($resultSet as $row){
+                $postulation = new JobPostulation();
+                $postulation->setPostulationId($row["idjob_postulations"]);
+                $postulation->setStudent($this->studentDAO->getById($row["studentId"]));
+                $postulation->setJobOffer($this->GetById($row["jobOfferId"]));
+                $postulation->setComment($row["comment"]);
+                $postulation->setCVarchive($row["cvarchive"]);
+                $postulation->setActive($row["active"]);
+                
+                array_push($postulationsHistory, $postulation);
+            }
+
+            return $postulationsHistory;
         } catch (Exception $ex) {
             throw $ex;
         }

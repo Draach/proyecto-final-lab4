@@ -54,15 +54,7 @@ $sessionHandler = new CustomSessionhandler();
                                         ?></td>
                                     <td>
                                         <?php
-                                        foreach ($jobPositionsList as $jobPosition) {
-                                            if ($jobPosition['jobPositionId'] == $jobOffer->getJobPosition()->getJobPositionId()) {
-                                                foreach ($careersList as $career) {
-                                                    if ($career['careerId'] == $jobPosition['careerId']) {
-                                                        echo $career['description'];
-                                                    }
-                                                }
-                                            }
-                                        }
+                                        echo $jobOffer->getJobPosition()->getCareer()->getDescription();
                                         ?>
                                     </td>
                                     <?php if ($sessionHandler->isAdmin() == true) { ?>

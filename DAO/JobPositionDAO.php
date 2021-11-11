@@ -3,10 +3,19 @@
 namespace DAO;
 
 use Models\JobPosition as JobPosition;
+use DAO\CareerDAO as CareerDAO;
 use \Exception as Exception;
 
 class JobPositionDAO implements IJobPositionDAO
 {
+
+    private $careerDAO;
+
+    public function __construct()
+    {
+        $this->careerDAO = new CareerDAO();
+    }
+
     /**
      * Solicita la lista de posiciones de trabajo a la API de la UTN y la devuelve.
      */
@@ -28,7 +37,7 @@ class JobPositionDAO implements IJobPositionDAO
                 $decoded = json_decode($jobPositions, true);
             }
 
-            curl_close($ch);
+            curl_close($ch);            
             return $decoded;
         } catch (Exception $ex) {
             throw $ex;
@@ -41,9 +50,9 @@ class JobPositionDAO implements IJobPositionDAO
         $found = null;
         foreach ($jobPositionsList as $jobPosition) {
             if ($jobPosition['jobPositionId'] == $id) {
-                $found = new JobPosition();
+                $found = new JobPosition();                                
                 $found->setJobPositionId($jobPosition['jobPositionId']);
-                $found->setCareerId($jobPosition['careerId']);
+                $found->setCareer($this->careerDAO->getById($jobPosition['careerId']));
                 $found->setDescription($jobPosition['description']);
                 break;
             }

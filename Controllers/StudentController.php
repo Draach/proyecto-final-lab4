@@ -3,7 +3,6 @@
 namespace Controllers;
 
 use DAO\StudentDAO as StudentDAO;
-use Models\Student as Student;
 use Utils\CustomSessionHandler as CustomSessionHandler;
 
 class StudentController

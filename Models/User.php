@@ -10,6 +10,7 @@ class User
     private $roleId;
     private $studentId;
     private $active;
+    private $roleName;
 
     /**
      * Get the value of userId
@@ -127,6 +128,26 @@ class User
     public function setActive($active)
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of roleName
+     */ 
+    public function getRoleName()
+    {
+        return $this->roleName;
+    }
+
+    /**
+     * Set the value of roleName
+     *
+     * @return  self
+     */ 
+    public function setRoleName($roleName)
+    {
+        $this->roleName = $roleName;
 
         return $this;
     }

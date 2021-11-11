@@ -5,7 +5,7 @@ namespace Models;
 class JobPosition
 {
     private $jobPositionId;
-    private $careerId;
+    private $career;
     private $description;
 
     public function getJobPositionId()
@@ -20,14 +20,14 @@ class JobPosition
         return $this;
     }
 
-    public function getCareerId()
+    public function getCareer()
     {
-        return $this->careerId;
+        return $this->career;
     }
 
-    public function setCareerId($careerId)
+    public function setCareer($career)
     {
-        $this->careerId = $careerId;
+        $this->career = $career;
 
         return $this;
     }

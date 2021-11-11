@@ -10,7 +10,7 @@ interface IJobOfferDAO
     function GetAll();
     function GetById($id);
     function temporaryGetByJobPositionDesc($jobPositionDesc);
-    function Modify($jobOfferId, $title ,$createdAt ,$expirationDate ,$salary);
+    function Modify(JobOffer $jobOffer);
     function Delete($id);
     function GetPostulationsByJobOfferId($jobOfferId);
 }

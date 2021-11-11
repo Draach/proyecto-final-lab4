@@ -12,11 +12,7 @@
                          </div>
                          <div class="col-sm">
                               <label for="">Posición:</label>
-                              <p><?php foreach ($jobPositionsList as $jobPosition) {
-                                        if ($jobPosition['jobPositionId'] == $jobOffer->getJobPosition()->getJobPositionId()) {
-                                             echo $jobPosition['description'];
-                                        }
-                                   } ?></p>
+                              <p><?php echo $jobOffer->getJobPosition()->getDescription(); ?></p>
                          </div>
                          <div class="col-sm">
                               <label for="">Descripción:</label>

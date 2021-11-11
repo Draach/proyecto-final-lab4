@@ -33,4 +33,20 @@ class CareerDAO implements ICareerDAO
             throw $ex;
         }
     }
+
+    public function GetById($id){
+        $careersList = $this->GetAll();
+        $found = null;
+        foreach ($careersList as $career) {
+            if ($career['careerId'] == $id) {
+                $found = new Career();
+                $found->setCareerId($career['careerId']);
+                $found->setDescription($career['description']);
+                $found->setActive($career['active']);
+                break;
+            }
+        }
+
+        return $found;
+    }
 }
