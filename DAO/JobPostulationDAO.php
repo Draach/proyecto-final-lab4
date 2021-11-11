@@ -6,6 +6,7 @@ use \Exception as Exception;
 use DAO\IJobPostulationDAO as IJobPostulationDAO;
 use Models\JobPostulation as JobPostulation;
 use DAO\Connection as Connection;
+use Models\JobOffer as JobOffer;
 
 
 class JobPostulationDAO implements IJobPostulationDAO
@@ -22,14 +23,15 @@ class JobPostulationDAO implements IJobPostulationDAO
 
 
         try {
-            if ($this->IsPostulated($jobPostulation->getStudentId()) == true) {
+            if ($this->IsPostulated($jobPostulation->getStudent()->getStudentId()) == true) {
                 throw new Exception("El alumno ya se encuentra postulado a una oferta de trabajo.");
             }
 
             $query = "INSERT INTO " . $this->tableName . " (jobOfferId, studentId, comment, cvarchive, active) VALUES (:jobOfferId, :studentId, :comment, :cvarchive, :active);";
 
-            $parameters["jobOfferId"] = $jobPostulation->getJobOfferId();
-            $parameters["studentId"] = $jobPostulation->getStudentId();
+            
+            $parameters["jobOfferId"] = $jobPostulation->getJobOffer()->getJobOfferId();
+            $parameters["studentId"] = $jobPostulation->getStudent()->getStudentId();
             $parameters["comment"] = $jobPostulation->getComment();
             $parameters["cvarchive"] = $jobPostulation->getCvarchive()['name'];
             $parameters["active"] = $jobPostulation->getActive();

@@ -81,6 +81,7 @@ class AuthController
                 $user->setPassword($encryptedPassword) ;
                 $user->setRoleId($this->studentRole);
                 $user->setStudentId($student->getStudentId());
+                $user->setActive(1);
                 $this->userDAO->Add($user);
 
                 // Creamos la sesión y lo mandamos al dashboard.

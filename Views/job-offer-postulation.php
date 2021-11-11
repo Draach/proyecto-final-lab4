@@ -6,16 +6,14 @@
                     <div class="row">
                          <div class="col-sm">
                               <label for="">Empresa:</label>
-                              <p><?php foreach ($companiesList as $company) {
-                                        if ($company->getCompanyId() == $jobOffer->getCompanyId()) {
-                                             echo $company->getName();
-                                        }
-                                   } ?></p>
+                              <p><?php 
+                              echo $jobOffer->getCompany()->getName();
+                                    ?></p>
                          </div>
                          <div class="col-sm">
                               <label for="">Posición:</label>
                               <p><?php foreach ($jobPositionsList as $jobPosition) {
-                                        if ($jobPosition['jobPositionId'] == $jobOffer->getJobPositionId()) {
+                                        if ($jobPosition['jobPositionId'] == $jobOffer->getJobPosition()->getJobPositionId()) {
                                              echo $jobPosition['description'];
                                         }
                                    } ?></p>

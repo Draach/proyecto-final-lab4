@@ -9,19 +9,20 @@ use DAO\Connection as Connection;
 use DAO\JobPositionDAO as JobPositionDAO;
 use Models\Company as Company; 
 use Models\JobPosition as JobPosition;
+use DAO\CompanyDAO as CompayDAO;
 
 
 class JobOfferDAO implements IJobOfferDAO
 {
     private $connection;
     private $tableName = "job_offers";
-    
-
+    private $companyDAO;    
     private $jobPositionDAO;
 
     public function __construct()
     {
         $this->jobPositionDAO = new JobPositionDAO();
+        $this->companyDAO = new CompanyDAO();
     }
 
     /**
@@ -133,8 +134,8 @@ class JobOfferDAO implements IJobOfferDAO
                 $jobOffer->setCreatedAt($row["createdAt"]);
                 $jobOffer->setExpirationDate($row["expirationDate"]);
                 $jobOffer->setSalary($row["salary"]);
-                $jobOffer->setCompanyId($row["companyId"]);
-                $jobOffer->setJobPositionId($row["jobPositionId"]);
+                $jobOffer->setCompany($this->companyDAO->GetById($row["companyId"]));
+                $jobOffer->setJobPosition($this->jobPositionDAO->GetById($row["jobPositionId"]));
                 array_push($jobOffersList, $jobOffer);
             }
             return $jobOffersList[0];
