@@ -41,7 +41,7 @@ class JobPostulationController
     public function ShowPostulationView($jobOfferId)
     {
         $jobOffer = $this->jobOfferDAO->GetById($jobOfferId);
-        $companiesList = $this->companyDAO->GetAll();        
+        $companiesList = $this->companyDAO->GetAll();
         $jobPositionsList = $this->jobPositionDAO->GetAll();
         require_once(VIEWS_PATH . "job-offer-postulation.php");
     }
@@ -56,7 +56,7 @@ class JobPostulationController
         $jobOffersList = $this->jobOfferDAO->GetAll();
         $jobPositionsList = $this->jobPositionDAO->GetAll();
         $careersList = $this->careerDAO->GetAll();
-        $isPostulated = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getLoggedStudentId());
+        $postulatedJobOfferId = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getStudentId());
 
         $jobPostulation = new JobPostulation();
         $jobPostulation->setJobOfferId($jobOfferId);
@@ -70,7 +70,7 @@ class JobPostulationController
 
                 // Guardamos la postulacion a la db
                 $this->jobPostulationDAO->Add($jobPostulation);
-                $message = "Postulacion realizada con exito ";                
+                $message = "Postulacion realizada con exito ";
                 require_once(VIEWS_PATH . "job-offer-list.php");
             } catch (Exception $ex) {
                 $message = $ex->getMessage();
@@ -87,11 +87,16 @@ class JobPostulationController
      */
     public function ShowPostulationsHistory($studentId)
     {
-        $jobPostulationsList = $this->jobPostulationDAO->GetAllByStudentId($studentId);
-        $companiesList = $this->companyDAO->GetAll();
-        $jobOffersList = $this->jobOfferDAO->GetAll();
-        $jobPositionsList = $this->jobPositionDAO->GetAll();        
-        require_once(VIEWS_PATH . "student-postulations-history.php");
+        if ($this->sessionHandler->isStudent()) {
+            $jobPostulationsList = $this->jobPostulationDAO->GetAllByStudentId($studentId);
+            $companiesList = $this->companyDAO->GetAll();
+            $jobOffersList = $this->jobOfferDAO->GetAll();
+            $jobPositionsList = $this->jobPositionDAO->GetAll();
+            $student = $this->studentDAO->GetAcademicStatusByStudentId($this->sessionHandler->getStudentId());
+            require_once(VIEWS_PATH . "student-postulations-history.php");
+        } else {
+            require_once(VIEWS_PATH . "index.php");
+        }
     }
 
     /**
@@ -103,15 +108,15 @@ class JobPostulationController
         $jobOffersList = $this->jobOfferDAO->GetAll();
         $jobPositionsList = $this->jobPositionDAO->GetAll();
         $careersList = $this->careerDAO->GetAll();
-        $isPostulated = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getLoggedStudentId());
+        $postulatedJobOfferId = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getStudentId());
         try {
             $this->jobPostulationDAO->Remove($jobOfferId, $studentId);
-            $message = "Postulacion eliminada con exito";         
+            $message = "Postulacion eliminada con exito";
             require_once(VIEWS_PATH . "job-offer-list.php");
         } catch (Exception $ex) {
             $message = "No se ha encontrado una postulación activa.";
             require_once(VIEWS_PATH . "job-offer-list.php");
-        }        
+        }
     }
 
     //? ######## MÉTODOS PARA GESTIONAR LA POSTULACIÓN ########

@@ -44,12 +44,14 @@
                     <input type="hidden" name="jobOfferId" value="<?php echo $jobOffer->getJobOfferId(); ?>">
                     <input type="hidden" name="studentId" value="<?php echo $_SESSION['loggedUser']->getStudentId(); ?>">
                     <div class="row">
-                         <div class="col-lg-4">
+                         <div class="col-lg">
                               <div class="form-group">
                                    <label for="">Comentario</label>
-                                   <input type="text" name="comment" value="" class="form-control">
+                                   <textarea name="comment" value="" class="form-control" rows="3"></textarea>
                               </div>
                          </div>
+                    </div>
+                    <div class="row">
                          <div class="col-lg-4">
                               <div class="form-group">
                                    <label for="">Currículum</label>

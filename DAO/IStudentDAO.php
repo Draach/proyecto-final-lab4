@@ -5,10 +5,10 @@ namespace DAO;
 use Models\Student as Student;
 
 interface IStudentDAO
-{
-    function Login($email, $password);
+{    
+    function GetAcademicStatusByStudentId($studentId);
     function GetAll();
-    function Register($dni, $email, $password, $passwordConfirm);
-    function Add(Student $student);
-    function registeredEmailVerify($email);
+    function isActive($id);
+    function studentVerify($dni, $email);
+    function studentVerifyForLogin($email);
 }

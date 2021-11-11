@@ -14,7 +14,7 @@
                          <div class="col-lg-4">
                               <div class="form-group">
                                    <label for="">Fecha de creacion</label>
-                                   <input type="text" name="createdAt" value="<?php echo $jobOffer->getCreatedAt(); ?>" class="form-control">
+                                   <input type="text" name="createdAt" value="<?php echo $jobOffer->getCreatedAt(); ?>" class="form-control" readonly>
                               </div>
                          </div>
                          <div class="col-lg-4">
@@ -36,7 +36,7 @@
                                         if($jobOffer->getCompanyId() == $company->getCompanyId()){
                                              echo $company->getName();
                                         }
-                                   } ?>" class="form-control" disabled>
+                                   } ?>" class="form-control" readonly>
                               </div>
                          </div>
                          <div class="col-lg-4">
@@ -46,11 +46,11 @@
                                         if($position['jobPositionId'] == $jobOffer->getJobPositionId()){
                                              echo $position['description'];
                                         }
-                                   } ?>" class="form-control" disabled>
+                                   } ?>" class="form-control" readonly>
                               </div>
                          </div>
                     </div>
-                    <a class="btn btn-secondary ml-auto" href="<?php echo FRONT_ROOT ?>Admin/ShowDashboard">Regresar</a>
+                    <a class="btn btn-secondary ml-auto" href="<?php echo FRONT_ROOT ?>JobOffer/ShowListView">Regresar</a>
                     <button type="submit" class="btn btn-primary">Modificar</button>
                </form>
           </div>

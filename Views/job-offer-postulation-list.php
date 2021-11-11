@@ -1,108 +1,55 @@
 <?php
-use Utils\CustomSessionHandler as CustomSessionhandler;
-
-$sessionHandler = new CustomSessionhandler();
+echo var_dump($studentsList);
 ?>
 <main class="py-5">
     <section id="listado" class="mb-5">
         <div class="container">
-        <div class="col-8">
-            <h2>Listado de Postulaciones</h2>
-                </div>
-                <div class="container">
-                    <div class="row">
-                         <div class="col-sm">
-                              <label for="">Empresa:</label>
-                              <p><?php $postulationsHistory['']?></p>
-                         </div>
-                         <div class="col-sm">
-                              <label for="">Posición:</label>
-                              <p><?php foreach ($jobPositionsList as $jobPosition) {
-                                        if ($jobPosition['jobPositionId'] == $jobOffer->getJobPositionId()) {
-                                             echo $jobPosition['description'];
-                                        }
-                                   } ?></p>
-                         </div>
-                         <div class="col-sm">
-                              <label for="">Descripción:</label>
-                              <p><?php echo $jobOffer->getTitle(); ?></p>
-                         </div>
-                    </div>
-                    <div class="row">
-                         <div class="col-sm">
-                              <label for="">Fecha de Creación:</label>
-                              <p><?php echo $jobOffer->getCreatedAt(); ?></p>
-                         </div>
-                         <div class="col-sm">
-                              <label for="">Fecha de Expiración:</label>
-                              <p><?php echo $jobOffer->getExpirationDate(); ?></p>
-                         </div>
-                         <div class="col-sm">
-                              <label for="">Salario:</label>
-                              <p><?php echo $jobOffer->getSalary(); ?></p>
-                         </div>
-                    </div>
-               </div>
+            <h2 class="mb-4">Historial de Postulaciones</h2>
             <div class="table-container overflow-auto">
                 <table class="table bg-light-alpha">
                     <thead class='thead-dark'>
-                        <?php if ($sessionHandler->isAdmin()) {
-                        ?>
-                            <th>ID</th>
-                        <?php
-                        }
-                        ?>
-                        <th>Nombre</th>
-                        <th>Email</th>
-                        <th>Teléfono</th>
-                        <th>Acciones</th>
+                        <th>ID Propuesta</th>
+                        <th>Descripción</th>
+                        <th>Empresa</th>
+                        <th>Puesto</th>
+                        <th>Salario</th>                    
+                        <th></th>
                     </thead>
                     <tbody>
-                        <?php
-                        foreach ($companiesList as $company) {
-                            if ($company->getStatus() == true) {
-                        ?>
-                                <tr>
-                                    <?php if ($sessionHandler->isAdmin()) {
-                                    ?>
-                                        <td><?php echo $company->getCompanyId() ?></td>
-                                    <?php
-                                    }
-                                    ?>
-                                    <td><?php echo $company->getName() ?></td>
-                                    <td><?php echo $company->getEmail() ?></td>
-                                    <td><?php echo $company->getPhone() ?></td>
-                                    <td>
-                                        <a href="<?php echo FRONT_ROOT ?>Company/ShowDetails/<?php echo $company->getCompanyId(); ?>" class="btn btn-primary">Detalles</a>
-                                        <?php if ($sessionHandler->isAdmin()) {
-                                        ?>
-                                            <a href="<?php echo FRONT_ROOT ?>Company/ShowModifyView/<?php echo $company->getCompanyId(); ?>" class="btn btn-primary">Modificar</a>
-                                            <a href="<?php echo FRONT_ROOT ?>Company/RemoveCompany/<?php echo $company->getCompanyId(); ?>" class="btn btn-danger">Eliminar</a>
-                                    </td>
-                                <?php
-                                        }
-                                ?>
-                                </tr>
-                        <?php
-                            }
-                        }
-                        ?>
+                        <td><?php echo $jobOffer->getJobOfferId(); ?></td>
+                        <td><?php echo $jobOffer->getTitle(); ?></td>
+                        <td><?php echo $company->getName(); ?></td>
+                        <td><?php echo $jobOffer->getJobPositionId(); ?></td>
+                        <td><?php echo $jobOffer->getSalary(); ?></td>
+                        <td></td>
+                    </tbody>
+                    <thead class='thead-dark'>
+                        <th>ID Postulación</th>
+                        <th>ID Estudiante</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Comentario</th>
+                        <th>Currículum Vitae</th>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($postulationsHistory as $postulation) { ?>
+                            <tr>
+                                <td><?php echo $postulation['idjob_postulations']; ?></td>
+                                <td><?php echo $postulation['studentId']; ?></td>
+                                <?php foreach($studentsList as $student) {
+                                    if($student['studentId'] == $postulation['studentId']) { ?>
+                                        <td><?php echo $student['firstName']; ?></td>
+                                        <td><?php echo $student['lastName']; ?></td>
+                                    <?php }
+                                } ?>                                
+                                <td><?php echo $postulation['comment']; ?></td>
+                                <td><a href="<?php echo FRONT_ROOT ?>Uploads/<?php echo $postulation['cvarchive']; ?>" target="_blank"><?php echo $postulation['cvarchive']; ?></a></td>
+                            </tr>
+                        <?php } ?>
                     </tbody>
                 </table>
             </div>
+            <a class="btn btn-secondary mt-0" href="<?php echo FRONT_ROOT ?>JobOffer/ShowListView">Regresar</a>
+        </div>
     </section>
-    <div class='list-nav'>
-    <?php
-    if ($sessionHandler->isStudent()) {
-    ?>
-        <a class="btn btn-secondary go-back" href="<?php echo FRONT_ROOT ?>Student/ShowDashboard">Regresar</a>
-    <?php
-    } else if ($sessionHandler->isAdmin()) {
-    ?>
-        <a class="btn btn-secondary go-back mr-2" href="<?php echo FRONT_ROOT ?>Admin/ShowDashboard">Regresar</a>
-        <a class="btn btn-success" href="<?php echo FRONT_ROOT ?>Company/ShowAddView">Agregar</a>
-    <?php
-    }
-    ?>
-    </div>
 </main>

@@ -51,7 +51,7 @@ $sessionHandler = new CustomSessionhandler();
                                         <?php if ($sessionHandler->isAdmin()) {
                                         ?>
                                             <a href="<?php echo FRONT_ROOT ?>Company/ShowModifyView/<?php echo $company->getCompanyId(); ?>" class="btn btn-primary">Modificar</a>
-                                            <a href="<?php echo FRONT_ROOT ?>Company/RemoveCompany/<?php echo $company->getCompanyId(); ?>" class="btn btn-danger">Eliminar</a>
+                                            <a href="<?php echo FRONT_ROOT ?>Company/RemoveCompany/<?php echo $company->getCompanyId(); ?>" class="btn btn-danger" onclick="return confirm('Estas seguro de que quieres eliminar la empresa <?php echo $company->getName(); ?>?');">Eliminar</a>
                                     </td>
                                 <?php
                                         }

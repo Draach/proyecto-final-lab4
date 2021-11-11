@@ -33,8 +33,9 @@
           Administradores
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="<?php echo FRONT_ROOT ?>Admin/ShowAddView">Agregar ADMIN</a>
-          <a class="dropdown-item" href="<?php echo FRONT_ROOT ?>Admin/Remove">Eliminar ADMIN</a>
+          <a class="dropdown-item" href="<?php echo FRONT_ROOT ?>Admin/ShowAddView">Agregar Usuario Administrador</a>
+          <a class="dropdown-item" href="<?php echo FRONT_ROOT ?>Admin/ShowListView">Listar Usuarios</a>
+          <a class="dropdown-item" href="<?php echo FRONT_ROOT ?>Admin/Remove">Eliminar Usuario</a>
         </div>
       </li>
       <li class="nav-item">

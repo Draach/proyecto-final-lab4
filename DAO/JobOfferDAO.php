@@ -197,12 +197,13 @@ class JobOfferDAO implements IJobOfferDAO
     function GetPostulationsByJobOfferId($jobOfferId){
         try{
 
-            $query = "SELECT * FROM " . $this->tableName . " INNER JOIN " . $this->postulationsTableName . " WHERE " . $this->tableName.".jobOfferId = :jobOfferId AND " . $this->postulationsTableName . ".jobOfferId = :jobOfferId AND " . $this->postulationsTableName .".Active = true ";
-            $parameters["jobOfferId"] = $jobOfferId;
+            $query = "CALL GetPostulationsByJobOfferId(?)";
+
+            $parameters["?"] = $jobOfferId;
 
             $this->connection = Connection::GetInstance();
 
-            $resultSet = $this->connection->Execute($query, $parameters);
+            $resultSet = $this->connection->Execute($query, $parameters, QueryType::StoredProcedure);
 
             return $resultSet;
         } catch (Exception $ex) {

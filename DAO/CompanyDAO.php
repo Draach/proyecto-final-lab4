@@ -106,20 +106,22 @@ class CompanyDAO implements ICompanyDAO
     /**
      * Recibe un id de una compañia, la busca en la base de datos y devuelve la compañia.
      */
-    public function GetById($number)
+    public function GetById($companyId)
     {
         try {
             $companiesList = array();
 
-            $query = "SELECT * FROM " . $this->tableName . " WHERE `companyId` = :number";
+            $query = "SELECT * FROM " . $this->tableName . " WHERE `companyId` = :companyId";
 
-            $parameters["number"] = $number;
+            $parameters["companyId"] = $companyId;
 
             $this->connection = Connection::GetInstance();
 
             $resultSet = $this->connection->Execute($query, $parameters);
 
-            // TODO validate if results != null
+            if($resultSet == null) {
+                throw new Exception('No se encontró la compañía.');
+            }
 
             foreach ($resultSet as $row) {
                 $company = new Company();
@@ -179,14 +181,14 @@ class CompanyDAO implements ICompanyDAO
         try {
             $companiesList = array();
             $loweredReceivedName = strtolower($name);
-            $query = "SELECT * FROM " . $this->tableName . " WHERE `name` LIKE '%:name%'";
+            $query = "SELECT * FROM " . $this->tableName . " WHERE name LIKE '%:paramName%'";
 
-            $parameters["name"] = $loweredReceivedName;
-
+            $parameters["paramName"] = $loweredReceivedName;
+            echo var_dump($parameters);
             $this->connection = Connection::GetInstance();
 
             $resultSet = $this->connection->Execute($query, $parameters);
-
+            
             foreach ($resultSet as $row) {
                 $company = new Company();
                 $company->setCompanyId($row["companyId"]);

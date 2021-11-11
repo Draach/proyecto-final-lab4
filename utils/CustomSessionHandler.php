@@ -6,40 +6,29 @@ namespace Utils;
 class CustomSessionHandler
 {
 
-    public function userIsSet()
+    public function createUserSession($user)
     {
-        $result = false;
-        if (isset($_SESSION["loggedUser"])) {
-            $result = true;
-        }
-
-        return $result;
-    }
-
-    public function createAdminUser($user)
-    {
-        $user->setRole('admin');
         $_SESSION['loggedUser'] = $user;
     }
 
-    public function createStudentUser($user)
-    {
-        $user->setRole('student');
-        $_SESSION['loggedUser'] = $user;
-    }
-
-    public function getLoggedStudentId()
+    public function getStudentId()
     {
         if ($this->isStudent()) {
             return $_SESSION['loggedUser']->getStudentId();
         }
     }
 
+    public function getUserRole()
+    {
+        return $_SESSION['loggedUser']->getRoleId();
+    }
+
+
     public function isAdmin()
     {
         $response = false;
         if (isset($_SESSION["loggedUser"])) {
-            if ($_SESSION["loggedUser"]->getRole() == "admin") {
+            if ($_SESSION["loggedUser"]->getRoleId() == 2) {
                 $response = true;
             }
         }
@@ -50,24 +39,27 @@ class CustomSessionHandler
     {
         $response = false;
         if (isset($_SESSION["loggedUser"])) {
-            if ($_SESSION["loggedUser"]->getRole() == "student") {
+            if ($_SESSION["loggedUser"]->getRoleId() == 1) {
                 $response = true;
             }
         }
         return $response;
     }
 
-    public function logout(){
+    public function Logout()
+    {
         unset($_SESSION["loggedUser"]);
-        session_destroy();        
+        session_destroy();
         require_once(VIEWS_PATH . "index.php");
     }
 
-    public function getLoggedUserName() {
-        $response = false;
-        if ($this->userisSet()) {
-           $response = ucfirst($_SESSION["loggedUser"]->getFirstName()) . " " . ucfirst($_SESSION["loggedUser"]->getLastName());
+    public function userIsSet()
+    {
+        $result = false;
+        if (isset($_SESSION["loggedUser"])) {
+            $result = true;
         }
-        return $response;
+
+        return $result;
     }
 }

@@ -15,14 +15,14 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><?php echo $_SESSION['loggedUser']->getFirstName() ?></td>
-                        <td><?php echo $_SESSION['loggedUser']->getLastName() ?></td>
-                        <td><?php echo $_SESSION['loggedUser']->getDni(); ?></td>
-                        <td><?php echo $_SESSION['loggedUser']->getFileNumber(); ?></td>
-                        <td><?php echo $_SESSION['loggedUser']->getGender(); ?></td>
-                        <td><?php echo $_SESSION['loggedUser']->getBirthDate(); ?></td>
-                        <td><?php echo $_SESSION['loggedUser']->getEmail(); ?></td>
-                        <td><?php echo $_SESSION['loggedUser']->getPhoneNumber(); ?></td>
+                        <td><?php echo $student->getFirstName() ?></td>
+                        <td><?php echo $student->getLastName() ?></td>
+                        <td><?php echo $student->getDni(); ?></td>
+                        <td><?php echo $student->getFileNumber(); ?></td>
+                        <td><?php echo $student->getGender(); ?></td>
+                        <td><?php echo $student->getBirthDate(); ?></td>
+                        <td><?php echo $student->getEmail(); ?></td>
+                        <td><?php echo $student->getPhoneNumber(); ?></td>
                     </tr>
                     </tr>
                 </tbody>

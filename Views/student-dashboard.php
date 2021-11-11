@@ -21,7 +21,7 @@ $sessionHandler = new CustomSessionHandler();
             </a>
         </div>
         <div class='option-card border border-dark'>
-            <a href='<?php echo FRONT_ROOT ?>JobPostulation/ShowPostulationsHistory?studentId=<?php echo $this->sessionHandler->getLoggedStudentId();?>'>
+            <a href='<?php echo FRONT_ROOT ?>JobPostulation/ShowPostulationsHistory?studentId=<?php echo $this->sessionHandler->getStudentId();?>'>
                 Consultar Historial de Aplicaciones
             </a>
         </div>

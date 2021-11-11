@@ -75,19 +75,8 @@ class CompanyController
             echo "<script type='text/javascript'>alert('Error: $errMessage');</script>";
         }
 
+        echo "<script type='text/javascript'>alert('Empresa agregada exitosamente.');</script>";
         $this->ShowAddView();
-    }
-
-    // Devuelve una vista para eliminar una empresa.
-    // TODO Eliminar método?
-    public function Remove()
-    {
-        if ($this->sessionHandler->isAdmin()) {
-            require_once(VIEWS_PATH . "nav.php");
-            require_once(VIEWS_PATH . "company-remove.php");
-        } else {
-            require_once(VIEWS_PATH . "index.php");
-        }
     }
 
     /**
