@@ -4,8 +4,10 @@ namespace Controllers;
 
 use DAO\StudentDAO as StudentDAO;
 use DAO\UserDAO as UserDAO;
+use DAO\RoleDAO as RoleDAO;
 use Utils\CustomSessionHandler as CustomSessionHandler;
 use Models\User as User;
+
 use \Exception as Exception;
 
 class AuthController
@@ -13,13 +15,16 @@ class AuthController
     private $studentDAO;
     private $userDAO;
     private $sessionHandler;
+    private $roleDAO;
     private $studentRole = 1;
     private $adminRole = 2;
+    private $companyRole = 3;
 
     public function __construct()
     {
         $this->userDAO = new UserDAO();
         $this->studentDAO = new StudentDAO();
+        $this->roleDAO = new RoleDAO();
         $this->sessionHandler = new CustomSessionHandler();
         $this->message = '';
     }
@@ -43,7 +48,6 @@ class AuthController
                 $message = "El usuario no se encuentra activo.";
                 return require_once(VIEWS_PATH . 'index.php');
             }                            
-
         } catch(Exception $ex) {
             $message = $ex->getMessage();
             require_once(VIEWS_PATH . "index.php");
@@ -56,6 +60,7 @@ class AuthController
     public function ShowRegisterView()
     {
         if ($this->sessionHandler->userIsSet() == false) {
+            $rolesList = $this->roleDAO->GetAll();
             require_once(VIEWS_PATH . "register.php");
         } else {
             require_once(VIEWS_PATH . "index.php");
@@ -66,7 +71,7 @@ class AuthController
      * Recibe los datos del formulario de registro, valida que el usuario exista en la API de la UTN
      * y si la validación es exitosa, procede a completar el registro en nuestra base de datos.
      */
-    public function Register($dni, $email, $password, $passwordConfirm)
+    public function Register($dni, $email, $password, $passwordConfirm, $roleId)
     {
         try {
 
@@ -79,8 +84,8 @@ class AuthController
                 $user = new User();
                 $user->setEmail($email);
                 $user->setPassword($encryptedPassword) ;
-                $user->setRoleId($this->studentRole);
-                $user->setStudentId($student->getStudentId());
+                $user->setRoleId($roleId);
+                $user->setStudentId($student->getStudentId());            
                 $user->setActive(1);
                 $this->userDAO->Add($user);
 

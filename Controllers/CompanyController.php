@@ -35,9 +35,8 @@ class CompanyController
     /**
      * Devuelve una vista con la lista de empresas activas en la aplicación.
      */
-    public function ShowListView()
+    public function ShowListView($message = null)
     {
-
         $companiesList = $this->companyDAO->GetAll();
 
         if ($this->sessionHandler->isAdmin() || $this->sessionHandler->isStudent()) {
@@ -94,9 +93,8 @@ class CompanyController
         } else {
             $message = "La empresa con ID " . $number . " no ha sido encontrada. Intente nuevamente.";
         }
-
-        echo "<script type='text/javascript'>alert('$message');</script>";
-        $this->ShowListView();
+        
+        $this->ShowListView($message);
     }
 
     /**

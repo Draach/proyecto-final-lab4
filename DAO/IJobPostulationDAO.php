@@ -4,7 +4,8 @@ use Models\JobPostulation as JobPostulation;
 
 interface IJobPostulationDAO {
     function Add(JobPostulation $jobPostulation);
-    public function GetAllByStudentId($studentId);
+    function GetAllByStudentId($studentId);
     function IsPostulated($studentId);
-    public function Remove($jobOfferId, $studentId);
+    function isPostulatedToSpecificOffer($studentId);
+    function Remove($jobOfferId, $studentId);
 }

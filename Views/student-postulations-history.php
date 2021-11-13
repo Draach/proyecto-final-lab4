@@ -2,7 +2,9 @@
     <section id="listado" class="mb-5">
         <div class="container text-white">
             <?php if ($jobPostulationsList == null) { ?>
-                <h2 class="mb-5">Aún no te has postulado a ninguna oferta!</h2>
+                <div class="alert alert-warning" role="alert">
+                    <h2 class="py-10 pl-5">Aún no te has postulado a ninguna oferta!</h2>
+                </div>
             <?php } else { ?>
                 <h2 class="mb-4">Historial de Postulaciones de <?php echo $jobPostulationsList[0]->getStudent()->getFirstName() . " " . $jobPostulationsList[0]->getStudent()->getLastName(); ?></h2>
                 <div class="table-container overflow-auto">
@@ -23,9 +25,9 @@
                                     <td><?php echo $jobPostulation->getComment(); ?></td>
                                     <td><?php
                                         if ($jobPostulation->getActive() == 1) {
-                                            echo "<p class='text-warning'>Activa</p>";
+                                            echo "<p class='badge badge-warning'>Activa</p>";
                                         } else {
-                                            echo "<p class='text-danger'>Inactiva</p>";
+                                            echo "<p class='badge badge-secondary'>Inactiva</p>";
                                         }
                                         ?>
                                     </td>

@@ -2,7 +2,7 @@
 
 namespace DAO;
 
-interface IJobPositionDAO
+interface IRoleDAO
 {
     function GetAll();
     function GetById($id);
