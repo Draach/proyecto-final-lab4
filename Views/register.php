@@ -7,7 +7,7 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <input type="text" name="dni" value="" placeholder="Número de Documento" class="form-control" required>
+                                <input type="text" name="dni" value="" placeholder="DNI o CUIT" class="form-control" required>
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -27,7 +27,7 @@
                                 <input type="password" name="passwordConfirm" value="" placeholder="Confirmar contraseña" class="form-control" required>
                             </div>
                         </div>
-                    </div>                    
+                    </div>                         
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="form-group">
@@ -39,12 +39,12 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
+                    </div>                                  
                     <a class="btn btn-secondary shadow" href="<?php echo FRONT_ROOT ?>Home/Index">Regresar</a>
                     <button type="submit" class="btn btn-yellow shadow">Regístrate</button>
                     <?php
-                    if (isset($message)) {
-                        echo $message;
+                    if (isset($message)) {                        
+                        echo "<p class='text-danger pt-5'>$message</p>";                        
                     }
                     ?>
                 </form>
