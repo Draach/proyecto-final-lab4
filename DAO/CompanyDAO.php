@@ -24,6 +24,7 @@ class CompanyDAO implements ICompanyDAO
             if ($response == 1) {
                 throw new Exception('El cuit ingresado ya existe.');
             }
+            
             $ucFirstName = ucfirst($company->getName());
 
             $query = "INSERT INTO " . $this->tableName . " (name, email, phone, address, cuit, website, founded, status) VALUES (:name, :email, :phone, :address, :cuit, :website, :founded, :status);";
@@ -257,6 +258,19 @@ class CompanyDAO implements ICompanyDAO
             return $response;;
         } catch (Exception $ex) {
             // TODO
+        }
+    }
+
+    function GetLastId(){
+        try {
+            $query = "SELECT MAX(`companyId`) AS `lastId` FROM " . $this->tableName;
+            $this->connection = Connection::GetInstance();
+
+            $resultSet = $this->connection->Execute($query);
+
+            return $resultSet[0]['lastId'];
+        } catch (Exception $ex) {
+            throw $ex;
         }
     }
 

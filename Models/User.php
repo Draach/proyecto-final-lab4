@@ -11,6 +11,12 @@ class User
     private $studentId;
     private $active;
     private $roleName;
+    private $company;
+
+    public function __construct(){
+        $this->company = new Company();;
+    }
+    
 
     /**
      * Get the value of userId
@@ -148,6 +154,26 @@ class User
     public function setRoleName($roleName)
     {
         $this->roleName = $roleName;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of company
+     */ 
+    public function getCompany()
+    {
+        return $this->company;
+    }
+
+    /**
+     * Set the value of company
+     *
+     * @return  self
+     */ 
+    public function setCompany($company)
+    {
+        $this->company = $company;
 
         return $this;
     }

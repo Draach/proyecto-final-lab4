@@ -12,7 +12,8 @@ class Company
         private $cuit;
         private $website;
         private $founded;
-        private $status;
+        private $status; 
+        private $password;
 
         public function __construct()
         {
@@ -123,6 +124,18 @@ class Company
         public function setStatus($status)
         {
                 $this->status = $status;
+
+                return $this;
+        }
+
+        public function getPassword()
+        {
+                return $this->password;
+        }
+        
+        public function setPassword($password)
+        {
+                $this->password = $password;
 
                 return $this;
         }

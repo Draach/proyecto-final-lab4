@@ -3,7 +3,7 @@
 namespace Controllers;
 
 use DAO\CompanyDAO as CompanyDAO;
-use DAO\JsonCompanyDAO as JsonCompanyDAO;
+use DAO\UserDAO as UserDAO;
 use Models\Company as Company;
 use Utils\CustomSessionHandler as CustomSessionHandler;
 use Exception as Exception;
@@ -11,11 +11,13 @@ use Exception as Exception;
 class CompanyController
 {
     private $companyDAO;
+    private $userDAO;
     private $sessionHandler;
 
     public function __construct()
     {
         $this->companyDAO = new CompanyDAO();
+        $this->userDAO = new UserDAO();
         $this->sessionHandler = new CustomSessionHandler();
     }
 
@@ -35,9 +37,8 @@ class CompanyController
     /**
      * Devuelve una vista con la lista de empresas activas en la aplicación.
      */
-    public function ShowListView()
+    public function ShowListView($message = null)
     {
-
         $companiesList = $this->companyDAO->GetAll();
 
         if ($this->sessionHandler->isAdmin() || $this->sessionHandler->isStudent()) {
@@ -70,12 +71,20 @@ class CompanyController
                 throw new Exception('La fecha de fundación no puede ser posterior a hoy. Por favor, ingrese una fecha válida.');
             } 
             $this->companyDAO->Add($company);
+            $lastCompanyId = $this->companyDAO->GetLastId();
+            if($this->sessionHandler->existsUnregisteredUser()){
+                $user = $this->sessionHandler->getUnregisteredUser();
+                $company->setCompanyId($this->companyDAO->GetLastId());
+                $user->setCompany($company);
+                $this->userDAO->Add($user);
+                require_once(VIEWS_PATH . "student-dashboard.php");
+            }
             echo "<script type='text/javascript'>alert('Empresa agregada exitosamente.');</script>";
         } catch (Exception $ex) {
             $errMessage = $ex->getMessage();
             echo "<script type='text/javascript'>alert('Error: $errMessage');</script>";
         }
-
+                
         $this->ShowAddView();
     }
 
@@ -94,9 +103,8 @@ class CompanyController
         } else {
             $message = "La empresa con ID " . $number . " no ha sido encontrada. Intente nuevamente.";
         }
-
-        echo "<script type='text/javascript'>alert('$message');</script>";
-        $this->ShowListView();
+        
+        $this->ShowListView($message);
     }
 
     /**
