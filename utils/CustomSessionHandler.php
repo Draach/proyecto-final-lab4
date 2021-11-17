@@ -70,4 +70,21 @@ class CustomSessionHandler
         }
         return $result;
     }
+
+    public function createUnregisteredUser($user) {
+        $_SESSION['unregisteredUser'] = $user;
+    }
+
+    public function existsUnregisteredUser() {
+        $result = false;
+        if (isset($_SESSION["unregisteredUser"])) {
+            $result = true;
+        }
+
+        return $result;
+    }
+
+    public function GetUnregisteredUser() {
+        return $_SESSION["unregisteredUser"];
+    }
 }
