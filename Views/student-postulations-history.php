@@ -25,9 +25,9 @@
                                     <td><?php echo $jobPostulation->getComment(); ?></td>
                                     <td><?php
                                         if ($jobPostulation->getActive() == 1) {
-                                            echo "<p class='text-warning'>Activa</p>";
+                                            echo "<p class='badge badge-warning'>Activa</p>";
                                         } else {
-                                            echo "<p class='text-danger'>Inactiva</p>";
+                                            echo "<p class='badge badge-secondary'>Inactiva</p>";
                                         }
                                         ?>
                                     </td>

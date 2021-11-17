@@ -5,7 +5,7 @@ namespace Models;
 class Role
 {
     private $roleId;
-    private $description;
+    private $name;
 
 
     /**
@@ -28,22 +28,23 @@ class Role
         return $this;
     }
 
+
     /**
-     * Get the value of description
+     * Get the value of name
      */ 
-    public function getDescription()
+    public function getName()
     {
-        return $this->description;
+        return $this->name;
     }
 
     /**
-     * Set the value of description
+     * Set the value of name
      *
      * @return  self
      */ 
-    public function setDescription($description)
+    public function setName($name)
     {
-        $this->description = $description;
+        $this->name = $name;
 
         return $this;
     }

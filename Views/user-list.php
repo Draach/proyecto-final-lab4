@@ -37,7 +37,7 @@ $sessionHandler = new CustomSessionhandler();
                                     ?>                                    
                                     <td><?php echo $user->getEmail() ?></td>
                                     <td><?php echo ucfirst($user->getRoleName()); ?></td>
-                                    <td><?php echo $user->getStudentId() ?></td>
+                                    <td><p class="badge badge-primary"><?php echo $user->getStudentId() ?></p></td>
                                 </tr>
                         <?php
                             }

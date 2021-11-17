@@ -29,7 +29,7 @@ date_default_timezone_set('America/Argentina/Buenos_Aires');
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
-                            <label for="">Descripción<sub>(45 Caracteres)</sub></label>
+                            <label for="">Descripción <sub>(45 Caracteres)</sub></label>
                             <input type="text" name="title" value="" class="form-control" required>
                         </div>
                     </div>

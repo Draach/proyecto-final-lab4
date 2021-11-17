@@ -56,7 +56,7 @@ class JobOfferController
     /**
      * Devuelve una vista con la lista de propuestas laborales con su empresa y posición asociada.
      */
-    public function ShowListView()
+    public function ShowListView($message = null)
     {
         $jobOffersList = $this->jobOfferDAO->GetAll();
         $postulatedJobOfferId = $this->jobPostulationDAO->IsPostulatedToSpecificOffer($this->sessionHandler->getStudentId());
@@ -107,9 +107,9 @@ class JobOfferController
     public function Delete($id)
     {
         if ($this->sessionHandler->isAdmin()) {
-            $this->jobOfferDAO->delete($id);
-            echo "<script type='text/javascript'>alert('Propuesta eliminada exitosamente.');</script>";
-            $this->ShowListView();
+            $this->jobOfferDAO->delete($id);            
+            $message = "La propuesta ha sido eliminada exitosamente.";
+            $this->ShowListView($message);
         } else {
             require_once(VIEWS_PATH . "index.php");
         }

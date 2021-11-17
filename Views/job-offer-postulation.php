@@ -48,7 +48,7 @@
                     <div class="row">
                          <div class="col-lg-4">
                               <div class="form-group">
-                                   <label for="">Currículum</label>
+                                   <label for="">Currículum <sub>(Formato PDF)</sub></label>
                                    <input type="file" name="cvarchive" value="" class="form-control">
                               </div>
                          </div>

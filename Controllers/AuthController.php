@@ -31,7 +31,7 @@ class AuthController
         $this->sessionHandler = new CustomSessionHandler();
         $this->message = '';
     }
-
+  
     /**
      * Recibe un correo electrónico y una contraseña para posteriormente autentificar al usuario.
      */
@@ -110,11 +110,11 @@ class AuthController
                 $encryptedPassword = password_hash($password, PASSWORD_BCRYPT);
                 $user = new User();
                 $user->setEmail($email);
-                $user->setPassword($encryptedPassword);
-                $user->setRoleId($roleId);                
-                $user->setActive(1);                
-                
-                $this->sessionHandler->createUnregisteredUser($user);
+                $user->setPassword($encryptedPassword) ;
+                $user->setRoleId($roleId);           
+                $user->setActive(1);
+              
+              $this->sessionHandler->createUnregisteredUser($user);
 
                 require_once(VIEWS_PATH . "company-add.php");
             }

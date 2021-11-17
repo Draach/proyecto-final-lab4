@@ -9,4 +9,5 @@ interface IUserDao {
     function GetUserByCredentials($email, $password);
     function GetAllUsers();
     function EmailVerify($email);
+    function Remove($userId);
 }
