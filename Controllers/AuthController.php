@@ -103,7 +103,7 @@ class AuthController
                 }
             } else if ($roleId == 3) {
                 // TODO REGISTER COMPANY
-                if($this->companyDAO->cuitVerify(null, $dni) != 0) {
+                if ($this->companyDAO->cuitVerify(null, $dni) != 0) {
                     throw new Exception('El cuit ingresado ya existe.');
                 }
 
@@ -111,9 +111,9 @@ class AuthController
                 $user = new User();
                 $user->setEmail($email);
                 $user->setPassword($encryptedPassword);
-                $user->setRoleId($roleId);                
-                $user->setActive(1);                
-                
+                $user->setRoleId($roleId);
+                $user->setActive(1);
+
                 $this->sessionHandler->createUnregisteredUser($user);
 
                 require_once(VIEWS_PATH . "company-add.php");

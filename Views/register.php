@@ -44,7 +44,7 @@
                     <button type="submit" class="btn btn-yellow shadow">Regístrate</button>
                     <?php
                     if (isset($message)) {                        
-                        echo "<p class='text-danger pt-5'>$message</p>";
+                        echo "<p class='text-danger pt-5'>$message</p>";                        
                     }
                     ?>
                 </form>
