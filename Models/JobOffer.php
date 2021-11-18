@@ -13,6 +13,7 @@ class JobOffer
     private $company;
     private $jobPosition;
     private $applications;
+    private $flyer;
     private $active;
 
     public function __construct()
@@ -137,6 +138,18 @@ class JobOffer
     public function setJobPosition($jobPosition)
     {
         $this->jobPosition = $jobPosition;
+
+        return $this;
+    }
+
+    public function getFlyer()
+    {
+        return $this->flyer;
+    }
+
+    public function setFlyer($flyer)
+    {
+        $this->flyer = $flyer;
 
         return $this;
     }

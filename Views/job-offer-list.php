@@ -43,6 +43,7 @@ $sessionHandler = new CustomSessionhandler();
                         <th>Acciones</th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </thead>
                     <tbody>
                         <?php
@@ -71,10 +72,15 @@ $sessionHandler = new CustomSessionhandler();
                                         echo $jobOffer->getJobPosition()->getCareer()->getDescription();
                                         ?>
                                     </td>
+                                    <?php if($jobOffer->getFlyer() != null){ ?>
+                                    <td><a href="<?php echo FRONT_ROOT ?>Uploads/<?php echo $jobOffer->getFlyer(); ?>" target="_blank" class="btn btn-yellow shadow">Ver Flyer</a></td>
+                                    <?php } else { ?>
+                                        <td><a href="#" target="_blank" class="btn btn-secondary disabled shadow">Ver Flyer</a></td>
+                                    <?php } ?>
                                     <?php if ($sessionHandler->isAdmin() == true) { ?>
                                         <td><a class="btn btn-yellow shadow" href="<?php echo FRONT_ROOT ?>JobOffer/ShowJobOfferPostulations/<?php echo $jobOffer->getJobOfferId(); ?>">Ver Postulaciones</a></td>
                                         <td><a class="btn btn-yellow shadow" href="<?php echo FRONT_ROOT ?>JobOffer/ShowModifyView/<?php echo $jobOffer->getJobOfferId(); ?>">Modificar</a></td>
-                                        <td><button type="button" class="btn btn-danger shadow" data-id="<?php echo $jobOffer->getJobOfferId(); ?>" data-action="<?php echo FRONT_ROOT ?>JobOffer/Delete/" data-message="Está seguro de querer eliminar esta propuesta laboral?" onclick="confirm(this);">
+                                        <td><button type="button" class="btn btn-danger shadow" data-id="<?php echo $jobOffer->getJobOfferId(); ?>" data-action="<?php echo FRONT_ROOT ?>JobOffer/Delete/" data-message="¡Cuidado!<br><br>Está a punto de eliminar una propuesta laboral y todas sus postulaciones de estudiantes junto con ella.<br><br>Estás seguro de querer realizar esta acción?" onclick="confirm(this);">
                                                 Eliminar
                                             </button></td>
                                         <?php }

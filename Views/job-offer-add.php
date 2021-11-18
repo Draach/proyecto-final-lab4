@@ -5,7 +5,7 @@ date_default_timezone_set('America/Argentina/Buenos_Aires');
     <section id="listado" class="mb-5">
         <div class="container text-white">
             <h2 class="mb-4">Agregar Propuesta Laboral</h2>
-            <form action="<?php echo FRONT_ROOT ?>JobOffer/Add" method="post" class="bg-light-alpha p-5">
+            <form action="<?php echo FRONT_ROOT ?>JobOffer/Add" method="post" enctype="multipart/form-data" class="bg-light-alpha p-5">
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="form-group">
@@ -52,6 +52,14 @@ date_default_timezone_set('America/Argentina/Buenos_Aires');
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                         <div class="col-lg-4">
+                              <div class="form-group">
+                                   <label for="">Flyer <sub>(Formato PDF)</sub></label>
+                                   <input type="file" name="flyer" value="" class="form-control">
+                              </div>
+                         </div>
+                    </div>
                 <a class="btn btn-secondary" href="<?php echo FRONT_ROOT ?>Admin/ShowDashboard">Regresar</a>
                 <button type="submit" class="btn btn-yellow">Agregar</button>
             </form>

@@ -10,7 +10,9 @@ use DAO\JobPostulationDAO as JobPostulationDAO;
 use DAO\StudentDAO as StudentDAO;
 use Models\JobOffer as JobOffer;
 use Utils\CustomSessionHandler as CustomSessionHandler;
+use Utils\fileUpload as fileUpload;
 use Exception as Exception;
+
 
 class JobOfferController
 {
@@ -21,6 +23,7 @@ class JobOfferController
     private $jobPositionDAO;
     private $jobPostulationDAO;
     private $sessionHandler;
+    private $fileUploader;
 
     public function __construct()
     {
@@ -31,6 +34,7 @@ class JobOfferController
         $this->jobPostulationDAO = new JobPostulationDAO();
         $this->studentDAO = new StudentDAO();
         $this->sessionHandler = new CustomSessionHandler();
+        $this->fileUploader = new fileUpload();
     }
 
     /**
@@ -74,7 +78,7 @@ class JobOfferController
     /**
      * Recibe los datos de una nueva propuesta laboral y la agrega ala base de datos.
      */
-    public function Add($jobPositionId, $companyId, $title, $salary, $createdAt, $expirationDate)
+    public function Add($jobPositionId, $companyId, $title, $salary, $createdAt, $expirationDate, $flyer)
     {
         $timeNow = date("Y-m-d");
 
@@ -86,11 +90,15 @@ class JobOfferController
         $jobOffer->setSalary($salary);
         $jobOffer->setCompany($this->companyDAO->GetById($companyId));
         $jobOffer->setJobPosition($this->jobPositionDAO->GetById($jobPositionId));
-
+        $jobOffer->setFlyer($flyer);
+        
         try {
             if ($expirationDate <= $timeNow) {
                 throw new Exception('La fecha de expiración no puede ser anterior o igual a la fecha de hoy. Ingrese una fecha válida.');
             }
+
+            $message = $this->fileUploader->UploadArchive($flyer);
+
             echo "<script type='text/javascript'>alert('Propuesta agregada exitosamente.');</script>";
             $this->jobOfferDAO->Add($jobOffer);
         } catch (Exception $ex) {
@@ -107,7 +115,11 @@ class JobOfferController
     public function Delete($id)
     {
         if ($this->sessionHandler->isAdmin()) {
-            $this->jobOfferDAO->delete($id);            
+            $this->jobOfferDAO->delete($id);      
+            $emailsArray = $this->jobOfferDAO->GetPostulatedEmails($id);
+            /** PARA VERIFICAR QUE FUNCIONE, AGREGAR UN EMAIL EXISTENTE */
+            // array_push($emailsArray, "existentEmail@example.com");
+            require_once(UTILS_PATH . "MailHandler.php");
             $message = "La propuesta ha sido eliminada exitosamente.";
             $this->ShowListView($message);
         } else {
@@ -189,5 +201,5 @@ class JobOfferController
         } else {
             require_once(VIEWS_PATH . "index.php");
         }
-    }
+    }    
 }

@@ -33,7 +33,8 @@
                             <th>Nombre</th>
                             <th>Apellido</th>
                             <th>Comentario</th>
-                            <th>Currículum Vitae</th>
+                            <th>Acciones</th>
+                            <th></th>
                         </thead>
                         <tbody>
                             <?php foreach ($postulationsHistory as $postulation) { ?>
@@ -41,9 +42,10 @@
                                     <td><?php echo $postulation->getPostulationId(); ?></td>
                                     <td><?php echo $postulation->getStudent()->getStudentId(); ?></td>
                                     <td><?php echo $postulation->getStudent()->getFirstName(); ?></td>
-                                    <td><?php echo $postulation->getStudent()->getLastName(); ?></td>
+                                    <td><?php echo $postulation->getStudent()->getLastName(); ?></td>                                    
                                     <td><?php echo $postulation->getComment(); ?></td>
                                     <td><a href="<?php echo FRONT_ROOT ?>Uploads/<?php echo $postulation->getCVarchive(); ?>" target="_blank" class="btn btn-yellow">Ver CV</a></td>
+                                    <td><a href="<?php echo FRONT_ROOT ?>JobPostulation/Remove?jobOfferId=<?php echo $postulationsHistory[0]->getJobOffer()->getJobOfferId(); ?>&studentId=<?php echo $postulation->getStudent()->getStudentId(); ?>&email=<?php echo $postulation->getStudent()->getEmail(); ?>" class="btn btn-warning">Anular</a></td>
                                 </tr>
                             <?php } ?>
                         </tbody>

@@ -17,7 +17,7 @@ class JobOfferDAO implements IJobOfferDAO
 {
     private $connection;
     private $tableName = "job_offers";
-    private $companyDAO;    
+    private $companyDAO;
     private $jobPositionDAO;
     private $careerDAO;
     private $studentDAO;
@@ -26,7 +26,7 @@ class JobOfferDAO implements IJobOfferDAO
     {
         $this->jobPositionDAO = new JobPositionDAO();
         $this->companyDAO = new CompanyDAO();
-        $this->studentDAO = new StudentDAO();        
+        $this->studentDAO = new StudentDAO();
         $this->careerDAO = new CareerDAO();
     }
 
@@ -44,7 +44,7 @@ class JobOfferDAO implements IJobOfferDAO
             }
             */
 
-            $query = "INSERT INTO " . $this->tableName . " (title, createdAt, expirationDate, salary, companyId, jobPositionId, active) VALUES (:title, :createdAt, :expirationDate, :salary, :companyId, :jobPositionId, :active);";
+            $query = "INSERT INTO " . $this->tableName . " (title, createdAt, expirationDate, salary, companyId, jobPositionId, flyerName, active) VALUES (:title, :createdAt, :expirationDate, :salary, :companyId, :jobPositionId, :flyerName, :active);";
 
             $parameters["title"] = $jobOffer->getTitle();
             $parameters["createdAt"] = $jobOffer->getCreatedAt();
@@ -52,6 +52,7 @@ class JobOfferDAO implements IJobOfferDAO
             $parameters["salary"] = $jobOffer->getSalary();
             $parameters["companyId"] = $jobOffer->getCompany()->getCompanyId();
             $parameters["jobPositionId"] = $jobOffer->getJobPosition()->getJobPositionId();
+            $parameters["flyerName"] = $jobOffer->getFlyer()['name'];
             $parameters["active"] = $jobOffer->getActive();
 
             $this->connection = Connection::GetInstance();
@@ -77,29 +78,30 @@ class JobOfferDAO implements IJobOfferDAO
 
             $resultSet = $this->connection->Execute($query);
 
-            foreach ($resultSet as $row) {                
+            foreach ($resultSet as $row) {
                 $jobOffer = new JobOffer();
-                $company = new Company();                
+                $company = new Company();
 
                 //Seteo de Company
                 $company->setName($row["companyName"]);
                 $company->setCompanyId($row["companyId"]);
                 $company->setEmail($row["email"]);
                 $company->setPhone($row["phone"]);
-                $company->setAddress($row["address"]); 
-                $company->setCuit($row["cuit"]); 
-                $company->setWebsite($row["website"]); 
-                $company->setFounded($row["founded"]); 
-                $company->setStatus($row["status"]); 
+                $company->setAddress($row["address"]);
+                $company->setCuit($row["cuit"]);
+                $company->setWebsite($row["website"]);
+                $company->setFounded($row["founded"]);
+                $company->setStatus($row["status"]);
 
-                
+
                 $jobOffer->setJobOfferId($row["jobOfferId"]);
                 $jobOffer->setTitle($row["title"]);
                 $jobOffer->setCreatedAt($row["createdAt"]);
                 $jobOffer->setExpirationDate($row["expirationDate"]);
                 $jobOffer->setSalary($row["salary"]);
                 $jobOffer->setCompany($company);
-                $jobOffer->setJobPosition($this->jobPositionDAO->getById($row["jobPositionId"]));
+                $jobOffer->setJobPosition($this->jobPositionDAO->getById($row["jobPositionId"]));                
+                $jobOffer->setFlyer($row['flyer']);
                 $jobOffer->setActive($row["active"]);
 
 
@@ -127,7 +129,7 @@ class JobOfferDAO implements IJobOfferDAO
 
             $resultSet = $this->connection->Execute($query, $parameters);
 
-            if($resultSet == null) {
+            if ($resultSet == null) {
                 throw new Exception("No se encontró la propuesta laboral.");
             }
 
@@ -203,26 +205,52 @@ class JobOfferDAO implements IJobOfferDAO
     }
 
     /**
-     * Recibe la id de una propuesta laboral y la elimina de la base de datos.
+     * Recibe la id de una propuesta laboral y la elimina de la base de datos, en conjunto con todas sus postulaciones activas.
      */
     function Delete($id)
     {
         try {
 
-            $query = "UPDATE " . $this->tableName . " SET `active` = false WHERE `jobOfferId` = :id";
+            $query = "CALL remove_job_offer(?);";
 
-            $parameters["id"] = $id;
+            $parameters["?"] = $id;
 
             $this->connection = Connection::GetInstance();
 
-            return $this->connection->ExecuteNonQuery($query, $parameters);
+            return $this->connection->ExecuteNonQuery($query, $parameters, QueryType::StoredProcedure);
         } catch (Exception $ex) {
             throw $ex;
         }
     }
 
-    function GetPostulationsByJobOfferId($jobOfferId){
-        try{
+    /** Recibe la ID de una oferta laboral y retorna el email de todos los estudiantes con aplicaciones activas a esa oferta. */
+    function GetPostulatedEmails($jobOfferId)
+    {
+        try {
+            $postulatedEmails = array();
+            $query = "CALL get_postulated_emails(?)";
+
+            $parameters["?"] = $jobOfferId;
+
+            $this->connection = Connection::GetInstance();
+
+            $resultSet = $this->connection->Execute($query, $parameters, QueryType::StoredProcedure);
+
+            foreach ($resultSet as $row) {
+                $email = '';
+                $email = $row["email"];
+                array_push($postulatedEmails, $email);
+            }
+
+            return $postulatedEmails;
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
+    function GetPostulationsByJobOfferId($jobOfferId)
+    {
+        try {
             $postulationsHistory = array();
             $query = "CALL GetPostulationsByJobOfferId(?)";
 
@@ -232,11 +260,11 @@ class JobOfferDAO implements IJobOfferDAO
 
             $resultSet = $this->connection->Execute($query, $parameters, QueryType::StoredProcedure);
 
-            if($resultSet == null) {
+            if ($resultSet == null) {
                 throw new Exception("No se encontró ningun postulado para esta propuesta laboral.");
             }
-            
-            foreach($resultSet as $row){
+
+            foreach ($resultSet as $row) {
                 $postulation = new JobPostulation();
                 $postulation->setPostulationId($row["idjob_postulations"]);
                 $postulation->setStudent($this->studentDAO->getById($row["studentId"]));
@@ -244,7 +272,7 @@ class JobOfferDAO implements IJobOfferDAO
                 $postulation->setComment($row["comment"]);
                 $postulation->setCVarchive($row["cvarchive"]);
                 $postulation->setActive($row["active"]);
-                
+
                 array_push($postulationsHistory, $postulation);
             }
 
