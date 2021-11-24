@@ -11,7 +11,7 @@ require 'SMTP.php';
 $host = "smtp.gmail.com";
 $SMTPAuth = true;
 $username = "jmisstests@gmail.com";
-$password = "JMissTests9";
+$password = "PASSWORD";
 $SMTPSecure = "tls";
 $Port = 587;
 $senderAlias = 'UTN Jobs Network';
