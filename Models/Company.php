@@ -13,7 +13,6 @@ class Company
         private $website;
         private $founded;
         private $status; 
-        private $password;
 
         public function __construct()
         {

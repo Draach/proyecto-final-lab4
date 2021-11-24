@@ -46,6 +46,17 @@ class CustomSessionHandler
         return $response;
     }
 
+    public function isCompany()
+    {
+        $response = false;
+        if (isset($_SESSION["loggedUser"])) {
+            if ($_SESSION["loggedUser"]->getRoleId() == 3) {
+                $response = true;
+            }
+        }
+        return $response;
+    }
+
     public function Logout()
     {
         unset($_SESSION["loggedUser"]);

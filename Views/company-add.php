@@ -31,7 +31,9 @@
                          <div class="col-lg-4">
                               <div class="form-group">
                                    <label for="">Cuit</label>
-                                   <input type="text" name="cuit" value="" class="form-control" required>
+                                   <input type="text" name="cuit" value="<?php if (isset($dni)) {
+                                                                                echo $dni;
+                                                                           } ?>" class="form-control" required>
                               </div>
                          </div>
                          <div class="col-lg-4">

@@ -104,7 +104,7 @@ class JobPostulationController
             // Si quien elimino la postulación es el admin, se envía un correo notificando al estudiante.
             if($this->sessionHandler->isAdmin()){                                
                 /** PARA VERIFICAR QUE FUNCIONE, AGREGAR UN EMAIL EXISTENTE */
-                // $email = 'existentEmail@example.com';
+                //$email = 'jmissart@gmail.com';
                 require_once(UTILS_PATH . "MailHandler.php");
             }
             $message = "Postulacion eliminada con exito.";

@@ -10,8 +10,8 @@ require 'SMTP.php';
 
 $host = "smtp.gmail.com";
 $SMTPAuth = true;
-$username = "CORREO_DE_ORIGEN@gmail.com";
-$password = "CONTRASEÑA_CORREO_DE_ORIGEN";
+$username = "jmisstests@gmail.com";
+$password = "JMissTests9";
 $SMTPSecure = "tls";
 $Port = 587;
 $senderAlias = 'UTN Jobs Network';

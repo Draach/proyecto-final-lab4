@@ -37,11 +37,6 @@ class AuthController
      */
     public function Login($email, $password)
     {
-
-        $to = "juliomissart.mdq@gmail.com";
-        $subject = "Asunto del email";
-        $message = "Este es mi primer envío de email con PHP";
-        mail($to, $subject, $message);
         try {
             $user = $this->userDAO->GetUserByCredentials($email, $password);
             if ($user->getRoleId() == $this->studentRole && $user->getActive() == 1) {
@@ -54,7 +49,8 @@ class AuthController
                 return require_once(VIEWS_PATH . 'admin-dashboard.php');
             } else if ($user->getRoleId() == $this->companyRole && $user->getActive() == 1) {
                 // TODO DASHBOARD COMPANY       
-                require_once(VIEWS_PATH . 'student-dashboard.php');
+                $user->setCompany($this->companyDAO->getById($user->getCompany()->getCompanyId()));                          
+                require_once(VIEWS_PATH . 'company-dashboard.php');
             } else {
                 $message = "El usuario no se encuentra activo.";
                 return require_once(VIEWS_PATH . 'index.php');

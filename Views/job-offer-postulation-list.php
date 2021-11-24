@@ -52,6 +52,7 @@
                     </table>
                 </div>
                 <?php } ?>
+                <a class="btn btn-secondary mt-0" href="<?php echo FRONT_ROOT ?>JobOffer/GeneratePDF?jobOfferId=<?php echo $postulationsHistory[0]->getJobOffer()->getJobOfferId(); ?>">PDF</a>
                 <a class="btn btn-secondary mt-0" href="<?php echo FRONT_ROOT ?>JobOffer/ShowListView">Regresar</a>
             </div>
     </section>

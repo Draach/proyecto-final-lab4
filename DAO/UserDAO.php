@@ -3,11 +3,10 @@
 namespace DAO;
 
 use \Exception as Exception;
-use DAO\IStudentDAO as IStudentDAO;
-use Models\Student as Student;
 use Models\User as User;
 use DAO\Connection as Connection;
-
+use DAO\CompanyDAO as CompanyDAO;
+use Models\Company as Company;
 class UserDAO implements IUserDAO
 {
     private $connection;
@@ -51,12 +50,17 @@ class UserDAO implements IUserDAO
 
             foreach ($resultSet as $row) {
                 $user = new User();
+                $company = new Company();
                 $user->setUserId($row["userId"]);
                 $user->setEmail($row["email"]);
                 $user->setPassword($row["password"]);
                 $user->setRoleId($row["roleId"]);
                 $user->setStudentId($row["studentId"]);
-                $user->setActive($row["active"]);
+                $user->setActive($row["active"]);        
+                if ($user->getRoleId() == 3) {
+                    $company->setCompanyId($row["companyId"]);
+                    $user->setCompany($company);
+                }
 
                 array_push($users, $user);
             }

@@ -1,4 +1,5 @@
 <?php
+
 use Utils\CustomSessionHandler as CustomSessionhandler;
 
 $sessionHandler = new CustomSessionhandler();
@@ -7,6 +8,8 @@ if ($sessionHandler->isAdmin()) {
   require_once(VIEWS_PATH . "admin-dashboard.php");
 } else if ($sessionHandler->isStudent()) {
   require_once(VIEWS_PATH . "student-dashboard.php");
+} else if ($sessionHandler->isCompany()) {
+  require_once(VIEWS_PATH . "company-dashboard.php");
 } else {
 ?>
   <div class='login'>
@@ -28,7 +31,7 @@ if ($sessionHandler->isAdmin()) {
           </div>
           <?php
           if (isset($message)) {
-            echo $message;
+            echo $message;            
           }
           ?>
         </form>

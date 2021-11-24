@@ -16,7 +16,7 @@ class StudentDAO implements IStudentDAO
     private $careerDAO;
 
     public function __construct()
-    {        
+    {
         $this->careerDAO = new CareerDAO();
     }
 
@@ -58,7 +58,7 @@ class StudentDAO implements IStudentDAO
 
             $ch = curl_init();
 
-            curl_setopt($ch, CURLOPT_URL, 'https://utn-students-api.herokuapp.com/api/Student');
+            curl_setopt($ch, CURLOPT_URL, 'https://utn-students-api2.herokuapp.com/api/Student');
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('accept:*/*', 'x-api-key:4f3bceed-50ba-4461-a910-518598664c08'));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -95,7 +95,7 @@ class StudentDAO implements IStudentDAO
     }
 
     /**
-     * Recibe un dni y un email de un estudiante y verifica si este existe en la API de la UTN.
+     * Recibe un dni y un email de un estudiante y verifica si este existe en la API de la UTN, esta función utiliza el DNI para el registro.
      * Devuelve a el estudiante si este existe y está activo.
      * Arroja un error si el estudiante no existe o está inactivo.
      */
@@ -132,44 +132,51 @@ class StudentDAO implements IStudentDAO
         }
     }
 
+    /** Recibe un email y verifica si un estudiante con ese email existe en la base de datos de la UTN y está en estado activo.
+     * Devuelve a el estudiante si este existe y está activo.
+     * Arroja un error si el estudiante no existe o está inactivo.
+     */
     public function studentVerifyForLogin($email)
     {
         try {
             $studentsList = $this->GetAll();
             $message = "";
             $message = "El usuario no ha sido encontrado en la base de datos de la UTN MDP.";
-            foreach ($studentsList as $student) {
-                if ($email == $student['email']) {
-                    $message = "El usuario no se encuentra activo en la base de datos de la UTN MDP.";
-                    if ($student['active'] == true) {
-                        $found = new Student();
-                        $found->setStudentId($student['studentId']);
-                        $found->setCareer($this->careerDAO->getById($student['careerId']));
-                        $found->setFirstName($student['firstName']);
-                        $found->setLastName($student['lastName']);
-                        $found->setDni($student['dni']);
-                        $found->setFileNumber($student['fileNumber']);
-                        $found->setGender($student['gender']);
-                        $found->setBirthDate($student['birthDate']);
-                        $found->setEmail($student['email']);
-                        $found->setPhoneNumber($student['phoneNumber']);
-                        $found->setActive($student['active']);
-                        return $found;
+
+            if ($studentsList != null) {
+                foreach ($studentsList as $student) {
+                    if ($email == $student['email']) {
+                        $message = "El usuario no se encuentra activo en la base de datos de la UTN MDP.";
+                        if ($student['active'] == true) {
+                            $found = new Student();
+                            $found->setStudentId($student['studentId']);
+                            $found->setCareer($this->careerDAO->getById($student['careerId']));
+                            $found->setFirstName($student['firstName']);
+                            $found->setLastName($student['lastName']);
+                            $found->setDni($student['dni']);
+                            $found->setFileNumber($student['fileNumber']);
+                            $found->setGender($student['gender']);
+                            $found->setBirthDate($student['birthDate']);
+                            $found->setEmail($student['email']);
+                            $found->setPhoneNumber($student['phoneNumber']);
+                            $found->setActive($student['active']);
+                            return $found;
+                        }
                     }
                 }
             }
-
             throw new Exception($message);
         } catch (Exception $ex) {
             throw $ex;
         }
     }
 
-    public function getById($id){
+    public function getById($id)
+    {
         $studentsList = $this->getAll();
         $found = null;
-        foreach($studentsList as $student){
-            if($student['studentId'] == $id){
+        foreach ($studentsList as $student) {
+            if ($student['studentId'] == $id) {
                 $found = new Student();
                 $found->setStudentId($student['studentId']);
                 $found->setCareer($this->careerDAO->getById($student['careerId']));
@@ -184,7 +191,6 @@ class StudentDAO implements IStudentDAO
                 $found->setActive($student['active']);
                 break;
             }
-
         }
 
         return $found;

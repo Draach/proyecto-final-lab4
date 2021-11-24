@@ -118,7 +118,7 @@ class JobOfferController
             $this->jobOfferDAO->delete($id);      
             $emailsArray = $this->jobOfferDAO->GetPostulatedEmails($id);
             /** PARA VERIFICAR QUE FUNCIONE, AGREGAR UN EMAIL EXISTENTE */
-            // array_push($emailsArray, "existentEmail@example.com");
+            //array_push($emailsArray, "jmissart@gmail.com");
             require_once(UTILS_PATH . "MailHandler.php");
             $message = "La propuesta ha sido eliminada exitosamente.";
             $this->ShowListView($message);
@@ -202,4 +202,9 @@ class JobOfferController
             require_once(VIEWS_PATH . "index.php");
         }
     }    
+
+    public function GeneratePDF($jobOfferId) {
+        $postulationsHistory = $this->jobOfferDAO->GetPostulationsByJobOfferId($jobOfferId);
+        require_once(VIEWS_PATH . "fpdf-complete.php");
+    }
 }
